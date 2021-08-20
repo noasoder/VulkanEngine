@@ -18,6 +18,9 @@
     <ClInclude Include="code\VulkanManager.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\math.h">
+      <Filter>code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp">

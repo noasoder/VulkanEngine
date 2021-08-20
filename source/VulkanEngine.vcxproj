@@ -95,6 +95,7 @@
     <ClInclude Include="code\Application.h" />
     <ClInclude Include="code\Timestep.h" />
     <ClInclude Include="code\VulkanManager.h" />
+    <ClInclude Include="code\math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />

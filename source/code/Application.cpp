@@ -9,6 +9,7 @@
 #include <cstdint>
 
 #include "Timestep.h"
+#include "math.h"
 
 Application::Application()
 {
@@ -34,16 +35,40 @@ void Application::Run()
     struct std::tm start;
     std::chrono::high_resolution_clock m_clock;
 
-    double secondsTest = 0;
-    
+    float writeCooldown = 1.0f;
+    float lerp = 0;
+    float lerpValue = 0;
     while (!glfwWindowShouldClose(m_pWindow)) {
+        UpdateTimestep();
+        
+        if (lerpValue > TWO_PI)
+            lerpValue -= TWO_PI;
+        else
+            lerpValue += m_timestep.GetDeltaTime();
+        //std::cout << "lerpValue: " << lerpValue << " lerp: " << lerp << std::endl;
+        lerp = cos(lerpValue);
+
+        verts = {
+            {{lerp, -0.5f}, {1.0f, 0.0f, 1.0f}},
+            {{0.5f, 0.5f},  {0.0f, 1.0f, 0.0f}},
+            {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+        };
+        m_pVulkanManager->SetVerts(verts);
+
+
+        if (writeCooldown > 0.0f)
+        {
+            writeCooldown -= m_timestep.GetDeltaTime();
+        }
+        else
+        {
+            std::cout << "FPS: " << m_timestep.GetFPS() << " delta: " << m_timestep.GetDeltaTime() << std::endl;
+            writeCooldown = 1.0f;
+        }
+        
+
         glfwPollEvents();
         m_pVulkanManager->DrawFrame();
-
-        UpdateTimestep();
-
-        secondsTest += m_timestep.GetDeltaTime();
-        std::cout << "FPS: " << m_timestep.GetFPS() << " delta: " << m_timestep.GetDeltaTime() << " time test: " << secondsTest << std::endl;
     }
 
     vkDeviceWaitIdle(m_pVulkanManager->m_device);

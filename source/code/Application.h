@@ -67,4 +67,6 @@ private:
     double m_LastFrameTime;
 
     Timestep m_timestep;
+
+    std::vector<VulkanManager::Vertex> verts;
 };

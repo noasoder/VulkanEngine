@@ -84,6 +84,8 @@ public:
     void CreateInstance();
     void SetupDebugMessenger();
     void CreateSurface();
+    void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+    void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
     void CreateVertexBuffer();
     void CreateRenderPass();
     void CreateGraphicsPipeline();
@@ -185,6 +187,10 @@ public:
         file.close();
         return buffer;
     }
+
+    void SetVerts(std::vector<Vertex> verts) { 
+        vertices = verts;
+    };
 
 private:
     const std::vector<const char*> validationLayers = {
