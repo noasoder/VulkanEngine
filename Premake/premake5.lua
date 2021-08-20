@@ -1,6 +1,6 @@
 workspace "VulkanEngine"
     configurations { "Debug", "Release" }
-    location "../Scripts"
+    location "../source"
     platforms { "Win64" }
 
     filter { "platforms:Win64" }
@@ -13,10 +13,10 @@ workspace "VulkanEngine"
     links { "vulkan-1.lib", "glfw3.lib" }
 
 project "VulkanEngine"
-    location "../Scripts"
+    location "../source"
     kind "ConsoleApp"
     language "C++"
-    files { "../Scripts/**.h", "../Scripts/**.cpp" }
+    files { "../source/**.h", "../source/**.cpp", "../source/**.vert", "../source/**.frag" }
 
     filter { "configurations:Debug" }
         defines { "DEBUG" }
