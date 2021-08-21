@@ -90,13 +90,14 @@ public:
     ~VulkanManager();
 
     void Cleanup();
-    void DrawFrame();
+    void DrawFrame(float DeltaTime);
 
     void CreateInstance();
     void SetupDebugMessenger();
     void CreateSurface();
 
     void CreateRenderPass();
+
     void CreateGraphicsPipeline();
     VkShaderModule CreateShaderModule(const std::vector<char>& code);
     void CreateFramebuffers();
@@ -104,10 +105,11 @@ public:
     void CreateCommandBuffers();
     void CreateSyncObjects();
     void CreateLogicalDevice();
+    void CreateImageViews();
+
     void CleanupSwapChain();
     void CreateSwapChain();
     void RecreateSwapChain();
-    void CreateImageViews();
 
 
     void PickPhysicalDevice();
@@ -219,9 +221,11 @@ private:
 
 
     VkSwapchainKHR m_swapChain;
+public : 
     std::vector<VkImage> m_swapChainImages;
-    VkFormat m_swapChainImageFormat;
     VkExtent2D m_swapChainExtent;
+private: 
+    VkFormat m_swapChainImageFormat;
     std::vector<VkImageView> m_swapChainImageViews;
 
     VkRenderPass m_renderPass;

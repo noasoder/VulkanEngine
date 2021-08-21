@@ -26,8 +26,6 @@ Application::Application()
 
 Application::~Application()
 {
-    m_pVulkanManager->Cleanup();
-
     delete m_pVulkanManager;
 
     glfwDestroyWindow(m_pWindow);
@@ -65,7 +63,7 @@ void Application::Run()
         
 
         glfwPollEvents();
-        m_pVulkanManager->DrawFrame();
+        m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
     }
 
     vkDeviceWaitIdle(m_pVulkanManager->m_device);

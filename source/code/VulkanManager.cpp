@@ -2,6 +2,7 @@
 
 VulkanManager::VulkanManager(GLFWwindow* pWindow) {
     m_pWindow = pWindow;
+    m_pBufferManager = new BufferManager(this);
 
     CreateInstance();
     SetupDebugMessenger();
@@ -11,16 +12,17 @@ VulkanManager::VulkanManager(GLFWwindow* pWindow) {
     CreateSwapChain();
     CreateImageViews();
     CreateRenderPass();
+    m_pBufferManager->CreateDescriptorSetLayout();
     CreateGraphicsPipeline();
     CreateFramebuffers();
     CreateCommandPool();
-    m_pBufferManager = new BufferManager(this);
-    
+    m_pBufferManager->CreateBuffers();
     CreateCommandBuffers();
     CreateSyncObjects();
 }
-VulkanManager::~VulkanManager() {
 
+VulkanManager::~VulkanManager() {
+    Cleanup();
 }
 
 void VulkanManager::Cleanup() {
@@ -46,7 +48,7 @@ void VulkanManager::Cleanup() {
     vkDestroyInstance(m_instance, nullptr);
 }
 
-void VulkanManager::DrawFrame() {
+void VulkanManager::DrawFrame(float DeltaTime) {
     vkWaitForFences(m_device, 1, &m_inFlightFences[m_currentFrame], VK_TRUE, UINT64_MAX);
 
     uint32_t imageIndex;
@@ -64,6 +66,8 @@ void VulkanManager::DrawFrame() {
         vkWaitForFences(m_device, 1, &m_imagesInFlight[imageIndex], VK_TRUE, UINT64_MAX);
     }
     m_imagesInFlight[imageIndex] = m_inFlightFences[m_currentFrame];
+
+    m_pBufferManager->UpdateUniformBuffer(imageIndex, DeltaTime);
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -110,6 +114,7 @@ void VulkanManager::DrawFrame() {
 
     m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
+
 void VulkanManager::CreateInstance() {
 
     if (enableValidationLayers && !checkValidationLayerSupport()) {
@@ -301,7 +306,7 @@ void VulkanManager::CreateGraphicsPipeline() {
     rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
     rasterizer.lineWidth = 1.0f;
     rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-    rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
+    rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
     rasterizer.depthBiasEnable = VK_FALSE;
     rasterizer.depthBiasConstantFactor = 0.0f;
     rasterizer.depthBiasClamp = 0.0f;
@@ -349,8 +354,8 @@ void VulkanManager::CreateGraphicsPipeline() {
 
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutInfo.setLayoutCount = 0;
-    pipelineLayoutInfo.pSetLayouts = nullptr;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = &m_pBufferManager->m_descriptorSetLayout;
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
@@ -477,6 +482,8 @@ void VulkanManager::CreateCommandBuffers() {
         vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
         vkCmdBindIndexBuffer(m_commandBuffers[i], m_pBufferManager->m_indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+
+        vkCmdBindDescriptorSets(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_pBufferManager->m_descriptorSets[i], 0, nullptr);
 
         vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
@@ -805,6 +812,7 @@ void VulkanManager::CreateSwapChain() {
     m_swapChainImageFormat = surfaceFormat.format;
     m_swapChainExtent = extent;
 }
+
 void VulkanManager::CleanupSwapChain() {
     for (auto framebuffer : m_swapChainFramebuffers) {
         vkDestroyFramebuffer(m_device, framebuffer, nullptr);
@@ -821,7 +829,10 @@ void VulkanManager::CleanupSwapChain() {
     }
 
     vkDestroySwapchainKHR(m_device, m_swapChain, nullptr);
+
+    m_pBufferManager->CleanupUniformBuffers(m_swapChainImages.size());
 }
+
 void VulkanManager::RecreateSwapChain() {
     int width = 0, height = 0;
     glfwGetFramebufferSize(m_pWindow, &width, &height);
@@ -839,6 +850,9 @@ void VulkanManager::RecreateSwapChain() {
     CreateRenderPass();
     CreateGraphicsPipeline();
     CreateFramebuffers();
+    m_pBufferManager->CreateUniformBuffers();
+    m_pBufferManager->CreateDescriptorPool();
+    m_pBufferManager->CreateDescriptorSets();
     CreateCommandBuffers();
 }
 
