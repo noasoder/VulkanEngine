@@ -16,6 +16,7 @@ Application::Application()
 	m_Running = true;
 
     InitWindow();
+
     m_pVulkanManager = new VulkanManager(m_pWindow);
 
     m_timestep = Timestep(0);
@@ -25,9 +26,12 @@ Application::Application()
 
 Application::~Application()
 {
-    cleanup();
+    m_pVulkanManager->Cleanup();
 
     delete m_pVulkanManager;
+
+    glfwDestroyWindow(m_pWindow);
+    glfwTerminate();
 }
 
 void Application::Run()
@@ -47,13 +51,6 @@ void Application::Run()
             lerpValue += m_timestep.GetDeltaTime();
         //std::cout << "lerpValue: " << lerpValue << " lerp: " << lerp << std::endl;
         lerp = cos(lerpValue);
-
-        verts = {
-            {{lerp, -0.5f}, {1.0f, 0.0f, 1.0f}},
-            {{0.5f, 0.5f},  {0.0f, 1.0f, 0.0f}},
-            {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
-        };
-        m_pVulkanManager->SetVerts(verts);
 
 
         if (writeCooldown > 0.0f)
@@ -78,6 +75,7 @@ void Application::CloseApplication()
 {
     m_Running = false;
 }
+
 void Application::InitWindow() {
     glfwInit();
 

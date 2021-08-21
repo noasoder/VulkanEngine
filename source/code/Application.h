@@ -39,13 +39,6 @@ public:
 
     }
 
-    void cleanup() {
-        m_pVulkanManager->Cleanup();
-
-        glfwDestroyWindow(m_pWindow);
-        glfwTerminate();
-    }
-
     static void FramebufferResizeCallback(GLFWwindow* window, int width, int height) {
         auto app = reinterpret_cast<VulkanManager*>(glfwGetWindowUserPointer(window));
         app->m_framebufferResized = true;
@@ -67,6 +60,4 @@ private:
     double m_LastFrameTime;
 
     Timestep m_timestep;
-
-    std::vector<VulkanManager::Vertex> verts;
 };

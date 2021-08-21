@@ -93,12 +93,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h" />
+    <ClInclude Include="code\BufferManager.h" />
     <ClInclude Include="code\Timestep.h" />
+    <ClInclude Include="code\Vulkan.h" />
     <ClInclude Include="code\VulkanManager.h" />
     <ClInclude Include="code\math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
+    <ClCompile Include="code\BufferManager.cpp">
+      <ObjectFileName>$(IntDir)\BufferManager1.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="code\VulkanManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

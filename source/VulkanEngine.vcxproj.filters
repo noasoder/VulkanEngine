@@ -12,6 +12,9 @@
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\BufferManager.h">
+      <Filter>code</Filter>
+    </ClInclude>
     <ClInclude Include="code\Timestep.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -21,9 +24,15 @@
     <ClInclude Include="code\math.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\Vulkan.h">
+      <Filter>code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\BufferManager.cpp">
       <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="code\VulkanManager.cpp">

@@ -1,12 +1,6 @@
 #pragma once
 
-#define VK_USE_PLATFORM_WIN32_KHR
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
-
-#include <glm/glm.hpp>
+#include "Vulkan.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -19,6 +13,9 @@
 #include <optional>
 #include <set>
 #include <fstream>
+
+#include "BufferManager.h"
+
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
 #else
@@ -42,41 +39,55 @@ struct SwapChainSupportDetails {
     std::vector<VkPresentModeKHR> presentModes;
 };
 
+struct Vertex {
+    glm::vec2 pos;
+    glm::vec3 color;
+
+    static VkVertexInputBindingDescription getBindingDescription() {
+        VkVertexInputBindingDescription bindingDescription{};
+        bindingDescription.binding = 0;
+        bindingDescription.stride = sizeof(Vertex);
+        bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+        return bindingDescription;
+    }
+
+    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
+
+        attributeDescriptions[0].binding = 0;
+        attributeDescriptions[0].location = 0;
+        attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+        attributeDescriptions[0].offset = offsetof(Vertex, pos);
+
+        attributeDescriptions[1].binding = 0;
+        attributeDescriptions[1].location = 1;
+        attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
+        attributeDescriptions[1].offset = offsetof(Vertex, color);
+
+        return attributeDescriptions;
+    }
+};
+
+const std::vector<Vertex> vertices = {
+    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+};
+
+const std::vector<uint16_t> indices = {
+    0, 1, 2, 2, 3, 0
+};
+
+
 class VulkanManager
 {
 public:
+
     VulkanManager(GLFWwindow* pWindow);
+
     ~VulkanManager();
-
-    struct Vertex {
-        glm::vec2 pos;
-        glm::vec3 color;
-
-        static VkVertexInputBindingDescription getBindingDescription() {
-            VkVertexInputBindingDescription bindingDescription{};
-            bindingDescription.binding = 0;
-            bindingDescription.stride = sizeof(Vertex);
-            bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-            return bindingDescription;
-        }
-
-        static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
-            std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
-
-            attributeDescriptions[0].binding = 0;
-            attributeDescriptions[0].location = 0;
-            attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
-            attributeDescriptions[0].offset = offsetof(Vertex, pos);
-
-            attributeDescriptions[1].binding = 0;
-            attributeDescriptions[1].location = 1;
-            attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-            attributeDescriptions[1].offset = offsetof(Vertex, color);
-
-            return attributeDescriptions;
-        }
-    };
 
     void Cleanup();
     void DrawFrame();
@@ -84,9 +95,7 @@ public:
     void CreateInstance();
     void SetupDebugMessenger();
     void CreateSurface();
-    void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-    void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-    void CreateVertexBuffer();
+
     void CreateRenderPass();
     void CreateGraphicsPipeline();
     VkShaderModule CreateShaderModule(const std::vector<char>& code);
@@ -188,10 +197,6 @@ public:
         return buffer;
     }
 
-    void SetVerts(std::vector<Vertex> verts) { 
-        vertices = verts;
-    };
-
 private:
     const std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
@@ -200,14 +205,9 @@ private:
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
 
+    BufferManager* m_pBufferManager;
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
-
-    std::vector<Vertex> vertices = {
-    {{0.0f, -0.5f}, {1.0f, 0.0f, 1.0f}},
-    {{0.5f, 0.5f},  {0.0f, 1.0f, 0.0f}},
-    {{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
-    };
 
     GLFWwindow* m_pWindow;
 
@@ -217,8 +217,6 @@ private:
 
     VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 
-    VkQueue m_graphicsQueue;
-    VkQueue m_presentQueue;
 
     VkSwapchainKHR m_swapChain;
     std::vector<VkImage> m_swapChainImages;
@@ -233,10 +231,6 @@ private:
     std::vector<VkFramebuffer> m_swapChainFramebuffers;
     std::vector<VkCommandBuffer> m_commandBuffers;
 
-    VkBuffer m_vertexBuffer;
-    VkDeviceMemory m_vertexBufferMemory;
-
-    VkCommandPool m_commandPool;
 
     std::vector<VkSemaphore> m_imageAvailableSemaphores;
     std::vector<VkSemaphore> m_renderFinishedSemaphores;
@@ -247,5 +241,8 @@ private:
 public:
     bool m_framebufferResized = false;
     VkDevice m_device;
+    VkCommandPool m_commandPool;
 
+    VkQueue m_graphicsQueue;
+    VkQueue m_presentQueue;
 };
