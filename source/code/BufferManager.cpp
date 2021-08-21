@@ -7,14 +7,63 @@ BufferManager::BufferManager(VulkanManager* pVulkanManager)
 {
 
     CreateVertexBuffer();
+    CreateIndexBuffer();
 }
 
 BufferManager::~BufferManager()
 {
     VkDevice* pDevice = &m_pVulkanManager->m_device;
 
+    vkDestroyBuffer(*pDevice, m_indexBuffer, nullptr);
+    vkFreeMemory(*pDevice, m_indexBufferMemory, nullptr);
     vkDestroyBuffer(*pDevice, m_vertexBuffer, nullptr);
     vkFreeMemory(*pDevice, m_vertexBufferMemory, nullptr);
+}
+
+void BufferManager::CreateVertexBuffer() 
+{
+    VkDevice* pDevice = &m_pVulkanManager->m_device;
+
+    VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
+
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+    void* data;
+    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
+    memcpy(data, vertices.data(), (size_t)bufferSize);
+    vkUnmapMemory(*pDevice, stagingBufferMemory);
+
+
+    CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_vertexBuffer, m_vertexBufferMemory);
+
+    CopyBuffer(stagingBuffer, m_vertexBuffer, bufferSize);
+
+    vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
+    vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
+}
+
+void BufferManager::CreateIndexBuffer() {
+    VkDevice* pDevice = &m_pVulkanManager->m_device;
+
+    VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
+
+    VkBuffer stagingBuffer;
+    VkDeviceMemory stagingBufferMemory;
+    CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+    void* data;
+    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
+    memcpy(data, indices.data(), (size_t)bufferSize);
+    vkUnmapMemory(*pDevice, stagingBufferMemory);
+
+    CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_indexBuffer, m_indexBufferMemory);
+
+    CopyBuffer(stagingBuffer, m_indexBuffer, bufferSize);
+
+    vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
+    vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
 }
 
 void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) 
@@ -46,29 +95,6 @@ void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, Vk
     vkBindBufferMemory(*pDevice, buffer, bufferMemory, 0);
 }
 
-void BufferManager::CreateVertexBuffer() 
-{
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
-
-    VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
-
-    VkBuffer stagingBuffer;
-    VkDeviceMemory stagingBufferMemory;
-    CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
-
-    void* data;
-    vkMapMemory(*pDevice, stagingBufferMemory, 0, bufferSize, 0, &data);
-    memcpy(data, vertices.data(), (size_t)bufferSize);
-    vkUnmapMemory(*pDevice, stagingBufferMemory);
-
-
-    CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_vertexBuffer, m_vertexBufferMemory);
-
-    CopyBuffer(stagingBuffer, m_vertexBuffer, bufferSize);
-
-    vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
-    vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
-}
 
 void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) 
 {

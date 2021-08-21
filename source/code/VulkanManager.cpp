@@ -476,7 +476,10 @@ void VulkanManager::CreateCommandBuffers() {
         VkDeviceSize offsets[] = { 0 };
         vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
-        vkCmdDraw(m_commandBuffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
+        vkCmdBindIndexBuffer(m_commandBuffers[i], m_pBufferManager->m_indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+
+        vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+
         vkCmdEndRenderPass(m_commandBuffers[i]);
 
         if (vkEndCommandBuffer(m_commandBuffers[i]) != VK_SUCCESS) {
