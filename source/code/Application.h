@@ -8,7 +8,7 @@
 
 #include <glm/glm.hpp>
 
-#include "VulkanManager.h"
+#include "Managers/VulkanManager.h"
 #include "Timestep.h"
 
 #include <chrono>

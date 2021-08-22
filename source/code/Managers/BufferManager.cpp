@@ -1,6 +1,6 @@
 
-#include	"Managers/BufferManager.h"
-#include    "Managers/VulkanManager.h"
+#include	"BufferManager.h"
+#include    "VulkanManager.h"
 
 #include    "Maths.h"
 

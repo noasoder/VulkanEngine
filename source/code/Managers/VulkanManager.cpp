@@ -1,4 +1,4 @@
-#include "Managers/VulkanManager.h"
+#include "VulkanManager.h"
 
 VulkanManager::VulkanManager(GLFWwindow* pWindow) {
     m_pWindow = pWindow;

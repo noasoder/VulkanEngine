@@ -9,7 +9,7 @@
 #include <cstdint>
 
 #include "Timestep.h"
-#include "math.h"
+#include "Maths.h"
 
 Application::Application()
 {

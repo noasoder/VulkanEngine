@@ -14,7 +14,7 @@
 #include <set>
 #include <fstream>
 
-#include "Managers/BufferManager.h"
+#include "BufferManager.h"
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;

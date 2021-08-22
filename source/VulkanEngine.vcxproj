@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -93,16 +93,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h" />
-    <ClInclude Include="code\BufferManager.h" />
+    <ClInclude Include="code\Managers\BufferManager.h" />
+    <ClInclude Include="code\Managers\VulkanManager.h" />
+    <ClInclude Include="code\Maths.h" />
     <ClInclude Include="code\Timestep.h" />
     <ClInclude Include="code\Vulkan.h" />
     <ClInclude Include="code\VulkanManager.h" />
-    <ClInclude Include="code\math.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
     <ClCompile Include="code\BufferManager.cpp" />
-    <ClCompile Include="code\VulkanManager.cpp" />
+    <ClCompile Include="code\Managers\BufferManager.cpp">
+      <ObjectFileName>$(IntDir)\BufferManager1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="code\Managers\VulkanManager.cpp" />
+    <ClCompile Include="code\VulkanManager.cpp">
+      <ObjectFileName>$(IntDir)\VulkanManager1.obj</ObjectFileName>
+    </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
