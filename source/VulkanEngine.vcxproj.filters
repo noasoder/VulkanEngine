@@ -18,13 +18,13 @@
     <ClInclude Include="code\Timestep.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\Vulkan.h">
+      <Filter>code</Filter>
+    </ClInclude>
     <ClInclude Include="code\VulkanManager.h">
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="code\math.h">
-      <Filter>code</Filter>
-    </ClInclude>
-    <ClInclude Include="code\Vulkan.h">
       <Filter>code</Filter>
     </ClInclude>
   </ItemGroup>
