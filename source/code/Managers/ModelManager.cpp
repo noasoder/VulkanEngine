@@ -2,6 +2,8 @@
 
 #include "VulkanManager.h"
 
+#include <unordered_map>
+
 #include <tiny_obj_loader.h>
 
 
@@ -27,13 +29,12 @@ void ModelManager::LoadModel()
         throw std::runtime_error(warn + err);
     }
 
-    for (const auto& shape : shapes)
-    {
+    printf("verts: %u\n", attrib.vertices);
+    std::unordered_map<Vertex, uint32_t> uniqueVertices{};
+
+    for (const auto& shape : shapes) {
         for (const auto& index : shape.mesh.indices) {
             Vertex vertex{};
-
-            vertices.push_back(vertex);
-            indices.push_back(indices.size());
 
             vertex.pos = {
                 attrib.vertices[3 * index.vertex_index + 0],
@@ -47,6 +48,13 @@ void ModelManager::LoadModel()
             };
 
             vertex.color = { 1.0f, 1.0f, 1.0f };
+
+            if (uniqueVertices.count(vertex) == 0) {
+                uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+                vertices.push_back(vertex);
+            }
+
+            indices.push_back(uniqueVertices[vertex]);
         }
     }
 }

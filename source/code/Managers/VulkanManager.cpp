@@ -26,6 +26,7 @@ VulkanManager::VulkanManager(GLFWwindow* pWindow) {
     m_pTextureManager->CreateTextureImage();
     m_pTextureManager->CreateTextureImageView();
     m_pTextureManager->CreateTextureSampler();
+    m_pModelManager->LoadModel();
     m_pBufferManager->CreateBuffers();
     CreateCommandBuffers();
     CreateSyncObjects();
@@ -38,6 +39,7 @@ VulkanManager::~VulkanManager() {
 void VulkanManager::Cleanup() {
     CleanupSwapChain();
 
+    delete m_pModelManager;
     delete m_pTextureManager;
     delete m_pBufferManager;
 
@@ -527,7 +529,7 @@ void VulkanManager::CreateCommandBuffers() {
 
         vkCmdBindDescriptorSets(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_pBufferManager->m_descriptorSets[i], 0, nullptr);
 
-        vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+        vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(m_pModelManager->indices.size()), 1, 0, 0, 0);
 
         vkCmdEndRenderPass(m_commandBuffers[i]);
 
