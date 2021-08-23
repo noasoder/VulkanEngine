@@ -98,18 +98,11 @@
     <ClInclude Include="code\Maths.h" />
     <ClInclude Include="code\Timestep.h" />
     <ClInclude Include="code\Vulkan.h" />
-    <ClInclude Include="code\VulkanManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
-    <ClCompile Include="code\BufferManager.cpp" />
-    <ClCompile Include="code\Managers\BufferManager.cpp">
-      <ObjectFileName>$(IntDir)\BufferManager1.obj</ObjectFileName>
-    </ClCompile>
+    <ClCompile Include="code\Managers\BufferManager.cpp" />
     <ClCompile Include="code\Managers\VulkanManager.cpp" />
-    <ClCompile Include="code\VulkanManager.cpp">
-      <ObjectFileName>$(IntDir)\VulkanManager1.obj</ObjectFileName>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

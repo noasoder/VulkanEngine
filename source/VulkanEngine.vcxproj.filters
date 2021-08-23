@@ -30,15 +30,9 @@
     <ClInclude Include="code\Vulkan.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="code\VulkanManager.h">
-      <Filter>code</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp">
-      <Filter>code</Filter>
-    </ClCompile>
-    <ClCompile Include="code\BufferManager.cpp">
       <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="code\Managers\BufferManager.cpp">
@@ -46,9 +40,6 @@
     </ClCompile>
     <ClCompile Include="code\Managers\VulkanManager.cpp">
       <Filter>code\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="code\VulkanManager.cpp">
-      <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
