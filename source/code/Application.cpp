@@ -1,15 +1,15 @@
 
 #include "Application.h"
 
+#include "Managers/VulkanManager.h"
+
 #include <cmath>
 #include <iostream>
 #include <iomanip>
 
-#include <chrono>
-#include <cstdint>
-
 #include "Timestep.h"
 #include "Maths.h"
+
 
 Application::Application()
 {
@@ -83,4 +83,10 @@ void Application::InitWindow() {
     m_pWindow = glfwCreateWindow(WIDTH, HEIGHT, PROJECT_NAME, nullptr, nullptr);
     glfwSetWindowUserPointer(m_pWindow, this);
     glfwSetFramebufferSizeCallback(m_pWindow, FramebufferResizeCallback);
+}
+
+void Application::FramebufferResizeCallback(GLFWwindow* window, int width, int height) 
+{
+    auto app = reinterpret_cast<VulkanManager*>(glfwGetWindowUserPointer(window));
+    app->m_framebufferResized = true;
 }

@@ -18,6 +18,12 @@
     <ClInclude Include="code\Managers\BufferManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="code\Managers\ModelManager.h">
+      <Filter>code\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Managers\TextureManager.h">
+      <Filter>code\Managers</Filter>
+    </ClInclude>
     <ClInclude Include="code\Managers\VulkanManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
@@ -36,6 +42,12 @@
       <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="code\Managers\BufferManager.cpp">
+      <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Managers\ModelManager.cpp">
+      <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Managers\TextureManager.cpp">
       <Filter>code\Managers</Filter>
     </ClCompile>
     <ClCompile Include="code\Managers\VulkanManager.cpp">

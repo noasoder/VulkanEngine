@@ -14,7 +14,9 @@
 #include <set>
 #include <fstream>
 
-#include "BufferManager.h"
+class BufferManager;
+class TextureManager;
+class ModelManager;
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
@@ -24,6 +26,26 @@ const bool enableValidationLayers = true;
 
 #define ENGINE_NAME "VulkanEngine"
 #define PROJECT_NAME "VulkanEngine"
+
+const std::string MODEL_PATH = "../Build/Assets/Models/viking_room.obj";
+const std::string TEXTURE_PATH = "../Build/Assets/Textures/viking_room.png";
+
+//const std::vector<Vertex> vertices = {
+//    {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+//    {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+//    {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+//    {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+//
+//    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
+//    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+//    {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+//    {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
+//};
+//
+//const std::vector<uint16_t> indices = {
+//    0, 1, 2, 2, 3, 0,
+//    4, 5, 6, 6, 7, 4
+//};
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -37,47 +59,6 @@ struct SwapChainSupportDetails {
     VkSurfaceCapabilitiesKHR capabilities;
     std::vector<VkSurfaceFormatKHR> formats;
     std::vector<VkPresentModeKHR> presentModes;
-};
-
-struct Vertex {
-    glm::vec2 pos;
-    glm::vec3 color;
-
-    static VkVertexInputBindingDescription getBindingDescription() {
-        VkVertexInputBindingDescription bindingDescription{};
-        bindingDescription.binding = 0;
-        bindingDescription.stride = sizeof(Vertex);
-        bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-        return bindingDescription;
-    }
-
-    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
-
-        attributeDescriptions[0].binding = 0;
-        attributeDescriptions[0].location = 0;
-        attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
-        attributeDescriptions[0].offset = offsetof(Vertex, pos);
-
-        attributeDescriptions[1].binding = 0;
-        attributeDescriptions[1].location = 1;
-        attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-        attributeDescriptions[1].offset = offsetof(Vertex, color);
-
-        return attributeDescriptions;
-    }
-};
-
-const std::vector<Vertex> vertices = {
-    {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-    {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-    {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-    {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
-};
-
-const std::vector<uint16_t> indices = {
-    0, 1, 2, 2, 3, 0
 };
 
 
@@ -103,9 +84,13 @@ public:
     void CreateFramebuffers();
     void CreateCommandPool();
     void CreateCommandBuffers();
+
+    VkCommandBuffer BeginSingleTimeCommands();
+    void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
     void CreateSyncObjects();
     void CreateLogicalDevice();
     void CreateImageViews();
+    VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
 
     void CleanupSwapChain();
     void CreateSwapChain();
@@ -207,7 +192,6 @@ private:
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
     };
 
-    BufferManager* m_pBufferManager;
 
     const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -217,14 +201,19 @@ private:
     VkDebugUtilsMessengerEXT m_debugMessenger;
     VkSurfaceKHR m_surface;
 
+
+public :
+    BufferManager* m_pBufferManager;
+    TextureManager* m_pTextureManager;
+    ModelManager* m_pModelManager;
+
     VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 
 
-    VkSwapchainKHR m_swapChain;
-public : 
     std::vector<VkImage> m_swapChainImages;
     VkExtent2D m_swapChainExtent;
 private: 
+    VkSwapchainKHR m_swapChain;
     VkFormat m_swapChainImageFormat;
     std::vector<VkImageView> m_swapChainImageViews;
 

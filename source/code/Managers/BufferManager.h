@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Vulkan.h"
-#include <stdexcept>
-#include <vector>
+#include	"Vulkan.h"
+
+#include	<vector>
 
 class VulkanManager;
+class TextureManager;
+class ModelManager;
 
 class BufferManager
 {
@@ -20,6 +22,9 @@ public:
 	void UpdateUniformBuffer(uint32_t currentImage, float DeltaTime);
 	void CreateDescriptorPool();
 	void CreateDescriptorSets();
+	
+	void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+	void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 	VkDescriptorSetLayout m_descriptorSetLayout;
 	VkDescriptorPool m_descriptorPool;
@@ -32,11 +37,10 @@ public:
 
 	std::vector<VkBuffer> m_uniformBuffers;
 	std::vector<VkDeviceMemory> m_uniformBuffersMemory;
+
 private:
 	void CreateVertexBuffer();
 	void CreateIndexBuffer();
-	void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-	void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 
 	VulkanManager* m_pVulkanManager;

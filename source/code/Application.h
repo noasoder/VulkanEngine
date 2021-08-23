@@ -1,22 +1,14 @@
 #pragma once 
 
-#define VK_USE_PLATFORM_WIN32_KHR
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
-
-#include <glm/glm.hpp>
-
-#include "Managers/VulkanManager.h"
-#include "Timestep.h"
+#include "Vulkan.h"
 
 #include <chrono>
 #include <cstdint>
 
+#include "Timestep.h"
+#include "Maths.h"
 
-#define BILLION  1000000000L;
-#define MILLION  1000000;
+class VulkanManager;
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -29,20 +21,13 @@ public:
     void Run();
     void CloseApplication();
 
-    VulkanManager* m_pVulkanManager;
-
-    GLFWwindow* m_pWindow;
-
     void InitWindow();
 
     void mainLoop() {
 
     }
 
-    static void FramebufferResizeCallback(GLFWwindow* window, int width, int height) {
-        auto app = reinterpret_cast<VulkanManager*>(glfwGetWindowUserPointer(window));
-        app->m_framebufferResized = true;
-    }
+    static void FramebufferResizeCallback(GLFWwindow* window, int width, int height);
 
     void UpdateTimestep() {
         std::chrono::high_resolution_clock m_clock;
@@ -54,6 +39,9 @@ public:
 
         m_LastFrameTime = time;
     }
+    VulkanManager* m_pVulkanManager;
+
+    GLFWwindow* m_pWindow;
 
 private:
     bool m_Running;
