@@ -7,7 +7,7 @@
 #include    "Managers/TextureManager.h"
 #include    "Managers/ModelManager.h"
 
-#include    "Maths.h"
+#include    "Utility/Maths.h"
 
 BufferManager::BufferManager(VulkanManager* pVulkanManager)
 : m_pVulkanManager(pVulkanManager)

@@ -2,13 +2,15 @@
 #include "Application.h"
 
 #include "Managers/VulkanManager.h"
+#include "Managers/InputManager.h"
 
 #include <cmath>
 #include <iostream>
 #include <iomanip>
 
 #include "Timestep.h"
-#include "Maths.h"
+#include "Utility/Maths.h"
+#include "Utility/Types.h"
 
 
 Application::Application()
@@ -17,6 +19,7 @@ Application::Application()
 
     InitWindow();
 
+    m_pInputManager = new InputManager(this);
     m_pVulkanManager = new VulkanManager(m_pWindow);
 
     m_timestep = Timestep(0);
@@ -27,6 +30,7 @@ Application::Application()
 Application::~Application()
 {
     delete m_pVulkanManager;
+    delete m_pInputManager;
 
     glfwDestroyWindow(m_pWindow);
     glfwTerminate();
@@ -40,7 +44,17 @@ void Application::Run()
     float writeCooldown = 1.0f;
     float lerp = 0;
     float lerpValue = 0;
+
     while (!glfwWindowShouldClose(m_pWindow)) {
+        if (m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            //shutdown application
+            break;
+        }
+
+
+        Vec2 pos = m_pInputManager->GetMousePosition();
+        printf("Mouse: X: %f Y: %f\n", pos.x, pos.y);
+
         UpdateTimestep();
         
         if (lerpValue > TWO_PI)

@@ -7,6 +7,9 @@
     <Filter Include="code\Managers">
       <UniqueIdentifier>{5D50C7AD-C910-43E4-924B-8C61FECA87C0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Utility">
+      <UniqueIdentifier>{C37C97A8-AFDF-264D-5865-5F0344A7F2CF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{0F45D591-7B24-542D-843C-DF03F09ABA8E}</UniqueIdentifier>
     </Filter>
@@ -18,6 +21,9 @@
     <ClInclude Include="code\Managers\BufferManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="code\Managers\InputManager.h">
+      <Filter>code\Managers</Filter>
+    </ClInclude>
     <ClInclude Include="code\Managers\ModelManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
@@ -27,11 +33,14 @@
     <ClInclude Include="code\Managers\VulkanManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Maths.h">
-      <Filter>code</Filter>
-    </ClInclude>
     <ClInclude Include="code\Timestep.h">
       <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Utility\Maths.h">
+      <Filter>code\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Utility\Types.h">
+      <Filter>code\Utility</Filter>
     </ClInclude>
     <ClInclude Include="code\Vulkan.h">
       <Filter>code</Filter>
@@ -44,6 +53,9 @@
     <ClCompile Include="code\Managers\BufferManager.cpp">
       <Filter>code\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="code\Managers\InputManager.cpp">
+      <Filter>code\Managers</Filter>
+    </ClCompile>
     <ClCompile Include="code\Managers\ModelManager.cpp">
       <Filter>code\Managers</Filter>
     </ClCompile>
@@ -52,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="code\Managers\VulkanManager.cpp">
       <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Utility\Types.cpp">
+      <Filter>code\Utility</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>

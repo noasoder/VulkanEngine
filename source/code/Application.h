@@ -6,9 +6,10 @@
 #include <cstdint>
 
 #include "Timestep.h"
-#include "Maths.h"
+#include "Utility/Maths.h"
 
 class VulkanManager;
+class InputManager;
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -40,6 +41,7 @@ public:
         m_LastFrameTime = time;
     }
     VulkanManager* m_pVulkanManager;
+    InputManager* m_pInputManager;
 
     GLFWwindow* m_pWindow;
 

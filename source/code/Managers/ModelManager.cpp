@@ -3,7 +3,6 @@
 #include "VulkanManager.h"
 
 #include <unordered_map>
-
 #include <tiny_obj_loader.h>
 
 
