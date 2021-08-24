@@ -43,6 +43,28 @@ void Matrix4::RotateZ(float rot)
 	m_mat[2] = Vec4(0, 0, 1, 0);
 }
 
+Matrix4 Matrix4::Rotate(Vec3 rot)
+{
+	RotateX(rot.x);
+	RotateY(rot.y);
+	RotateZ(rot.z);
+
+	Matrix4 mat = Matrix4();
+	mat.m_mat = m_mat;
+	return mat;
+}
+
+Vec3 Matrix4::GetRotation()
+{
+	Matrix4 mat = Matrix4();
+	mat.m_mat = m_mat;
+	Vec4 rot = GetRotationMat() * Vec4(1, 1, 1, 0);
+
+	printf("rot: X: %f Y: %f Z: %f\n", rot.x, rot.y, rot.z);
+
+	return Vec3(rot.x, rot.y, rot.z);
+}
+
 Matrix4 Matrix4::GetRotationMat()
 {
 	Vec3 scale = GetScale();
@@ -54,7 +76,6 @@ Matrix4 Matrix4::GetRotationMat()
 
 	return mat;
 }
-
 
 
 void Matrix4::Scale(float scale)
@@ -82,4 +103,16 @@ Vec3 Matrix4::GetScale()
 Vec3 Matrix4::GetLookAt()
 {
 	return Vec3(m_mat[2].x, m_mat[2].y, m_mat[2].z);
+}
+
+Vec4 operator*(const Matrix4& m, const Vec4& v)
+{
+	Vec4 out = Vec4(0);
+
+	out.x = m.m_mat[0].x * v.x + m.m_mat[0].y * v.x + m.m_mat[0].z * v.x + m.m_mat[0].w * v.x;
+	out.y = m.m_mat[1].y * v.y + m.m_mat[1].y * v.y + m.m_mat[1].z * v.y + m.m_mat[1].w * v.y;
+	out.z = m.m_mat[2].z * v.z + m.m_mat[2].y * v.z + m.m_mat[2].z * v.z + m.m_mat[2].w * v.z;
+	out.w = m.m_mat[3].w * v.w + m.m_mat[3].y * v.w + m.m_mat[3].z * v.w + m.m_mat[3].w * v.w;
+
+	return out;
 }

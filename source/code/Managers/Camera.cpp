@@ -24,7 +24,7 @@ glm::mat4 Camera::GetView()
 	Vec3 pos = GetPos();
 
 	//Vec3 at = pos + GetLookAt();
-	Vec3 at = pos + Vec3(0, 1, 0);
+	Vec3 at = pos + GetRotation();
 
 	//printf("at: X: %f Y: %f Z: %f\n", at.x, at.y, at.z);
 

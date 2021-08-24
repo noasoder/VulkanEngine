@@ -57,12 +57,13 @@ void Application::Run()
 
     float movSpeed = 25;
     Vec3 pos = Vec3(0, -10, 0);
+    Vec3 rot = Vec3(0, 0, -PI);
 
     while (!glfwWindowShouldClose(m_pWindow)) {
         UpdateTimestep();
         Vec3 moveRDB = Vec3();
         Vec3 moveLUF = Vec3();
-
+        Vec3 newRot = Vec3();
 
         if (m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
@@ -83,10 +84,28 @@ void Application::Run()
         if (m_pInputManager->GetKey(GLFW_KEY_Q))
             moveRDB = moveRDB + Vec3(0, 0, -1);
 
+        if (m_pInputManager->GetKey(GLFW_KEY_Y))
+            newRot = newRot + Vec3(1, 0, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_H))
+            newRot = newRot + Vec3(-1, 0, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_U))
+            newRot = newRot + Vec3(0, 1, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_J))
+            newRot = newRot + Vec3(0, -1, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_I))
+            newRot = newRot + Vec3(0, 0, 1);
+        if (m_pInputManager->GetKey(GLFW_KEY_K))
+            newRot = newRot + Vec3(0, 0, -1);
+
         pos = pos + (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
+        rot = rot + newRot * m_timestep.GetDeltaTime();
 
         Camera* currCamera = m_pCameraManager->GetCurrentCamera();
         currCamera->Translate(pos);
+
+        Vec4 newRot4 = currCamera->GetRotationMat() * Vec4(rot, 0);
+        currCamera->Rotate(Vec3(newRot4.x, newRot4.y, newRot4.z));
+
         //printf("move: X: %f Y: %f Z: %f\n", currCamera->GetPos().x, currCamera->GetPos().y, currCamera->GetPos().z);
 
 
