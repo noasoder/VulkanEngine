@@ -17,6 +17,9 @@ public:
 	Vec3 GetPos();
 	Vec3 GetLookAt();
 	Vec3 GetScale();
+	Vec3 GetRotation();
+
+	Matrix4 GetRotationMat();
 
 	void RotateX(float rot);
 	void RotateY(float rot);

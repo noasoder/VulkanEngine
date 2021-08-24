@@ -43,13 +43,19 @@ void Matrix4::RotateZ(float rot)
 	m_mat[2] = Vec4(0, 0, 1, 0);
 }
 
-Vec3 Matrix4::GetRotation()
+Matrix4 Matrix4::GetRotationMat()
 {
-	Vec3 vec;
+	Vec3 scale = GetScale();
+	Matrix4 mat = Matrix4();
 
-	vec.x = m_mat[0].x
-	return vec;
+	mat.m_mat[0] = Vec4(m_mat[0].x / scale.x, m_mat[0].y / scale.y, m_mat[0].z / scale.z, 0);
+	mat.m_mat[1] = Vec4(m_mat[1].x / scale.x, m_mat[1].y / scale.y, m_mat[1].z / scale.z, 0);
+	mat.m_mat[2] = Vec4(m_mat[2].x / scale.x, m_mat[2].y / scale.y, m_mat[2].z / scale.z, 0);
+
+	return mat;
 }
+
+
 
 void Matrix4::Scale(float scale)
 {
@@ -65,7 +71,12 @@ Vec3 Matrix4::GetPos()
 
 Vec3 Matrix4::GetScale()
 {
-	return Vec3(1);
+	Vec3 vec;
+	vec.x = m_mat[0].x + m_mat[1].x + m_mat[2].x;
+	vec.y = m_mat[0].y + m_mat[1].y + m_mat[2].y;
+	vec.z = m_mat[0].z + m_mat[1].z + m_mat[2].z;
+
+	return vec;
 }
 
 Vec3 Matrix4::GetLookAt()
