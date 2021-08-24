@@ -4,6 +4,7 @@
 
 #include	<vector>
 
+class Application;
 class VulkanManager;
 class TextureManager;
 class ModelManager;
@@ -42,7 +43,7 @@ private:
 	void CreateVertexBuffer();
 	void CreateIndexBuffer();
 
-
+	Application* m_pApplication;
 	VulkanManager* m_pVulkanManager;
 
 

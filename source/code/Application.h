@@ -10,6 +10,7 @@
 
 class VulkanManager;
 class InputManager;
+class CameraManager;
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
@@ -42,6 +43,7 @@ public:
     }
     VulkanManager* m_pVulkanManager;
     InputManager* m_pInputManager;
+    CameraManager* m_pCameraManager;
 
     GLFWwindow* m_pWindow;
 

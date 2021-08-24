@@ -8,7 +8,6 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 
-#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
 
 class VulkanManager;
@@ -70,7 +69,7 @@ public:
     ModelManager(VulkanManager* pVulkanManager);
     ~ModelManager();
 
-    void LoadModel();
+    void LoadModel(std::string path);
 
 
 	std::vector<Vertex> vertices;

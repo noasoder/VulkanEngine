@@ -1,11 +1,14 @@
 #include "VulkanManager.h"
 
+#include "Application.h"
 #include "Managers/BufferManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"
 
-VulkanManager::VulkanManager(GLFWwindow* pWindow) {
-    m_pWindow = pWindow;
+VulkanManager::VulkanManager(Application* pApplication) 
+: m_pApplication(pApplication)
+{
+    m_pWindow = m_pApplication->m_pWindow;
     m_pBufferManager = new BufferManager(this);
     m_pTextureManager = new TextureManager(this, m_pBufferManager);
     m_pModelManager = new ModelManager(this);
@@ -26,7 +29,7 @@ VulkanManager::VulkanManager(GLFWwindow* pWindow) {
     m_pTextureManager->CreateTextureImage();
     m_pTextureManager->CreateTextureImageView();
     m_pTextureManager->CreateTextureSampler();
-    m_pModelManager->LoadModel();
+    m_pModelManager->LoadModel(MODEL_PATH);
     m_pBufferManager->CreateBuffers();
     CreateCommandBuffers();
     CreateSyncObjects();

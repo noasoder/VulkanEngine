@@ -1,16 +1,20 @@
 
-#include	"Managers/BufferManager.h"
+#include "Managers/BufferManager.h"
+         
+#include <stdexcept>
+         
+#include "Application.h"
+#include "Managers/VulkanManager.h"
+#include "Managers/TextureManager.h"
+#include "Managers/ModelManager.h"
+#include "Managers/CameraManager.h"
+#include "Managers/Camera.h"
 
-#include    <stdexcept>
-
-#include    "Managers/VulkanManager.h"
-#include    "Managers/TextureManager.h"
-#include    "Managers/ModelManager.h"
-
-#include    "Utility/Maths.h"
+#include "Utility/Maths.h"
 
 BufferManager::BufferManager(VulkanManager* pVulkanManager)
 : m_pVulkanManager(pVulkanManager)
+, m_pApplication(pVulkanManager->m_pApplication)
 {
 
 }
@@ -216,17 +220,26 @@ void BufferManager::UpdateUniformBuffer(uint32_t currentImage, float DeltaTime)
 {
     VkDevice* pDevice = &m_pVulkanManager->m_device;
     VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
+    Camera* pCamera = m_pApplication->m_pCameraManager->GetCurrentCamera();
 
     if (m_rotation > TWO_PI)
         m_rotation -= TWO_PI;
     else
         m_rotation += DeltaTime;
 
+    //m_rotation = 0;
+
+    pCamera->UpdateAspect(swapChainExtent->width / (float)swapChainExtent->height);
+
     UniformBufferObject ubo{};
-    ubo.model = glm::rotate(glm::mat4(1.0f), m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    ubo.proj = glm::perspective(glm::radians(45.0f), swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 10.0f);
+    ubo.model = glm::translate(glm::mat4(1), glm::vec3(0, 0, 0));
+    ubo.model = glm::rotate(ubo.model, m_rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+    //ubo.view = glm::lookAt(glm::vec3(0.0f, 4.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    //ubo.proj = glm::perspective(glm::radians(45.0f), swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 10.0f);
+    ubo.view = pCamera->GetView();
+    ubo.proj = pCamera->GetProj();
     ubo.proj[1][1] *= -1;
+
 
     void* data;
     vkMapMemory(*pDevice, m_uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);

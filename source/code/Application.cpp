@@ -3,6 +3,8 @@
 
 #include "Managers/VulkanManager.h"
 #include "Managers/InputManager.h"
+#include "Managers/CameraManager.h"
+#include "Managers/Camera.h"
 
 #include <cmath>
 #include <iostream>
@@ -13,6 +15,7 @@
 #include "Utility/Types.h"
 
 
+
 Application::Application()
 {
 	m_Running = true;
@@ -20,7 +23,12 @@ Application::Application()
     InitWindow();
 
     m_pInputManager = new InputManager(this);
-    m_pVulkanManager = new VulkanManager(m_pWindow);
+    m_pVulkanManager = new VulkanManager(this);
+    m_pCameraManager = new CameraManager(this);
+
+    VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
+
+    m_pCameraManager->CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height);
 
     m_timestep = Timestep(0);
 
@@ -29,6 +37,8 @@ Application::Application()
 
 Application::~Application()
 {
+    delete m_pCameraManager;
+
     delete m_pVulkanManager;
     delete m_pInputManager;
 
@@ -45,17 +55,44 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
+    float movSpeed = 25;
+    Vec3 pos = Vec3(0, -10, 0);
+
     while (!glfwWindowShouldClose(m_pWindow)) {
+        UpdateTimestep();
+        Vec3 moveRDB = Vec3();
+        Vec3 moveLUF = Vec3();
+
+
         if (m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
             break;
         }
 
 
-        Vec2 pos = m_pInputManager->GetMousePosition();
-        printf("Mouse: X: %f Y: %f\n", pos.x, pos.y);
+        if (m_pInputManager->GetKey(GLFW_KEY_W))
+            moveLUF = moveLUF + Vec3(0, 1, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_A))
+            moveLUF = moveLUF + Vec3(-1, 0, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_S))
+            moveRDB = moveRDB + Vec3(0, -1, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_D))
+            moveRDB = moveRDB + Vec3(1, 0, 0);
+        if (m_pInputManager->GetKey(GLFW_KEY_E))
+            moveLUF = moveRDB + Vec3(0, 0, 1);
+        if (m_pInputManager->GetKey(GLFW_KEY_Q))
+            moveRDB = moveRDB + Vec3(0, 0, -1);
 
-        UpdateTimestep();
+        pos = pos + (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
+
+        Camera* currCamera = m_pCameraManager->GetCurrentCamera();
+        currCamera->Translate(pos);
+        //printf("move: X: %f Y: %f Z: %f\n", currCamera->GetPos().x, currCamera->GetPos().y, currCamera->GetPos().z);
+
+
+        Vec2 pos = m_pInputManager->GetMousePosition();
+        //printf("Mouse: X: %f Y: %f\n", pos.x, pos.y);
+
         
         if (lerpValue > TWO_PI)
             lerpValue -= TWO_PI;

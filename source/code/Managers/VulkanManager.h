@@ -14,6 +14,7 @@
 #include <set>
 #include <fstream>
 
+class Application;
 class BufferManager;
 class TextureManager;
 class ModelManager;
@@ -29,8 +30,8 @@ const bool enableValidationLayers = true;
 
 const std::string MODEL_PATH = "../Build/Assets/Models/viking_room.obj";
 const std::string TEXTURE_PATH = "../Build/Assets/Textures/viking_room.png";
-
-//const std::string MODEL_PATH = "../Build/Assets/Models/Cube.obj";
+//
+//const std::string MODEL_PATH = "../Build/Assets/Models/Primitives/Cube.obj";
 //const std::string TEXTURE_PATH = "../Build/Assets/Textures/Texture.png";
 
 //const std::vector<Vertex> vertices = {
@@ -69,7 +70,7 @@ class VulkanManager
 {
 public:
 
-    VulkanManager(GLFWwindow* pWindow);
+    VulkanManager(Application* pApplication);
 
     ~VulkanManager();
 
@@ -206,6 +207,7 @@ private:
 
 
 public :
+    Application* m_pApplication;
     BufferManager* m_pBufferManager;
     TextureManager* m_pTextureManager;
     ModelManager* m_pModelManager;

@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <tiny_obj_loader.h>
+#include <string>
 
 
 ModelManager::ModelManager(VulkanManager* pVulkanManager)
@@ -17,14 +18,14 @@ ModelManager::~ModelManager()
 
 }
 
-void ModelManager::LoadModel()
+void ModelManager::LoadModel(std::string path)
 {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
     std::string warn, err;
 
-    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, MODEL_PATH.c_str())) {
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str())) {
         throw std::runtime_error(warn + err);
     }
 

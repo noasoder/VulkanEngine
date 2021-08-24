@@ -18,7 +18,16 @@
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\CameraController.h">
+      <Filter>code</Filter>
+    </ClInclude>
     <ClInclude Include="code\Managers\BufferManager.h">
+      <Filter>code\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Managers\Camera.h">
+      <Filter>code\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Managers\CameraManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
     <ClInclude Include="code\Managers\InputManager.h">
@@ -33,7 +42,13 @@
     <ClInclude Include="code\Managers\VulkanManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="code\Matrix4.h">
+      <Filter>code</Filter>
+    </ClInclude>
     <ClInclude Include="code\Timestep.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Transform.h">
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="code\Utility\Maths.h">
@@ -50,7 +65,16 @@
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
     </ClCompile>
+    <ClCompile Include="code\CameraController.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
     <ClCompile Include="code\Managers\BufferManager.cpp">
+      <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Managers\Camera.cpp">
+      <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Managers\CameraManager.cpp">
       <Filter>code\Managers</Filter>
     </ClCompile>
     <ClCompile Include="code\Managers\InputManager.cpp">
@@ -64,6 +88,12 @@
     </ClCompile>
     <ClCompile Include="code\Managers\VulkanManager.cpp">
       <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Matrix4.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Transform.cpp">
+      <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="code\Utility\Types.cpp">
       <Filter>code\Utility</Filter>
