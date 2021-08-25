@@ -227,7 +227,7 @@ void BufferManager::UpdateUniformBuffer(uint32_t currentImage, float DeltaTime)
     else
         m_rotation += DeltaTime;
 
-    //m_rotation = 0;
+    m_rotation = 0;
 
     pCamera->UpdateAspect(swapChainExtent->width / (float)swapChainExtent->height);
 

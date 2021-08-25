@@ -20,6 +20,13 @@ public:
 		x = 0.0f;
 		y = 0.0f;
 	};
+
+	Vec2 operator+(const Vec2& v2) const { return Vec2(x + v2.x, y + v2.y); }
+	Vec2 operator+(const float& v2) const { return Vec2(x + v2, y + v2); }
+	Vec2 operator-(const Vec2& v2) const { return Vec2(x - v2.x, y - v2.y); }
+	Vec2 operator*(const Vec2& v2) const { return Vec2(x * v2.x, y * v2.y); }
+	Vec2 operator*(const float& v2) const { return Vec2(x * v2, y * v2); }
+	Vec2 operator/(const Vec2& v2) const { return Vec2(x / v2.x, y / v2.y); }
 };
 
 const class Vec3 {
@@ -51,6 +58,13 @@ public:
 		y = Vec.x;
 		z = Vec.y;
 	};
+	Vec3 operator+(const Vec3& v2) const { return Vec3(x + v2.x, y + v2.y, z + v2.z); }
+	Vec3 operator+(const float& v2) const { return Vec3(x + v2, y + v2, z + v2); }
+	Vec3 operator+(const int& v2) const { return Vec3(x + v2, y + v2, z + v2); }
+	Vec3 operator-(const Vec3& v2) const { return Vec3(x - v2.x, y - v2.y, z - v2.z); }
+	Vec3 operator*(const Vec3& v2) const { return Vec3(x * v2.x, y * v2.y, z * v2.z); }
+	Vec3 operator*=(const Vec3& v2) const { return Vec3(x * v2.x, y * v2.y, z * v2.z); }
+	Vec3 operator/(const Vec3& v2) const { return Vec3(x / v2.x, y / v2.y, z / v2.z); }
 };
 
 const class Vec4 {
@@ -105,21 +119,10 @@ public:
 		z = Vec.y;
 		w = Vec.z;
 	};
+
+	Vec4 operator+(const Vec4& v2) const { return Vec4(x + v2.x, y + v2.y, z + v2.z, w + v2.w); }
+	Vec4 operator-(const Vec4& v2) const { return Vec4(x - v2.x, y - v2.y, z - v2.z, w - v2.w); }
+	Vec4 operator*(const float& in) const { return Vec4(x * in, y * in, z * in, w * in); }
+	Vec4 operator*(const Vec4& v1) const { return Vec4(x * v1.x, y * v1.y, z * v1.z, w * v1.w); }
+	Vec4 operator/(const Vec4& v2) const { return Vec4(x / v2.x, y / v2.y, z / v2.z, w / v2.w); }
 };
-
-Vec2 operator+(const Vec2& v1, const Vec2& v2);
-Vec2 operator-(const Vec2& v1, const Vec2& v2);
-Vec2 operator*(const Vec2& v1, const Vec2& v2);
-Vec2 operator/(const Vec2& v1, const Vec2& v2);
-
-Vec3 operator+(const Vec3& v1, const Vec3& v2);
-Vec3 operator+(const int v1, const Vec3& v2);
-Vec3 operator+(const float v1, const Vec3& v2);
-Vec3 operator-(const Vec3& v1, const Vec3& v2);
-Vec3 operator*(const Vec3& v1, const Vec3& v2);
-Vec3 operator/(const Vec3& v1, const Vec3& v2);
-
-Vec4 operator+(const Vec4& v1, const Vec4& v2);
-Vec4 operator-(const Vec4& v1, const Vec4& v2);
-Vec4 operator*(const Vec4& v1, const Vec4& v2);
-Vec4 operator/(const Vec4& v1, const Vec4& v2);

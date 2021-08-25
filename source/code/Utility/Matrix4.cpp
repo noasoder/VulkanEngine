@@ -25,10 +25,34 @@ Matrix4::~Matrix4()
 
 void Matrix4::Translate(Vec3 Pos)
 {
-	m3 = Vec4(Pos, 0);
+	//m3 = Vec4(Pos, 1);
+
+	//Vec3 result;
+
+	m3.x = Pos.x * m0.x + Pos.y * m1.x + Pos.z * m2.x + 1 * m3.x;
+	m3.y = Pos.x * m0.y + Pos.y * m1.y + Pos.z * m2.y + 1 * m3.y;
+	m3.z = Pos.x * m0.z + Pos.y * m1.z + Pos.z * m2.z + 1 * m3.z;
+	m3.w = 1;
 }
 
-Matrix4& Matrix4::RotateX(Matrix4& rIn, Matrix4& rOut, float rot)
+void Matrix4::SetWorldPosition(Vec3 Pos)
+{
+	m3 = Vec4(Pos, 1);
+}
+
+Vec3 Matrix4::GetWorldPosition()
+{
+	Vec3 result;
+	Vec4 vec = Vec4(0, 0, 0, 1);
+
+	result.x = vec.x * m0.x + vec.y * m1.x + vec.z * m2.x + vec.w * m3.x;
+	result.y = vec.x * m0.y + vec.y * m1.y + vec.z * m2.y + vec.w * m3.y;
+	result.z = vec.x * m0.z + vec.y * m1.z + vec.z * m2.z + vec.w * m3.z;
+
+	return result;
+}
+
+Matrix4& Matrix4::RotateX(float rot)
 {
 	Matrix4 r = Matrix4();
 	r.m0 = Vec4(1, 0, 0, 0);
@@ -36,11 +60,24 @@ Matrix4& Matrix4::RotateX(Matrix4& rIn, Matrix4& rOut, float rot)
 	r.m2 = Vec4(0, sin(rot), cos(rot), 0);
 	r.m3 = Vec4(0, 0, 0, 1);
 
-	rOut = r * rIn;
-	return rOut;
+	*this = r * *this;
+	return *this;
 }
 
-Matrix4& Matrix4::RotateY(Matrix4& rIn, Matrix4& rOut, float rot)
+Matrix4& Matrix4::RotateY(float rot)
+{
+	Matrix4* pIn;
+	Matrix4 r = Matrix4();
+	r.m0 = Vec4(cos(rot), -sin(rot), 0, 0);
+	r.m1 = Vec4(sin(rot), cos(rot), 0, 0);
+	r.m2 = Vec4(0, 0, 1, 0);
+	r.m3 = Vec4(0, 0, 0, 1);
+
+	*this = r * *this;
+	return *this;
+}
+
+Matrix4& Matrix4::RotateZ(float rot)
 {
 	Matrix4 r = Matrix4();
 	r.m0 = Vec4(cos(rot), 0, sin(rot), 0);
@@ -48,52 +85,34 @@ Matrix4& Matrix4::RotateY(Matrix4& rIn, Matrix4& rOut, float rot)
 	r.m2 = Vec4(-sin(rot), 0, cos(rot), 0);
 	r.m3 = Vec4(0, 0, 0, 1);
 
-	rOut = r * rIn;
-	return rOut;
+	*this = r * *this;
+	return *this;
 }
 
-Matrix4& Matrix4::RotateZ(Matrix4& rIn, Matrix4& rOut, float rot)
+Matrix4& Matrix4::Rotate(Vec3 rot)
 {
-	Matrix4 r = Matrix4();
-	r.m0 = Vec4(cos(rot), -sin(rot), 0, 0);
-	r.m1 = Vec4(sin(rot), cos(rot), 0, 0);
-	r.m2 = Vec4(0, 0, 1, 0);
-	r.m3 = Vec4(0, 0, 0, 1);
+	//RAU LBD
+	RotateX(rot.x);
+	RotateY(rot.y);
+	RotateZ(rot.z);
 
-	rOut = r * rIn;
-	return rOut;
+	return *this;
 }
 
-Matrix4& Matrix4::Rotate(Matrix4& rIn, Matrix4& rOut, Vec3 rot)
+Matrix4& Matrix4::RotateXY(Vec2 rot)
 {
-	rOut = RotateX(rIn, rOut, rot.x);
-	rOut = RotateY(rIn, rOut, rot.y);
-	rOut = RotateZ(rIn, rOut, rot.z);
+	RotateX(rot.x);
+	RotateY(rot.y);
 
-	return rOut;
+	return *this;
 }
-
-Vec3 Matrix4::GetRotation()
+Matrix4& Matrix4::RotateXZ(Vec2 rot)
 {
-	Vec4 rot = GetRotationMat() * Vec4(1, 1, 1, 0);
+	RotateX(rot.x);
+	RotateZ(rot.y);
 
-	printf("rot: X: %f Y: %f Z: %f\n", rot.x, rot.y, rot.z);
-
-	return Vec3(rot.x, rot.y, rot.z);
+	return *this;
 }
-
-Matrix4 Matrix4::GetRotationMat()
-{
-	Vec3 scale = GetScale();
-	Matrix4 mat = Matrix4();
-
-	mat.m0 = Vec4(m0.x / scale.x, m0.y / scale.y, m0.z / scale.z, 0);
-	mat.m1 = Vec4(m1.x / scale.x, m1.y / scale.y, m1.z / scale.z, 0);
-	mat.m2 = Vec4(m2.x / scale.x, m2.y / scale.y, m2.z / scale.z, 0);
-
-	return mat;
-}
-
 
 void Matrix4::Scale(float scale)
 {
@@ -119,8 +138,8 @@ Vec3 Matrix4::GetScale()
 
 Vec3 Matrix4::GetLookAt()
 {
-	printf("rot: X: %f Y: %f Z: %f\n", m2.x, m2.y, m2.z);
-	return Vec3(m2.x, m2.y, m2.z);
+	//printf("rot: X: %f Y: %f Z: %f\n", m2.x, m2.y, m2.z);
+	return Vec3(m1.x, m1.y, m1.z);
 }
 
 Vec4 operator*(const Matrix4& m, const Vec4& v)
@@ -131,17 +150,6 @@ Vec4 operator*(const Matrix4& m, const Vec4& v)
 	out.y = m.m1.y * v.y + m.m1.y * v.y + m.m1.z * v.y + m.m1.w * v.y;
 	out.z = m.m2.z * v.z + m.m2.y * v.z + m.m2.z * v.z + m.m2.w * v.z;
 	out.w = m.m3.w * v.w + m.m3.y * v.w + m.m3.z * v.w + m.m3.w * v.w;
-
-	return out;
-}
-Matrix4 operator*(const Matrix4& m1, const Matrix4& m2)
-{
-	Matrix4 out = Matrix4();
-
-	out.m0.x = m1.m0.x * m2.m0.x + m1.m0.y * m2.m0.x + m1.m0.z * m2.m0.x + m1.m0.w * m2.m0.x;
-	out.m1.y = m1.m1.y * m2.m1.y + m1.m1.y * m2.m1.y + m1.m1.z * m2.m1.y + m1.m1.w * m2.m1.y;
-	out.m2.z = m1.m2.z * m2.m2.z + m1.m2.y * m2.m2.z + m1.m2.z * m2.m2.z + m1.m2.w * m2.m2.z;
-	out.m3.w = m1.m3.w * m2.m3.w + m1.m3.y * m2.m3.w + m1.m3.z * m2.m3.w + m1.m3.w * m2.m3.w;
 
 	return out;
 }

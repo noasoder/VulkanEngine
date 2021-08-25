@@ -2,9 +2,10 @@
 
 #include <cmath>
 
-#define PI              3.14159265359f
-#define TWO_PI          3.14159265359f * 2.0f
-#define GOLDEN_RATIO    1.61803398875f
+#define HALF_PI			3.14159265359 * 0.5
+#define PI              3.14159265359
+#define TWO_PI          3.14159265359 * 2.0
+#define GOLDEN_RATIO    1.61803398875
 
 #define BILLION  1000000000L;
 #define MILLION  1000000;

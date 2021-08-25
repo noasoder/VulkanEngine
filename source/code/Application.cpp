@@ -55,11 +55,15 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
-    float movSpeed = 25;
-    Vec3 pos = Vec3(0, -10, 0);
+    float movSpeed = 5;
+    Vec3 pos = Vec3(0, -2, 0);
     Vec3 rot = Vec3(0, 0, 0);
 
+    Camera* currCamera = m_pCameraManager->GetCurrentCamera();
+    currCamera->SetWorldPosition(pos);
+
     Matrix4 mat = Matrix4();
+    Vec2 lastMousePos = m_pInputManager->GetMousePosition();
     
     while (!glfwWindowShouldClose(m_pWindow)) {
         UpdateTimestep();
@@ -100,31 +104,32 @@ void Application::Run()
             newRot = newRot + Vec3(0, 0, -1);
 
         pos = pos + (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
-        rot = rot + newRot * m_timestep.GetDeltaTime();
-        //printf("rot: X: %f Y: %f Z: %f\n", rot.x, rot.y, rot.z);
+        Vec3 movePos = (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
 
-        //Rotation test
-
+        newRot = newRot * m_timestep.GetDeltaTime();
 
         //Rotor3 rotor = Rotor3(10, 0, 1, 0);
 
         //Vec3 rot = rotor.rotate(Vec3(PI, 0, 0));
+        //
+        //printf("\nL: %f, %f, %f, %f\n", mat.m0.x, mat.m0.y, mat.m0.z, mat.m0.z);
+        //printf("U: %f, %f, %f, %f\n", mat.m1.x, mat.m1.y, mat.m1.z, mat.m1.z);
+        //printf("A: %f, %f, %f, %f\n", mat.m2.x, mat.m2.y, mat.m2.z, mat.m2.z);
+        //mat = mat.Rotate(newRot);
+
+        Vec2 mousePos = m_pInputManager->GetMousePosition();
+
+        Vec2 move = (mousePos - lastMousePos) * 0.002f/* * m_timestep.GetDeltaTime()*/;
+        lastMousePos = mousePos;
+
+        currCamera = m_pCameraManager->GetCurrentCamera();
+        currCamera->RotateXY(Vec2(move.y, move.x));
+        currCamera->Translate(movePos);
+        //currCamera->RotateXY(Vec2(newRot.x, newRot.y));
+
+
+        //printf("mouse: X: %f Y: %f\n", move.x, move.y);
         
-        printf("\nL: %f, %f, %f, %f\n", mat.m0.x, mat.m0.y, mat.m0.z, mat.m0.z);
-        printf("U: %f, %f, %f, %f\n", mat.m1.x, mat.m1.y, mat.m1.z, mat.m1.z);
-        printf("A: %f, %f, %f, %f\n", mat.m2.x, mat.m2.y, mat.m2.z, mat.m2.z);
-        mat = mat.Rotate(mat, mat, rot);
-
-
-
-
-
-        Camera* currCamera = m_pCameraManager->GetCurrentCamera();
-        currCamera->Translate(pos);
-
-        //Vec4 newRot4 = currCamera->GetRotationMat() * Vec4(rot, 0);
-        //currCamera->Rotate(newRot);
-
         //printf("move: X: %f Y: %f Z: %f\n", currCamera->GetPos().x, currCamera->GetPos().y, currCamera->GetPos().z);
 
 
