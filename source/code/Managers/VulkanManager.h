@@ -30,9 +30,10 @@ const bool enableValidationLayers = true;
 
 const std::string MODEL_PATH = "../Build/Assets/Models/viking_room.obj";
 const std::string TEXTURE_PATH = "../Build/Assets/Textures/viking_room.png";
-//
-//const std::string MODEL_PATH = "../Build/Assets/Models/Primitives/Cube.obj";
-//const std::string TEXTURE_PATH = "../Build/Assets/Textures/Texture.png";
+
+const std::string MODEL_CUBE_OBJ_PATH = "../Build/Assets/Models/Primitives/Cube.obj";
+const std::string MODEL_CUBE_FBX_PATH = "../Build/Assets/Models/Primitives/Cube.fbx";
+const std::string TEXTURE_CUBE_PATH = "../Build/Assets/Textures/Texture.png";
 
 //const std::vector<Vertex> vertices = {
 //    {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},

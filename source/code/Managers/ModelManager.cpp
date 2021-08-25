@@ -2,13 +2,17 @@
 
 #include "VulkanManager.h"
 
+#include "ofbx.h"
 #include <unordered_map>
 #include <tiny_obj_loader.h>
 #include <string>
+#include <memory>
+
 
 
 ModelManager::ModelManager(VulkanManager* pVulkanManager)
 : m_pVulkanManager(pVulkanManager)
+//, g_scene(nullptr)
 {
 
 }
@@ -20,6 +24,28 @@ ModelManager::~ModelManager()
 
 void ModelManager::LoadModel(std::string path)
 {
+    char end[4]{'\0'};
+
+    memcpy(end, path.c_str() + path.size() - 4, 4);
+
+    std::string type;
+    for (char ch : end)
+    {
+        type.push_back(ch);
+    }
+
+    if (type == ".obj")
+    {
+        LoadObj(path);
+    }
+    if (type == ".fbx")
+    {
+        LoadFbx(path);
+    }
+}
+
+void ModelManager::LoadObj(std::string path)
+{
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
@@ -29,7 +55,7 @@ void ModelManager::LoadModel(std::string path)
         throw std::runtime_error(warn + err);
     }
 
-    printf("verts: %u\n", attrib.vertices);
+    std::cout << "verts: " << attrib.vertices.size() << std::endl;
     std::unordered_map<Vertex, uint32_t> uniqueVertices{};
 
     for (const auto& shape : shapes) {
@@ -57,4 +83,32 @@ void ModelManager::LoadModel(std::string path)
             indices.push_back(uniqueVertices[vertex]);
         }
     }
+}
+
+bool ModelManager::LoadFbx(std::string path)
+{
+    ofbx::IScene* g_scene = nullptr;
+    printf("load fbx");
+
+    FILE* fp = fopen(path.c_str(), "rb");
+
+    if (!fp) return false;
+
+    fseek(fp, 0, SEEK_END);
+    long file_size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    auto* content = new ofbx::u8[file_size];
+    fread(content, 1, file_size, fp);
+    g_scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
+    if (!g_scene) {
+        //OutputDebugString(ofbx::getError());
+        printf("no g_scene");
+    }
+    else {
+        //saveAsOBJ(*g_scene, "out.obj");
+    }
+    delete[] content;
+    fclose(fp);
+
+    return true;
 }

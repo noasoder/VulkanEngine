@@ -1,17 +1,16 @@
 #pragma once
 
-#include	"Vulkan.h"
+#include "Vulkan.h"
 
-#include	<string>
-#include	<vector>
-#include    <array>
+#include <string>
+#include <vector>
+#include <array>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 
 #include <glm/gtx/hash.hpp>
 
 class VulkanManager;
-
 
 struct Vertex {
     glm::vec3 pos;
@@ -76,5 +75,8 @@ public:
 	std::vector<uint32_t> indices;
 
 private:
+    void LoadObj(std::string path);
+    bool LoadFbx(std::string path);
+
     VulkanManager* m_pVulkanManager;
 };
