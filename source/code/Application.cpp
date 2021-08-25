@@ -14,7 +14,7 @@
 #include "Utility/Maths.h"
 #include "Utility/Types.h"
 
-
+#include "Utility/Rotor3.h"
 
 Application::Application()
 {
@@ -57,8 +57,10 @@ void Application::Run()
 
     float movSpeed = 25;
     Vec3 pos = Vec3(0, -10, 0);
-    Vec3 rot = Vec3(0, 0, -PI);
+    Vec3 rot = Vec3(0, 0, 0);
 
+    Matrix4 mat = Matrix4();
+    
     while (!glfwWindowShouldClose(m_pWindow)) {
         UpdateTimestep();
         Vec3 moveRDB = Vec3();
@@ -99,12 +101,29 @@ void Application::Run()
 
         pos = pos + (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
         rot = rot + newRot * m_timestep.GetDeltaTime();
+        //printf("rot: X: %f Y: %f Z: %f\n", rot.x, rot.y, rot.z);
+
+        //Rotation test
+
+
+        //Rotor3 rotor = Rotor3(10, 0, 1, 0);
+
+        //Vec3 rot = rotor.rotate(Vec3(PI, 0, 0));
+        
+        printf("\nL: %f, %f, %f, %f\n", mat.m0.x, mat.m0.y, mat.m0.z, mat.m0.z);
+        printf("U: %f, %f, %f, %f\n", mat.m1.x, mat.m1.y, mat.m1.z, mat.m1.z);
+        printf("A: %f, %f, %f, %f\n", mat.m2.x, mat.m2.y, mat.m2.z, mat.m2.z);
+        mat = mat.Rotate(mat, mat, rot);
+
+
+
+
 
         Camera* currCamera = m_pCameraManager->GetCurrentCamera();
         currCamera->Translate(pos);
 
-        Vec4 newRot4 = currCamera->GetRotationMat() * Vec4(rot, 0);
-        currCamera->Rotate(Vec3(newRot4.x, newRot4.y, newRot4.z));
+        //Vec4 newRot4 = currCamera->GetRotationMat() * Vec4(rot, 0);
+        //currCamera->Rotate(newRot);
 
         //printf("move: X: %f Y: %f Z: %f\n", currCamera->GetPos().x, currCamera->GetPos().y, currCamera->GetPos().z);
 

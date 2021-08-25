@@ -17,6 +17,12 @@ Vec2 operator/(const Vec2& v1, const Vec2& v2) {
 Vec3 operator+(const Vec3& v1, const Vec3& v2) {
 	return Vec3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
+Vec3 operator+(const int v1, const Vec3& v2) {
+	return Vec3(v1 + v2.x, v1 + v2.y, v1 + v2.z);
+}
+Vec3 operator+(const float v1, const Vec3& v2) {
+	return Vec3(v1 + v2.x, v1 + v2.y, v1 + v2.z);
+}
 Vec3 operator-(const Vec3& v1, const Vec3& v2) {
 	return Vec3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 }

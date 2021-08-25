@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vulkan.h"
-#include "Matrix4.h"
+#include "Utility/Matrix4.h"
 
 class Vec3;
 

@@ -113,6 +113,8 @@ Vec2 operator*(const Vec2& v1, const Vec2& v2);
 Vec2 operator/(const Vec2& v1, const Vec2& v2);
 
 Vec3 operator+(const Vec3& v1, const Vec3& v2);
+Vec3 operator+(const int v1, const Vec3& v2);
+Vec3 operator+(const float v1, const Vec3& v2);
 Vec3 operator-(const Vec3& v1, const Vec3& v2);
 Vec3 operator*(const Vec3& v1, const Vec3& v2);
 Vec3 operator/(const Vec3& v1, const Vec3& v2);
