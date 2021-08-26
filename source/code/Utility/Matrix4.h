@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vulkan.h"
 #include <vector>
 #include "Utility/Types.h"
 class Vec4;
@@ -28,6 +29,9 @@ public:
 	Matrix4& RotateXZ(Vec2 rot);
 	Matrix4& Rotate(Vec3 rot);
 
+	glm::mat4 ToGlmMat4();
+	Matrix4 GetMatrix() { return *this; };
+
 	Vec4 m0;
 	Vec4 m1;
 	Vec4 m2;
@@ -53,13 +57,10 @@ public:
 		}
 		else
 		{
-			const Vec4* pIn = (const Vec4*)&rIn;
-			Vec4* pResult = (Vec4*)&out;
-
-			pResult[0] = pIn[0] * m0.x + pIn[1] * m0.y + pIn[2] * m0.z + pIn[3] * m0.w;
-			pResult[1] = pIn[0] * m1.x + pIn[1] * m1.y + pIn[2] * m1.z + pIn[3] * m1.w;
-			pResult[2] = pIn[0] * m2.x + pIn[1] * m2.y + pIn[2] * m2.z + pIn[3] * m2.w;
-			pResult[3] = pIn[0] * m3.x + pIn[1] * m3.y + pIn[2] * m3.z + pIn[3] * m3.w;
+			out.m0 = rIn.m0 * m0.x + rIn.m1 * m0.y + rIn.m2 * m0.z + rIn.m3 * m0.w;
+			out.m1 = rIn.m0 * m1.x + rIn.m1 * m1.y + rIn.m2 * m1.z + rIn.m3 * m1.w;
+			out.m2 = rIn.m0 * m2.x + rIn.m1 * m2.y + rIn.m2 * m2.z + rIn.m3 * m2.w;
+			out.m3 = rIn.m0 * m3.x + rIn.m1 * m3.y + rIn.m2 * m3.z + rIn.m3 * m3.w;
 		}
 
 		return out;
@@ -71,3 +72,4 @@ private:
 };
 
 Vec4 operator*(const Matrix4& m, const Vec4& v);
+Vec4 operator*(const Vec4& v, const Matrix4& m);

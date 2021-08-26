@@ -8,7 +8,6 @@ class Vec3;
 class Transform : public Matrix4
 {
 public:
-	Vec3 GetWorldRotation();
 
 private:
 };

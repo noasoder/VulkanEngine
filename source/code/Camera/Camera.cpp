@@ -32,6 +32,7 @@ glm::mat4 Camera::GetView()
 	//printf("at: X: %f Y: %f Z: %f\n", at.x, at.y, at.z);
 
 	return glm::lookAt(glm::vec3(pos.x, pos.y, pos.z), glm::vec3(at.x, at.y, at.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	//return ToGlmMat4();
 }
 
 void Camera::UpdateAspect(float a)
