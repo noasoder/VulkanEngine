@@ -8,10 +8,12 @@
 #include "Timestep.h"
 #include "Utility/Maths.h"
 
+
 class VulkanManager;
 class InputManager;
 class CameraManager;
 class CameraController;
+class Model;
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;

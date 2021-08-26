@@ -3,6 +3,7 @@
 
 #include "Transform.h"
 #include "Utility/Types.h"
+//#include "Utility/Rotor3.h"
 
 class Vec3;
 
@@ -14,6 +15,7 @@ public:
 	glm::mat4 GetView();
 	glm::mat4 GetProj();
 	void UpdateAspect(float a);
+
 private:
 
 	float m_fov;

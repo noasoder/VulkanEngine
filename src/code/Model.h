@@ -6,10 +6,10 @@
 class Model : public Transform
 {
 public:
-	Model();
-	~Model();
+	Model() {};
+	~Model() {};
 
-	void Render();
+	void Render() {};
 
 private:
 

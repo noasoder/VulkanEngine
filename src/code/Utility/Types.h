@@ -4,6 +4,8 @@ class Vec2;
 class Vec3;
 class Vec4;
 
+#include "glm/glm.hpp"
+
 const class Vec2 {
 public:
 	float x = 0.0f, y = 0.0f;

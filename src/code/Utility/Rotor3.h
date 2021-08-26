@@ -65,6 +65,7 @@ struct Rotor3
 
 	// convert to matrix
 	Matrix3 toMatrix3() const;
+	Matrix4 toMatrix4() const;
 };
 
 // default ctor
@@ -201,6 +202,15 @@ inline Matrix3 Rotor3::toMatrix3() const
 	Vec3 v1 = rotate(Vec3(0, 1, 0));
 	Vec3 v2 = rotate(Vec3(0, 0, 1));
 	return Matrix3(v0, v1, v2);
+}
+
+inline Matrix4 Rotor3::toMatrix4() const
+{
+	Vec4 v0 = Vec4(rotate(Vec3(1, 0, 0)), 0);
+	Vec4 v1 = Vec4(rotate(Vec3(0, 1, 0)), 0);
+	Vec4 v2 = Vec4(rotate(Vec3(0, 0, 1)), 0);
+	Vec4 v3 = Vec4(0, 0, 0, 1);
+	return Matrix4(v0, v1, v2, v3);
 }
 
 // geometric product (for reference), produces twice the angle, negative direction

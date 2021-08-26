@@ -14,6 +14,7 @@
 //#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
 
 
 #endif // !VULKAN_ENGINE_INCLUDE

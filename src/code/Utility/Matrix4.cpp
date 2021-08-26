@@ -25,15 +25,14 @@ Matrix4::~Matrix4()
 
 void Matrix4::Translate(Vec3 Pos)
 {
-	m3.x = Pos.x * m0.x + Pos.y * m1.x + Pos.z * m2.x + 1 * m3.x;
-	m3.y = Pos.x * m0.y + Pos.y * m1.y + Pos.z * m2.y + 1 * m3.y;
-	m3.z = Pos.x * m0.z + Pos.y * m1.z + Pos.z * m2.z + 1 * m3.z;
-	m3.w = 1;
+	//m3.x = Pos.x * m0.x + Pos.y * m1.x + Pos.z * m2.x + 1 * m3.x;
+	//m3.y = Pos.x * m0.y + Pos.y * m1.y + Pos.z * m2.y + 1 * m3.y;
+	//m3.z = Pos.x * m0.z + Pos.y * m1.z + Pos.z * m2.z + 1 * m3.z;
+	//m3.w = 1;
 
 	//Matrix4 r = Matrix4();
 	//r.m3 = Vec4(Pos, 1);
-	//m3 = Vec4(Pos, 1) * *this;
-	printf("Pos: %f, %f, %f\n", m3.x, m3.y, m3.z);
+	m3 = Vec4(Pos, 1) * *this;
 }
 
 void Matrix4::SetWorldPosition(Vec3 Pos)
@@ -61,7 +60,7 @@ Matrix4& Matrix4::RotateX(float rot)
 	r.m2 = Vec4(0, sin(rot), cos(rot), 0);
 	r.m3 = Vec4(0, 0, 0, 1);
 
-	*this = r * *this;
+	*this = *this * r;
 	return *this;
 }
 
@@ -73,7 +72,7 @@ Matrix4& Matrix4::RotateY(float rot)
 	r.m2 = Vec4(-sin(rot), 0, cos(rot), 0);
 	r.m3 = Vec4(0, 0, 0, 1);
 
-	*this = r * *this;
+	*this = *this * r;
 	return *this;
 }
 
@@ -86,7 +85,7 @@ Matrix4& Matrix4::RotateZ(float rot)
 	r.m2 = Vec4(0, 0, 1, 0);
 	r.m3 = Vec4(0, 0, 0, 1);
 
-	*this = r * *this;
+	*this = *this * r;
 	return *this;
 }
 
@@ -184,10 +183,10 @@ Vec4 operator*(const Vec4& v, const Matrix4& m)
 {
 	Vec4 out = Vec4(0);
 
-	out.x = m.m0.x * v.x + m.m0.x * v.y + m.m0.x * v.z + m.m0.x * v.w;
-	out.y = m.m1.y * v.x + m.m1.y * v.y + m.m1.y * v.z + m.m1.y * v.w;
-	out.z = m.m2.z * v.x + m.m2.z * v.y + m.m2.z * v.z + m.m2.z * v.w;
-	out.w = m.m3.w * v.x + m.m3.w * v.y + m.m3.w * v.z + m.m3.w * v.w;
+	out.x = m.m0.x * v.x + m.m0.y * v.y + m.m0.z * v.z + m.m0.w * v.w;
+	out.y = m.m1.x * v.x + m.m1.y * v.y + m.m1.z * v.z + m.m1.w * v.w;
+	out.z = m.m2.x * v.x + m.m2.y * v.y + m.m2.z * v.z + m.m2.w * v.w;
+	out.w = m.m3.x * v.x + m.m3.y * v.y + m.m3.z * v.z + m.m3.w * v.w;
 
 	return out;
 }

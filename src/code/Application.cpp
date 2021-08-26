@@ -14,6 +14,7 @@
 #include "Timestep.h"
 #include "Utility/Maths.h"
 #include "Utility/Types.h"
+#include "Model.h"
 
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>
@@ -62,6 +63,8 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
+    Model pModel = Model();
+
     Matrix4 mat = Matrix4();
     Vec2 lastMousePos = m_pInputManager->GetMousePosition();
     
@@ -90,16 +93,32 @@ void Application::Run()
         if (m_pInputManager->GetKey(GLFW_KEY_K))
             newRot = newRot + Vec3(0, 0, -1);
         
+        //Vec3 move = Vec3();
 
-        newRot = newRot * m_timestep.GetDeltaTime();
+        //if (m_pInputManager->GetKey(GLFW_KEY_UP))
+        //    move = move + Vec3(0, 1, 0);
+        //if (m_pInputManager->GetKey(GLFW_KEY_DOWN))
+        //    move = move + Vec3(0, -1, 0);
+        //if (m_pInputManager->GetKey(GLFW_KEY_RIGHT))
+        //    move = move + Vec3(1, 0, 0);
+        //if (m_pInputManager->GetKey(GLFW_KEY_LEFT))
+        //    move = move + Vec3(-1, 0, 0);
+
+        //move *= m_timestep.GetDeltaTime();
+        //newRot = newRot * m_timestep.GetDeltaTime();
+
+        //pModel.Rotate(newRot);
+        //pModel.Translate(move);
 
         //Rotor3 rotor = Rotor3(10, 0, 1, 0);
 
         //Vec3 rot = rotor.rotate(Vec3(PI, 0, 0));
         //
-        //printf("\nL: %f, %f, %f, %f\n", mat.m0.x, mat.m0.y, mat.m0.z, mat.m0.z);
-        //printf("U: %f, %f, %f, %f\n", mat.m1.x, mat.m1.y, mat.m1.z, mat.m1.z);
-        //printf("A: %f, %f, %f, %f\n", mat.m2.x, mat.m2.y, mat.m2.z, mat.m2.z);
+        //printf("\nL: %f, %f, %f, %f\n U: %f, %f, %f, %f\n A: %f, %f, %f, %f\n P: %f, %f, %f, %f\n", 
+        //    pModel.m0.x, pModel.m0.y, pModel.m0.z, pModel.m0.w, 
+        //    pModel.m1.x, pModel.m1.y, pModel.m1.z, pModel.m1.w, 
+        //    pModel.m2.x, pModel.m2.y, pModel.m2.z, pModel.m2.w, 
+        //    pModel.m3.x, pModel.m3.y, pModel.m3.z, pModel.m3.w);
         //mat = mat.Rotate(newRot);
 
         

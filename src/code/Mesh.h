@@ -4,8 +4,8 @@
 
 class Mesh : public Transform
 {
-	Mesh();
-	~Mesh();
+	Mesh() {};
+	~Mesh() {};
 
 	void Render();
 };
