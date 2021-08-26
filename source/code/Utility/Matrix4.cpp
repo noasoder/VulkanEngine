@@ -29,9 +29,9 @@ void Matrix4::Translate(Vec3 Pos)
 
 	//Vec3 result;
 
-	m3.x = Pos.x * m0.x + Pos.y * m1.x + Pos.z * m2.x + 1 * m3.x;
-	m3.y = Pos.x * m0.y + Pos.y * m1.y + Pos.z * m2.y + 1 * m3.y;
-	m3.z = Pos.x * m0.z + Pos.y * m1.z + Pos.z * m2.z + 1 * m3.z;
+	m3.x = - Pos.x * m0.x + Pos.y * m1.x + Pos.z * m2.x + 1 * m3.x;
+	m3.y = - Pos.x * m0.y + Pos.y * m1.y + Pos.z * m2.y + 1 * m3.y;
+	m3.z = - Pos.x * m0.z + Pos.y * m1.z + Pos.z * m2.z + 1 * m3.z;
 	m3.w = 1;
 }
 
@@ -49,7 +49,8 @@ Vec3 Matrix4::GetWorldPosition()
 	result.y = vec.x * m0.y + vec.y * m1.y + vec.z * m2.y + vec.w * m3.y;
 	result.z = vec.x * m0.z + vec.y * m1.z + vec.z * m2.z + vec.w * m3.z;
 
-	return result;
+
+	return Vec3(result);
 }
 
 Matrix4& Matrix4::RotateX(float rot)
@@ -147,9 +148,9 @@ Vec4 operator*(const Matrix4& m, const Vec4& v)
 	Vec4 out = Vec4(0);
 
 	out.x = m.m0.x * v.x + m.m0.y * v.x + m.m0.z * v.x + m.m0.w * v.x;
-	out.y = m.m1.y * v.y + m.m1.y * v.y + m.m1.z * v.y + m.m1.w * v.y;
-	out.z = m.m2.z * v.z + m.m2.y * v.z + m.m2.z * v.z + m.m2.w * v.z;
-	out.w = m.m3.w * v.w + m.m3.y * v.w + m.m3.z * v.w + m.m3.w * v.w;
+	out.y = m.m1.x * v.y + m.m1.y * v.y + m.m1.z * v.y + m.m1.w * v.y;
+	out.z = m.m2.x * v.z + m.m2.y * v.z + m.m2.z * v.z + m.m2.w * v.z;
+	out.w = m.m3.x * v.w + m.m3.y * v.w + m.m3.z * v.w + m.m3.w * v.w;
 
 	return out;
 }

@@ -5,7 +5,7 @@
 class Vec2;
 class Application;
 
-class InputManager
+static class InputManager
 {
 public:
 	InputManager(Application* pApplication);

@@ -6,7 +6,12 @@
 InputManager::InputManager(Application* pApplication)
 : m_pApplication(pApplication)
 {
+    GLFWwindow* window = m_pApplication->m_pWindow;
 
+    if (glfwRawMouseMotionSupported())
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 InputManager::~InputManager()

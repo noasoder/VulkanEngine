@@ -4,7 +4,8 @@
 #include "Managers/VulkanManager.h"
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"
-#include "Managers/Camera.h"
+#include "Camera/CameraControllers/CameraController.h"
+#include "Camera/Camera.h"
 
 #include <cmath>
 #include <iostream>
@@ -14,7 +15,6 @@
 #include "Utility/Maths.h"
 #include "Utility/Types.h"
 
-#include "Utility/Rotor3.h"
 
 Application::Application()
 {
@@ -26,9 +26,13 @@ Application::Application()
     m_pVulkanManager = new VulkanManager(this);
     m_pCameraManager = new CameraManager(this);
 
+
     VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
 
-    m_pCameraManager->CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height);
+    m_pCameraManager->CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
+
+    CameraController* con = m_pCameraManager->CreateCameraController(this);
+    m_pCameraManager->SetCurrentCameraController(con);
 
     m_timestep = Timestep(0);
 
@@ -55,40 +59,20 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
-    float movSpeed = 5;
-    Vec3 pos = Vec3(0, -2, 0);
-    Vec3 rot = Vec3(0, 0, 0);
-
-    Camera* currCamera = m_pCameraManager->GetCurrentCamera();
-    currCamera->SetWorldPosition(pos);
-
     Matrix4 mat = Matrix4();
     Vec2 lastMousePos = m_pInputManager->GetMousePosition();
     
     while (!glfwWindowShouldClose(m_pWindow)) {
         UpdateTimestep();
-        Vec3 moveRDB = Vec3();
-        Vec3 moveLUF = Vec3();
+
+        m_pCameraManager->Update(m_timestep.GetDeltaTime());
+
         Vec3 newRot = Vec3();
 
         if (m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
             break;
         }
-
-
-        if (m_pInputManager->GetKey(GLFW_KEY_W))
-            moveLUF = moveLUF + Vec3(0, 1, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_A))
-            moveLUF = moveLUF + Vec3(-1, 0, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_S))
-            moveRDB = moveRDB + Vec3(0, -1, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_D))
-            moveRDB = moveRDB + Vec3(1, 0, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_E))
-            moveLUF = moveRDB + Vec3(0, 0, 1);
-        if (m_pInputManager->GetKey(GLFW_KEY_Q))
-            moveRDB = moveRDB + Vec3(0, 0, -1);
 
         if (m_pInputManager->GetKey(GLFW_KEY_Y))
             newRot = newRot + Vec3(1, 0, 0);
@@ -102,9 +86,7 @@ void Application::Run()
             newRot = newRot + Vec3(0, 0, 1);
         if (m_pInputManager->GetKey(GLFW_KEY_K))
             newRot = newRot + Vec3(0, 0, -1);
-
-        pos = pos + (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
-        Vec3 movePos = (moveLUF + moveRDB) * movSpeed * m_timestep.GetDeltaTime();
+        
 
         newRot = newRot * m_timestep.GetDeltaTime();
 
@@ -116,25 +98,6 @@ void Application::Run()
         //printf("U: %f, %f, %f, %f\n", mat.m1.x, mat.m1.y, mat.m1.z, mat.m1.z);
         //printf("A: %f, %f, %f, %f\n", mat.m2.x, mat.m2.y, mat.m2.z, mat.m2.z);
         //mat = mat.Rotate(newRot);
-
-        Vec2 mousePos = m_pInputManager->GetMousePosition();
-
-        Vec2 move = (mousePos - lastMousePos) * 0.002f/* * m_timestep.GetDeltaTime()*/;
-        lastMousePos = mousePos;
-
-        currCamera = m_pCameraManager->GetCurrentCamera();
-        currCamera->RotateXY(Vec2(move.y, move.x));
-        currCamera->Translate(movePos);
-        //currCamera->RotateXY(Vec2(newRot.x, newRot.y));
-
-
-        //printf("mouse: X: %f Y: %f\n", move.x, move.y);
-        
-        //printf("move: X: %f Y: %f Z: %f\n", currCamera->GetPos().x, currCamera->GetPos().y, currCamera->GetPos().z);
-
-
-        Vec2 pos = m_pInputManager->GetMousePosition();
-        //printf("Mouse: X: %f Y: %f\n", pos.x, pos.y);
 
         
         if (lerpValue > TWO_PI)
@@ -158,6 +121,7 @@ void Application::Run()
 
         glfwPollEvents();
         m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
+
     }
 
     vkDeviceWaitIdle(m_pVulkanManager->m_device);

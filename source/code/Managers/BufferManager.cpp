@@ -8,7 +8,7 @@
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"
 #include "Managers/CameraManager.h"
-#include "Managers/Camera.h"
+#include "Camera/Camera.h"
 
 #include "Utility/Maths.h"
 

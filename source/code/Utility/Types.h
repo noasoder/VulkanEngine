@@ -63,8 +63,9 @@ public:
 	Vec3 operator+(const int& v2) const { return Vec3(x + v2, y + v2, z + v2); }
 	Vec3 operator-(const Vec3& v2) const { return Vec3(x - v2.x, y - v2.y, z - v2.z); }
 	Vec3 operator*(const Vec3& v2) const { return Vec3(x * v2.x, y * v2.y, z * v2.z); }
-	Vec3 operator*=(const Vec3& v2) const { return Vec3(x * v2.x, y * v2.y, z * v2.z); }
 	Vec3 operator/(const Vec3& v2) const { return Vec3(x / v2.x, y / v2.y, z / v2.z); }
+	Vec3 operator*=(const Vec3& v2) const { return Vec3(x * v2.x, y * v2.y, z * v2.z); }
+	Vec3 operator+=(const Vec3& v2) const { return Vec3(x + v2.x, y + v2.y, z + v2.z); }
 };
 
 const class Vec4 {

@@ -1,11 +1,14 @@
 #include "CameraManager.h"
 
 #include "Utility/Types.h"
-#include "Camera.h"
+#include "Camera/Camera.h"
 #include "Application.h"
+#include "Camera/CameraControllers/CameraController.h"
 
 CameraManager::CameraManager(Application* pApplication)
 : m_pApplication(pApplication)
+, m_currentCamera(-1)
+, m_currentCameraController(-1)
 {
 
 }
@@ -13,11 +16,20 @@ CameraManager::CameraManager(Application* pApplication)
 CameraManager::~CameraManager()
 {
 	m_cameras.clear();
+	m_cameraControllers.clear();
 }
 
-Camera* CameraManager::CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect)
+void CameraManager::Update(float DeltaTime)
 {
-	Camera* newCamera = new Camera(Pos, LookAt, FOV, Aspect, 0.1f, 100.0f);
+	if (m_currentCameraController != -1)
+	{
+		m_cameraControllers[m_currentCameraController]->Update(DeltaTime);
+	}
+}
+
+Camera* CameraManager::CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect, float Near, float Far)
+{
+	Camera* newCamera = new Camera(Pos, LookAt, FOV, Aspect, Near, Far);
 
 	if (m_cameras.empty()) {
 		m_currentCamera = 0;
@@ -26,4 +38,26 @@ Camera* CameraManager::CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect
 	m_cameras.push_back(newCamera);
 
 	return newCamera;
+}
+
+CameraController* CameraManager::CreateCameraController(Application* app)
+{
+	m_cameraControllers.push_back(new CameraController(app));
+	return m_cameraControllers[m_cameraControllers.size() - 1];
+}
+
+void CameraManager::SetCurrentCameraController(CameraController* pCon)
+{
+	for (int i = 0; i < m_cameraControllers.size(); i++)
+	{
+		if (m_cameraControllers[i] == pCon)
+		{
+			m_currentCameraController = i;
+		}
+	}
+}
+
+void CameraManager::SetCurrentCameraController(int index)
+{
+	m_currentCameraController = index;
 }

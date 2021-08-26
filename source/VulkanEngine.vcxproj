@@ -93,9 +93,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h" />
-    <ClInclude Include="code\CameraController.h" />
+    <ClInclude Include="code\Camera\Camera.h" />
+    <ClInclude Include="code\Camera\CameraControllers\CameraController.h" />
     <ClInclude Include="code\Managers\BufferManager.h" />
-    <ClInclude Include="code\Managers\Camera.h" />
     <ClInclude Include="code\Managers\CameraManager.h" />
     <ClInclude Include="code\Managers\InputManager.h" />
     <ClInclude Include="code\Managers\ModelManager.h" />
@@ -112,9 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
-    <ClCompile Include="code\CameraController.cpp" />
+    <ClCompile Include="code\Camera\Camera.cpp" />
+    <ClCompile Include="code\Camera\CameraControllers\CameraController.cpp" />
     <ClCompile Include="code\Managers\BufferManager.cpp" />
-    <ClCompile Include="code\Managers\Camera.cpp" />
     <ClCompile Include="code\Managers\CameraManager.cpp" />
     <ClCompile Include="code\Managers\InputManager.cpp" />
     <ClCompile Include="code\Managers\ModelManager.cpp" />

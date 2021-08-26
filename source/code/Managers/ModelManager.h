@@ -2,6 +2,7 @@
 
 #include "Vulkan.h"
 
+#include <ofbx.h>
 #include <string>
 #include <vector>
 #include <array>
@@ -79,4 +80,6 @@ private:
     bool LoadFbx(std::string path);
 
     VulkanManager* m_pVulkanManager;
+
+    ofbx::IScene* scene;
 };

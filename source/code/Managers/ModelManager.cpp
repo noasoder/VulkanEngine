@@ -2,7 +2,7 @@
 
 #include "VulkanManager.h"
 
-#include "ofbx.h"
+//#include "FBX/ofbx.h"
 #include <unordered_map>
 #include <tiny_obj_loader.h>
 #include <string>
@@ -87,28 +87,27 @@ void ModelManager::LoadObj(std::string path)
 
 bool ModelManager::LoadFbx(std::string path)
 {
-    ofbx::IScene* g_scene = nullptr;
     printf("load fbx");
 
-    FILE* fp = fopen(path.c_str(), "rb");
+    //FILE* fp = fopen(path.c_str(), "rb");
 
-    if (!fp) return false;
+    //if (!fp) return false;
 
-    fseek(fp, 0, SEEK_END);
-    long file_size = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-    auto* content = new ofbx::u8[file_size];
-    fread(content, 1, file_size, fp);
-    g_scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
-    if (!g_scene) {
-        //OutputDebugString(ofbx::getError());
-        printf("no g_scene");
-    }
-    else {
-        //saveAsOBJ(*g_scene, "out.obj");
-    }
-    delete[] content;
-    fclose(fp);
+    //fseek(fp, 0, SEEK_END);
+    //long file_size = ftell(fp);
+    //fseek(fp, 0, SEEK_SET);
+    //auto* content = new ofbx::u8[file_size];
+    //fread(content, 1, file_size, fp);
+    //scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
+    //if (!scene) {
+    //    //OutputDebugString(ofbx::getError());
+    //    printf("no g_scene");
+    //}
+    //else {
+    //    //saveAsOBJ(*g_scene, "out.obj");
+    //}
+    //delete[] content;
+    //fclose(fp);
 
     return true;
 }

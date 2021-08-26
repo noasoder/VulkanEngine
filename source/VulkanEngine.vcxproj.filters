@@ -4,6 +4,12 @@
     <Filter Include="code">
       <UniqueIdentifier>{803E957C-6C75-960D-1562-7C100178120F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Camera">
+      <UniqueIdentifier>{F882C1BA-6438-3AB0-ED2C-348759E130B4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code\Camera\CameraControllers">
+      <UniqueIdentifier>{07446431-735C-4B5B-3C09-DBF4A8E0DFF4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="code\Managers">
       <UniqueIdentifier>{5D50C7AD-C910-43E4-924B-8C61FECA87C0}</UniqueIdentifier>
     </Filter>
@@ -18,13 +24,13 @@
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="code\CameraController.h">
-      <Filter>code</Filter>
+    <ClInclude Include="code\Camera\Camera.h">
+      <Filter>code\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Camera\CameraControllers\CameraController.h">
+      <Filter>code\Camera\CameraControllers</Filter>
     </ClInclude>
     <ClInclude Include="code\Managers\BufferManager.h">
-      <Filter>code\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="code\Managers\Camera.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
     <ClInclude Include="code\Managers\CameraManager.h">
@@ -71,13 +77,13 @@
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
     </ClCompile>
-    <ClCompile Include="code\CameraController.cpp">
-      <Filter>code</Filter>
+    <ClCompile Include="code\Camera\Camera.cpp">
+      <Filter>code\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Camera\CameraControllers\CameraController.cpp">
+      <Filter>code\Camera\CameraControllers</Filter>
     </ClCompile>
     <ClCompile Include="code\Managers\BufferManager.cpp">
-      <Filter>code\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="code\Managers\Camera.cpp">
       <Filter>code\Managers</Filter>
     </ClCompile>
     <ClCompile Include="code\Managers\CameraManager.cpp">

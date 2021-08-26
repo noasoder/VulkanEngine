@@ -1,8 +1,8 @@
 
 #include "Camera.h"
 
-#include "Utility/Types.h"
 #include "glm/gtx/matrix_operation.hpp"
+#include "Utility/Types.h"
 #include "Utility/Maths.h"
 
 Camera::Camera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect, float Near, float Far)
