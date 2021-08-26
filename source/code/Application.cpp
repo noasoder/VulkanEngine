@@ -15,6 +15,10 @@
 #include "Utility/Maths.h"
 #include "Utility/Types.h"
 
+//#include <imgui.h>
+//#include <backends/imgui_impl_sdl.h>
+//#include <backends/imgui_impl_vulkan.h>
+
 
 Application::Application()
 {
@@ -25,7 +29,6 @@ Application::Application()
     m_pInputManager = new InputManager(this);
     m_pVulkanManager = new VulkanManager(this);
     m_pCameraManager = new CameraManager(this);
-
 
     VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
 
@@ -117,11 +120,9 @@ void Application::Run()
             std::cout << "FPS: " << m_timestep.GetFPS() << " delta: " << m_timestep.GetDeltaTime() << std::endl;
             writeCooldown = 1.0f;
         }
-        
 
         glfwPollEvents();
         m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
-
     }
 
     vkDeviceWaitIdle(m_pVulkanManager->m_device);

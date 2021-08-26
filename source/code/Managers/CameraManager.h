@@ -17,7 +17,10 @@ public:
 
 	Camera* GetCurrentCamera() { return m_cameras.at(m_currentCamera); };
 	Camera* CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect, float Near, float Far);
+
+
 	CameraController* CreateCameraController(Application* app);
+
 	void SetCurrentCameraController(CameraController* pCon);
 	void SetCurrentCameraController(int index);
 

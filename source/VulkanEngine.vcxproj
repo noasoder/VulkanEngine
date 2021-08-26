@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;..\Libraries\tiny_obj_loader;..\Libraries\OpenFBX;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;..\Libraries\tiny_obj_loader;..\Libraries\OpenFBX;..\Libraries\imgui;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;..\Libraries\tiny_obj_loader;..\Libraries\OpenFBX;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;..\Libraries\tiny_obj_loader;..\Libraries\OpenFBX;..\Libraries\imgui;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
