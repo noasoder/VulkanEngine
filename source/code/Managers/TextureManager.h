@@ -48,4 +48,3 @@ private:
 	VkImage m_textureImage;
 	VkDeviceMemory m_textureImageMemory;
 };
-

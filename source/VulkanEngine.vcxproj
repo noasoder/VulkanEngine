@@ -101,6 +101,8 @@
     <ClInclude Include="code\Managers\ModelManager.h" />
     <ClInclude Include="code\Managers\TextureManager.h" />
     <ClInclude Include="code\Managers\VulkanManager.h" />
+    <ClInclude Include="code\Mesh.h" />
+    <ClInclude Include="code\Model.h" />
     <ClInclude Include="code\Timestep.h" />
     <ClInclude Include="code\Transform.h" />
     <ClInclude Include="code\Utility\Maths.h" />
@@ -120,6 +122,8 @@
     <ClCompile Include="code\Managers\ModelManager.cpp" />
     <ClCompile Include="code\Managers\TextureManager.cpp" />
     <ClCompile Include="code\Managers\VulkanManager.cpp" />
+    <ClCompile Include="code\Mesh.cpp" />
+    <ClCompile Include="code\Model.cpp" />
     <ClCompile Include="code\Transform.cpp" />
     <ClCompile Include="code\Utility\Maths.cpp" />
     <ClCompile Include="code\Utility\Matrix3.cpp" />

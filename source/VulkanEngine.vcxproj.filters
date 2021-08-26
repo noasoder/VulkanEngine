@@ -48,6 +48,12 @@
     <ClInclude Include="code\Managers\VulkanManager.h">
       <Filter>code\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="code\Mesh.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Model.h">
+      <Filter>code</Filter>
+    </ClInclude>
     <ClInclude Include="code\Timestep.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -100,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="code\Managers\VulkanManager.cpp">
       <Filter>code\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Mesh.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Model.cpp">
+      <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="code\Transform.cpp">
       <Filter>code</Filter>
