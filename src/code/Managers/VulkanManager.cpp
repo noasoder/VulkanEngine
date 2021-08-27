@@ -30,7 +30,7 @@ VulkanManager::VulkanManager(Application* pApplication)
     m_pTextureManager->CreateTextureImageView();
     m_pTextureManager->CreateTextureSampler();
     m_pModelManager->LoadModel(MODEL_PATH);
-    m_pModelManager->LoadModel(MODEL_CUBE_OBJ_PATH);
+    //m_pModelManager->LoadModel(MODEL_CUBE_OBJ_PATH);
     m_pBufferManager->CreateBuffers();
     CreateCommandBuffers();
     CreateSyncObjects();

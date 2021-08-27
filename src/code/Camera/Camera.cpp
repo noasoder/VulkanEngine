@@ -46,6 +46,12 @@ glm::mat4 Camera::GetView()
 	//return ToGlmMat4();
 }
 
+void Camera::RotateCam(glm::vec3 rot, glm::vec3 speed)
+{
+	RotateLocal(rot.x, 0, 0, speed.x);
+	RotateWorld(0, 0, rot.z, speed.z);
+}
+
 void Camera::UpdateAspect(float a)
 {
 	m_aspect = a;

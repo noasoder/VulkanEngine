@@ -29,10 +29,10 @@ const char* InputManager::GetKeyName(int key, int scancode)
     return glfwGetKeyName(key, scancode);
 }
 
-Vec2 InputManager::GetMousePosition()
+glm::vec2 InputManager::GetMousePosition()
 {
     double xpos, ypos;
     glfwGetCursorPos(m_pApplication->m_pWindow, &xpos, &ypos);
 
-    return Vec2(xpos, ypos);
+    return glm::vec2(xpos, ypos);
 }

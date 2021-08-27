@@ -14,7 +14,7 @@ public:
 	int GetKey(int key);
 	const char* GetKeyName(int key, int scancode = 0);
 
-	Vec2 GetMousePosition();
+	glm::vec2 GetMousePosition();
 private:
 	Application* m_pApplication;
 };

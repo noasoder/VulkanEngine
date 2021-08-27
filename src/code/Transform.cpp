@@ -29,38 +29,72 @@ glm::vec3 Transform::GetUp()
     return glm::vec3(GetMatrix()[2].x, GetMatrix()[2].y, GetMatrix()[2].z);
 }
 
-glm::quat Transform::CreateFromAxisAngle(const double& xx, const double& yy, const double& zz, const double& a)
+void Transform::RotateLocal(const double& xx, const double& yy, const double& zz, const double& a)
 {
-    // Here we calculate the sin( theta / 2) once for optimization
-    double factor = sin(a / 2.0);
-
-    // Calculate the x, y and z of the quaternion
-    double x = xx * factor;
-    double y = yy * factor;
-    double z = zz * factor;
-
-    // Calcualte the w value by cos( theta / 2 )
-    double w = cos(a / 2.0);
-
-    return glm::normalize(glm::quat(x, y, z, w));
+    glm::vec3 in = glm::vec3(xx, yy, zz);
+    if (in != glm::vec3(0))
+    {
+        glm::quat rot = glm::angleAxis(glm::radians((float)a), glm::normalize(in));
+        m_rot = m_rot * rot;
+    }
 }
 
-void Transform::Rotate(const double& xx, const double& yy, const double& zz, const double& a)
+void Transform::RotateWorld(const double& xx, const double& yy, const double& zz, const double& a)
 {
-    m_rot = m_rot * CreateFromAxisAngle(xx, yy, zz, a);
+    glm::vec3 in = glm::vec3(xx, yy, zz);
+    if (in != glm::vec3(0))
+    {
+        glm::quat rot = glm::angleAxis(glm::radians((float)a), glm::normalize(in));
+        m_rot = rot * m_rot;
+    }
 }
 
-void QuaternionRotate(const glm::vec3& axis, float angle)
+void Transform::TranslateWorld(glm::vec3 move)
 {
-    float angleRad = glm::radians(angle);
-    auto& axisNorm = glm::normalize(axis);
+    m_pos += move;
+}
 
-    float w = glm::cos(angleRad / 2);
-    float v = glm::sin(angleRad / 2);
-    glm::vec3 qv = axisNorm * v;
+void Transform::TranslateLocal(glm::vec3 move)
+{
+    glm::mat4 mat = glm::translate(GetMatrix(), move);
+    m_pos = mat[3];
+}
 
-    glm::quat quaternion(w, qv);
-    glm::mat4 quatTransform = glm::mat4_cast(quaternion);
+glm::quat Transform::RotateTowards(glm::quat q2, float maxAngle) {
 
-    // Now with the quaternion transform you rotate any vector or compound it with another transformation matrix
+    if (maxAngle < 0.001f) {
+        // No rotation allowed. Prevent dividing by 0 later.
+        return m_rot;
+    }
+
+    float cosTheta = dot(m_rot, q2);
+
+    // q1 and q2 are already equal.
+    // Force q2 just to be sure
+    if (cosTheta > 0.9999f) {
+        m_rot = q2;
+        return q2;
+    }
+
+    // Avoid taking the long path around the sphere
+    if (cosTheta < 0) {
+        m_rot = m_rot * -1.0f;
+        cosTheta *= -1.0f;
+    }
+
+    float angle = acos(cosTheta);
+
+    // If there is only a 2&deg; difference, and we are allowed 5&deg;,
+    // then we arrived.
+    if (angle < maxAngle) {
+        m_rot = q2;
+        return q2;
+    }
+
+    float fT = maxAngle / angle;
+    angle = maxAngle;
+
+    glm::quat res = (sin((1.0f - fT) * angle) * m_rot + sin(fT * angle) * q2) / sin(angle);
+    m_rot = glm::normalize(res);
+    return m_rot;
 }

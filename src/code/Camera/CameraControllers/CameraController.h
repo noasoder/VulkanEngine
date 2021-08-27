@@ -23,5 +23,5 @@ private :
 	float m_moveSpeed;
 	float m_moveSpeedFast;
 	float m_moveSpeedSlow;
-	Vec2 m_lastMousePos;
+	glm::vec2 m_lastMousePos;
 };

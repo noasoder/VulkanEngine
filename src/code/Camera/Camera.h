@@ -16,6 +16,8 @@ public:
 	glm::mat4 GetProj();
 	void UpdateAspect(float a);
 
+	void RotateCam(glm::vec3 rot, glm::vec3 speed);
+
 private:
 
 	float m_fov;

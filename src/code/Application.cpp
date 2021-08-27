@@ -66,7 +66,7 @@ void Application::Run()
     Model pModel = Model();
 
     Matrix4 mat = Matrix4();
-    Vec2 lastMousePos = m_pInputManager->GetMousePosition();
+    glm::vec2 lastMousePos = m_pInputManager->GetMousePosition();
     
     while (!glfwWindowShouldClose(m_pWindow)) {
         UpdateTimestep();
