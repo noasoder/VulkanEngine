@@ -63,7 +63,7 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
-    Model pModel = Model();
+    //Model* pModel = new Model(this, MODEL_CUBE_OBJ_PATH);
 
     Matrix4 mat = Matrix4();
     glm::vec2 lastMousePos = m_pInputManager->GetMousePosition();
@@ -141,6 +141,7 @@ void Application::Run()
         }
 
         glfwPollEvents();
+        //pModel->Render();
         m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
     }
 

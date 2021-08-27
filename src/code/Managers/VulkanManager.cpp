@@ -4,10 +4,12 @@
 #include "Managers/BufferManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"
+#include "Model.h"
 
 VulkanManager::VulkanManager(Application* pApplication) 
 : m_pApplication(pApplication)
 {
+    pApplication->m_pVulkanManager = this;
     m_pWindow = m_pApplication->m_pWindow;
     m_pBufferManager = new BufferManager(this);
     m_pTextureManager = new TextureManager(this, m_pBufferManager);
@@ -29,7 +31,7 @@ VulkanManager::VulkanManager(Application* pApplication)
     m_pTextureManager->CreateTextureImage();
     m_pTextureManager->CreateTextureImageView();
     m_pTextureManager->CreateTextureSampler();
-    m_pModelManager->LoadModel(MODEL_PATH);
+    m_pModelManager->LoadModel(MODEL_PATH, m_pModelManager->vertices, m_pModelManager->indices);
     //m_pModelManager->LoadModel(MODEL_CUBE_OBJ_PATH);
     m_pBufferManager->CreateBuffers();
     CreateCommandBuffers();
@@ -525,7 +527,7 @@ void VulkanManager::CreateCommandBuffers() {
         vkCmdBeginRenderPass(m_commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_graphicsPipeline);
 
-        VkBuffer vertexBuffers[] = { m_pBufferManager->m_vertexBuffer };
+        VkBuffer vertexBuffers[] = { m_pBufferManager->m_vertexBuffer};
         VkDeviceSize offsets[] = { 0 };
         vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
 

@@ -75,6 +75,9 @@
     <ClInclude Include="code\Utility\Types.h">
       <Filter>code\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="code\Utility\Vertex.h">
+      <Filter>code\Utility</Filter>
+    </ClInclude>
     <ClInclude Include="code\Vulkan.h">
       <Filter>code</Filter>
     </ClInclude>

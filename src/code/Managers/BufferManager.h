@@ -16,14 +16,16 @@ public:
 	BufferManager(VulkanManager* pVulkanManager);
 	~BufferManager();
 
-	void CleanupUniformBuffers(size_t swapChainImagesSize);
 
-	void CreateDescriptorSetLayout();
 	void CreateBuffers();
+
 	void CreateUniformBuffers();
 	void UpdateUniformBuffer(uint32_t currentImage, float DeltaTime);
+	void CleanupUniformBuffers(size_t swapChainImagesSize);
+
 	void CreateDescriptorPool();
 	void CreateDescriptorSets();
+	void CreateDescriptorSetLayout();
 	
 	void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 	void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);

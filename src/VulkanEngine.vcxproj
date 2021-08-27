@@ -110,6 +110,7 @@
     <ClInclude Include="code\Utility\Matrix4.h" />
     <ClInclude Include="code\Utility\Rotor3.h" />
     <ClInclude Include="code\Utility\Types.h" />
+    <ClInclude Include="code\Utility\Vertex.h" />
     <ClInclude Include="code\Vulkan.h" />
   </ItemGroup>
   <ItemGroup>

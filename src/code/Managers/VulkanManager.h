@@ -215,20 +215,19 @@ public :
 
     VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 
+    VkRenderPass m_renderPass;
 
     std::vector<VkImage> m_swapChainImages;
     VkExtent2D m_swapChainExtent;
+    std::vector<VkCommandBuffer> m_commandBuffers;
+    std::vector<VkFramebuffer> m_swapChainFramebuffers;
+
+    VkPipeline m_graphicsPipeline;
+    VkPipelineLayout m_pipelineLayout;
 private: 
     VkSwapchainKHR m_swapChain;
     VkFormat m_swapChainImageFormat;
     std::vector<VkImageView> m_swapChainImageViews;
-
-    VkRenderPass m_renderPass;
-    VkPipelineLayout m_pipelineLayout;
-    VkPipeline m_graphicsPipeline;
-
-    std::vector<VkFramebuffer> m_swapChainFramebuffers;
-    std::vector<VkCommandBuffer> m_commandBuffers;
 
 
     std::vector<VkSemaphore> m_imageAvailableSemaphores;

@@ -7,14 +7,14 @@
 #include <tiny_obj_loader.h>
 #include <string>
 #include <memory>
-
+#include "Model.h"
 
 
 ModelManager::ModelManager(VulkanManager* pVulkanManager)
 : m_pVulkanManager(pVulkanManager)
 //, g_scene(nullptr)
 {
-
+    //pModel = new Model(pVulkanManager->m_pApplication, MODEL_CUBE_OBJ_PATH);
 }
 
 ModelManager::~ModelManager()
@@ -22,7 +22,7 @@ ModelManager::~ModelManager()
 
 }
 
-void ModelManager::LoadModel(std::string path)
+void ModelManager::LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
 {
     char end[4]{'\0'};
 
