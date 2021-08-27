@@ -60,6 +60,6 @@ void CameraController::Update(float DeltaTime)
     glm::vec3 moveLength = abs(rot);
 
     Camera* currCamera = m_pCameraManager->GetCurrentCamera();
-    currCamera->TranslateLocal(movePos);
     currCamera->RotateCam(rot, moveLength);
+    currCamera->TranslateLocal(movePos);
 }
