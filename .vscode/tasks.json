@@ -22,10 +22,22 @@
 				"$gcc"
 			],
 			"group": {
-				"kind": "build",
+				"kind": "test",
 				"isDefault": true
 			},
 			"detail": "compiler: C:/msys64/mingw64/bin/g++.exe"
+		},
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "$make",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": "$gcc"
+			// C:\Program Files (x86)\GnuWin32\bin
+			// $newpath = "$oldpath;C:\Program Files (x86)\GnuWin32\bin"
 		}
 	],
 	"version": "2.0.0"
