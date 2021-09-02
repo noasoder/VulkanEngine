@@ -7,9 +7,13 @@
 			"args": [
 				"-std=c++17",
 				"-g",
-				"${file}",
+				"${workspaceFolder}/src/**.cpp",
 				"-o",
-				"${fileDirname}/../Build/${fileBasenameNoExtension}.exe"
+				"${fileDirname}/../Build/VulkanEngine.exe",
+				"-LC:/VulkanSDK/1.2.182.0/Lib",
+				"-lvulkan-1.lib",
+				"-L../Libraries/glfw-3.3.4.bin.WIN64/lib-vc2019",
+				"-lglfw3.lib"
 			],
 			"options": {
 				"cwd": "C:/msys64/mingw64/bin"

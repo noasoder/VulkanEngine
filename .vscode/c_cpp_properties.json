@@ -5,13 +5,14 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/src/code",
-                "${workspaceFolder}/Build/",
-                "${workspaceFolder}/Libraries/glfw-3.3.4.bin.WIN64/include",
-                "${workspaceFolder}/Libraries/glm",
-                "${workspaceFolder}/Libraries/imgui",
-                "${workspaceFolder}/Libraries/OpenFBX",
-                "${workspaceFolder}/Libraries/stb",
-                "${workspaceFolder}/Libraries/tiny_obj_loader"
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/bin/",
+                "${workspaceFolder}/lib/glfw-3.3.4.bin.WIN64/include",
+                "${workspaceFolder}/lib/glm",
+                "${workspaceFolder}/lib/imgui",
+                "${workspaceFolder}/lib/OpenFBX",
+                "${workspaceFolder}/lib/stb",
+                "${workspaceFolder}/lib/tiny_obj_loader"
             ],
             "defines": [
                 "_DEBUG",

@@ -16,21 +16,12 @@
 //     return EXIT_SUCCESS;
 // }
 
-#include <iostream>
-#include <vector>
-#include <string>
+#include "HelloWorld.hpp"
 
-using namespace std;
-
-int main()
-{
-    vector<string> msg {"Hello", "C++", "World", "from", "VS Code", "and the C++ extension!"};
-
-    for (const string& word : msg)
-    {
-        cout << word << " ";
-    }
-    cout << endl;
-    string uwu;
-    cin >> uwu;
+int main() {
+ HelloWorld world = HelloWorld();
+ world.say();
+ std::string uwu;
+ std::cin >> uwu;
+ return 0;
 }
