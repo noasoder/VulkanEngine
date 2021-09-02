@@ -1,43 +1,14 @@
 {
 	"tasks": [
 		{
-			"type": "cppbuild",
-			"label": "C/C++: g++.exe build active file",
-			"command": "C:/msys64/mingw64/bin/g++.exe",
-			"args": [
-				"-std=c++17",
-				"-g",
-				"${workspaceFolder}/src/**.cpp",
-				"-o",
-				"${fileDirname}/../Build/VulkanEngine.exe",
-				"-LC:/VulkanSDK/1.2.182.0/Lib",
-				"-lvulkan-1.lib",
-				"-L../Libraries/glfw-3.3.4.bin.WIN64/lib-vc2019",
-				"-lglfw3.lib"
-			],
-			"options": {
-				"cwd": "C:/msys64/mingw64/bin"
-			},
-			"problemMatcher": [
-				"$gcc"
-			],
-			"group": {
-				"kind": "test",
-				"isDefault": true
-			},
-			"detail": "compiler: C:/msys64/mingw64/bin/g++.exe"
-		},
-		{
 			"label": "build",
 			"type": "shell",
-			"command": "$make",
+			"command": "make",
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
 			"problemMatcher": "$gcc"
-			// C:\Program Files (x86)\GnuWin32\bin
-			// $newpath = "$oldpath;C:\Program Files (x86)\GnuWin32\bin"
 		}
 	],
 	"version": "2.0.0"
