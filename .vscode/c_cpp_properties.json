@@ -6,13 +6,14 @@
                 "${default}",
                 "${workspaceFolder}/src/code",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/bin/",
+                "${workspaceFolder}/bin",
                 "${workspaceFolder}/lib/glfw-3.3.4.bin.WIN64/include",
                 "${workspaceFolder}/lib/glm",
                 "${workspaceFolder}/lib/imgui",
                 "${workspaceFolder}/lib/OpenFBX",
                 "${workspaceFolder}/lib/stb",
-                "${workspaceFolder}/lib/tiny_obj_loader"
+                "${workspaceFolder}/lib/tiny_obj_loader",
+                "C:/VulkanSDK/1.2.182.0/Include"
             ],
             "defines": [
                 "_DEBUG",

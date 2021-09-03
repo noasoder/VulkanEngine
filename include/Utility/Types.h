@@ -1,8 +1,8 @@
 #pragma once
 
-class Vec2;
-class Vec3;
-class Vec4;
+// class Vec2;
+// class Vec3;
+// class Vec4;
 
 #include "glm/glm.hpp"
 
