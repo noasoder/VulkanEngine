@@ -16,73 +16,92 @@
     <Filter Include="code\Utility">
       <UniqueIdentifier>{C37C97A8-AFDF-264D-5865-5F0344A7F2CF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Camera">
+      <UniqueIdentifier>{E14F8AFA-CD1D-7E00-B6B1-EE26A21E5A65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Camera\CameraControllers">
+      <UniqueIdentifier>{30216F13-1C72-5A55-45D6-48173186EDBE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Managers">
+      <UniqueIdentifier>{86FBF602-72F4-1555-9B26-FBD9877EF560}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Utility">
+      <UniqueIdentifier>{CCE679E1-3872-E7A5-4183-6A9AAD8D43A6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{0F45D591-7B24-542D-843C-DF03F09ABA8E}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="code\Application.h">
-      <Filter>code</Filter>
+    <ClInclude Include="..\include\Application.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="code\Camera\Camera.h">
-      <Filter>code\Camera</Filter>
+    <ClInclude Include="..\include\Camera\Camera.h">
+      <Filter>include\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="code\Camera\CameraControllers\CameraController.h">
-      <Filter>code\Camera\CameraControllers</Filter>
+    <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h">
+      <Filter>include\Camera\CameraControllers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Managers\BufferManager.h">
-      <Filter>code\Managers</Filter>
+    <ClInclude Include="..\include\HelloWorld.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="code\Managers\CameraManager.h">
-      <Filter>code\Managers</Filter>
+    <ClInclude Include="..\include\Managers\BufferManager.h">
+      <Filter>include\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Managers\InputManager.h">
-      <Filter>code\Managers</Filter>
+    <ClInclude Include="..\include\Managers\CameraManager.h">
+      <Filter>include\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Managers\ModelManager.h">
-      <Filter>code\Managers</Filter>
+    <ClInclude Include="..\include\Managers\InputManager.h">
+      <Filter>include\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Managers\TextureManager.h">
-      <Filter>code\Managers</Filter>
+    <ClInclude Include="..\include\Managers\ModelManager.h">
+      <Filter>include\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Managers\VulkanManager.h">
-      <Filter>code\Managers</Filter>
+    <ClInclude Include="..\include\Managers\TextureManager.h">
+      <Filter>include\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Mesh.h">
-      <Filter>code</Filter>
+    <ClInclude Include="..\include\Managers\VulkanManager.h">
+      <Filter>include\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="code\Model.h">
-      <Filter>code</Filter>
+    <ClInclude Include="..\include\Mesh.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="code\Timestep.h">
-      <Filter>code</Filter>
+    <ClInclude Include="..\include\Model.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="code\Transform.h">
-      <Filter>code</Filter>
+    <ClInclude Include="..\include\Timestep.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="code\Utility\Maths.h">
-      <Filter>code\Utility</Filter>
+    <ClInclude Include="..\include\Transform.h">
+      <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="code\Utility\Matrix3.h">
-      <Filter>code\Utility</Filter>
+    <ClInclude Include="..\include\Utility\Maths.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="code\Utility\Matrix4.h">
-      <Filter>code\Utility</Filter>
+    <ClInclude Include="..\include\Utility\Matrix3.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="code\Utility\Rotor3.h">
-      <Filter>code\Utility</Filter>
+    <ClInclude Include="..\include\Utility\Matrix4.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="code\Utility\Types.h">
-      <Filter>code\Utility</Filter>
+    <ClInclude Include="..\include\Utility\Rotor3.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="code\Utility\Vertex.h">
-      <Filter>code\Utility</Filter>
+    <ClInclude Include="..\include\Utility\Types.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="code\Vulkan.h">
-      <Filter>code</Filter>
+    <ClInclude Include="..\include\Utility\Vertex.h">
+      <Filter>include\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Vulkan.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HelloWorld.cpp" />
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
     </ClCompile>

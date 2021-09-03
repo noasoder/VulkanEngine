@@ -41,14 +41,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\Build\</OutDir>
+    <OutDir>..\bin\</OutDir>
     <IntDir>obj\Win64\Debug\</IntDir>
     <TargetName>VulkanEngine_Debug</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\Build\</OutDir>
+    <OutDir>..\bin\</OutDir>
     <IntDir>obj\Win64\Release\</IntDir>
     <TargetName>VulkanEngine</TargetName>
     <TargetExt>.exe</TargetExt>
@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;..\Libraries\tiny_obj_loader;..\Libraries\OpenFBX;..\Libraries\imgui;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\lib\glfw-3.3.4.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -67,7 +67,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.182.0\Lib;..\Libraries\glfw-3.3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.182.0\Lib;..\lib\glfw-3.3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\Libraries\glfw-3.3.4.bin.WIN64\include;..\Libraries\glm;..\Libraries\stb;..\Libraries\tiny_obj_loader;..\Libraries\OpenFBX;..\Libraries\imgui;code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\lib\glfw-3.3.4.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -88,32 +88,34 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.182.0\Lib;..\Libraries\glfw-3.3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.182.0\Lib;..\lib\glfw-3.3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="code\Application.h" />
-    <ClInclude Include="code\Camera\Camera.h" />
-    <ClInclude Include="code\Camera\CameraControllers\CameraController.h" />
-    <ClInclude Include="code\Managers\BufferManager.h" />
-    <ClInclude Include="code\Managers\CameraManager.h" />
-    <ClInclude Include="code\Managers\InputManager.h" />
-    <ClInclude Include="code\Managers\ModelManager.h" />
-    <ClInclude Include="code\Managers\TextureManager.h" />
-    <ClInclude Include="code\Managers\VulkanManager.h" />
-    <ClInclude Include="code\Mesh.h" />
-    <ClInclude Include="code\Model.h" />
-    <ClInclude Include="code\Timestep.h" />
-    <ClInclude Include="code\Transform.h" />
-    <ClInclude Include="code\Utility\Maths.h" />
-    <ClInclude Include="code\Utility\Matrix3.h" />
-    <ClInclude Include="code\Utility\Matrix4.h" />
-    <ClInclude Include="code\Utility\Rotor3.h" />
-    <ClInclude Include="code\Utility\Types.h" />
-    <ClInclude Include="code\Utility\Vertex.h" />
-    <ClInclude Include="code\Vulkan.h" />
+    <ClInclude Include="..\include\Application.h" />
+    <ClInclude Include="..\include\Camera\Camera.h" />
+    <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h" />
+    <ClInclude Include="..\include\HelloWorld.h" />
+    <ClInclude Include="..\include\Managers\BufferManager.h" />
+    <ClInclude Include="..\include\Managers\CameraManager.h" />
+    <ClInclude Include="..\include\Managers\InputManager.h" />
+    <ClInclude Include="..\include\Managers\ModelManager.h" />
+    <ClInclude Include="..\include\Managers\TextureManager.h" />
+    <ClInclude Include="..\include\Managers\VulkanManager.h" />
+    <ClInclude Include="..\include\Mesh.h" />
+    <ClInclude Include="..\include\Model.h" />
+    <ClInclude Include="..\include\Timestep.h" />
+    <ClInclude Include="..\include\Transform.h" />
+    <ClInclude Include="..\include\Utility\Maths.h" />
+    <ClInclude Include="..\include\Utility\Matrix3.h" />
+    <ClInclude Include="..\include\Utility\Matrix4.h" />
+    <ClInclude Include="..\include\Utility\Rotor3.h" />
+    <ClInclude Include="..\include\Utility\Types.h" />
+    <ClInclude Include="..\include\Utility\Vertex.h" />
+    <ClInclude Include="..\include\Vulkan.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HelloWorld.cpp" />
     <ClCompile Include="code\Application.cpp" />
     <ClCompile Include="code\Camera\Camera.cpp" />
     <ClCompile Include="code\Camera\CameraControllers\CameraController.cpp" />
