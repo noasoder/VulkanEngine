@@ -1,11 +1,11 @@
 #pragma once
 
 #include <vector>
+#include "Utility/Types.h"
 
 class Application;
 class Camera;
 class CameraController;
-class Vec3;
 
 class CameraManager
 {

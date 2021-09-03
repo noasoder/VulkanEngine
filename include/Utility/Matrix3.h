@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Utility/Types.h"
-class Vec3;
 
 class Matrix3
 {

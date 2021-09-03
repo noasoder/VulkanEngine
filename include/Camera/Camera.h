@@ -5,8 +5,6 @@
 #include "Utility/Types.h"
 //#include "Utility/Rotor3.h"
 
-class Vec3;
-
 class Camera : public Transform {
 public:
 	Camera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect, float Near, float Far);

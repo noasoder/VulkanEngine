@@ -18,8 +18,7 @@
 
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>
-//#include <backends/imgui_impl_vulkan.h>
-
+//#include <backends/imgui_impl_vulkan.h
 
 Application::Application()
 {
@@ -65,7 +64,7 @@ void Application::Run()
 
     //Model* pModel = new Model(this, MODEL_CUBE_OBJ_PATH);
 
-    Matrix4 mat = Matrix4();
+    // Matrix4 mat = Matrix4();
     glm::vec2 lastMousePos = m_pInputManager->GetMousePosition();
     
     while (!glfwWindowShouldClose(m_pWindow)) {

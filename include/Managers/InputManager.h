@@ -2,10 +2,9 @@
 
 #include	"Vulkan.h"
 
-class Vec2;
 class Application;
 
-static class InputManager
+class InputManager
 {
 public:
 	InputManager(Application* pApplication);

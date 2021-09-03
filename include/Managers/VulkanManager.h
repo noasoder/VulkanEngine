@@ -28,12 +28,12 @@ const bool enableValidationLayers = true;
 #define ENGINE_NAME "VulkanEngine"
 #define PROJECT_NAME "VulkanEngine"
 
-const std::string MODEL_PATH = "../Build/Assets/Models/viking_room.obj";
-const std::string TEXTURE_PATH = "../Build/Assets/Textures/viking_room.png";
+const std::string MODEL_PATH = "../bin/Assets/Models/viking_room.obj";
+const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";
 
-const std::string MODEL_CUBE_OBJ_PATH = "../Build/Assets/Models/Primitives/Cube.obj";
-const std::string MODEL_CUBE_FBX_PATH = "../Build/Assets/Models/Primitives/Cube.fbx";
-const std::string TEXTURE_CUBE_PATH = "../Build/Assets/Textures/Texture.png";
+const std::string MODEL_CUBE_OBJ_PATH = "../bin/Assets/Models/Primitives/Cube.obj";
+const std::string MODEL_CUBE_FBX_PATH = "../bin/Assets/Models/Primitives/Cube.fbx";
+const std::string TEXTURE_CUBE_PATH = "../bin/Assets/Textures/Texture.png";
 
 //const std::vector<Vertex> vertices = {
 //    {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
@@ -173,6 +173,7 @@ public:
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
         if (!file.is_open()) {
+            std::cout << "File[" << filename << "] could not be opened :(" << std::endl;
             throw std::runtime_error("failed to open file!");
         }
         

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include "Transform.h"
 #include "Utility/Vertex.h"
