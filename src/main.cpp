@@ -17,13 +17,3 @@ int main() {
 
     return EXIT_SUCCESS;
 }
-
-// #include "HelloWorld.h"
-
-// int main() {
-//  HelloWorld world = HelloWorld();
-//  world.say();
-//  std::string uwu;
-//  std::cin >> uwu;
-//  return 0;
-// }

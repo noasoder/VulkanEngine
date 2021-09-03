@@ -1,5 +1,5 @@
 CXX       := g++
-CXX_FLAGS := -std=c++17 -static-libgcc -static-libstdc++ -lpthread -lkernel32 -lmsvcrt
+CXX_FLAGS := -std=c++17 -static-libstdc++ -O2 -lpthread -lmsvcrt
 
 BIN     := bin
 SRC     := src
