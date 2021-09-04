@@ -1,6 +1,6 @@
-#include "ModelManager.h"
+#include "Managers/ModelManager.h"
 
-#include "VulkanManager.h"
+#include "Managers/VulkanManager.h"
 
 //#include "FBX/ofbx.h"
 #include <unordered_map>
@@ -14,12 +14,52 @@ ModelManager::ModelManager(VulkanManager* pVulkanManager)
 : m_pVulkanManager(pVulkanManager)
 //, g_scene(nullptr)
 {
-    //pModel = new Model(pVulkanManager->m_pApplication, MODEL_CUBE_OBJ_PATH);
+
 }
 
 ModelManager::~ModelManager()
 {
+    for (Model* model : m_pModels)
+    {
+        delete model;
+    }
+}
 
+void ModelManager::Update(float DeltaTime, int imageIndex)
+{
+    for (Model* model : m_pModels)
+    {
+        model->Update(DeltaTime, imageIndex);
+    }
+}
+
+Model* ModelManager::CreateModel(std::string path)
+{
+    Model* newModel = new Model(m_pVulkanManager->m_pApplication, path);
+    m_pModels.push_back(newModel);
+    m_pVulkanManager->UpdateCommandBuffers();
+
+    printf("total models: %i\n", m_pModels.size());
+
+    return newModel;
+}
+
+void ModelManager::Recreate()
+{
+    for (Model* model : m_pModels)
+    {
+        model->CreateUniformBuffers();
+        model->CreateDescriptorPool();
+        model->CreateDescriptorSets();
+    }
+}
+
+void ModelManager::CleanupUniformBuffers(size_t swapChainImagesSize)
+{
+    for (Model* model : m_pModels)
+    {
+        model->CleanupUniformBuffers(swapChainImagesSize);
+    }
 }
 
 void ModelManager::LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
@@ -36,15 +76,15 @@ void ModelManager::LoadModel(std::string path, std::vector<Vertex>& vertices, st
 
     if (type == ".obj")
     {
-        LoadObj(path);
+        LoadObj(path, vertices, indices);
     }
     if (type == ".fbx")
     {
-        LoadFbx(path);
+        LoadFbx(path, vertices, indices);
     }
 }
 
-void ModelManager::LoadObj(std::string path)
+void ModelManager::LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
 {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
@@ -85,7 +125,7 @@ void ModelManager::LoadObj(std::string path)
     }
 }
 
-bool ModelManager::LoadFbx(std::string path)
+bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
 {
     printf("load fbx");
 

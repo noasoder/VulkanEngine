@@ -1,4 +1,4 @@
-#include "CameraController.h"
+#include "Camera/CameraControllers/CameraController.h"
 
 #include "Vulkan.h"
 #include "Utility/Types.h"
@@ -11,9 +11,9 @@ CameraController::CameraController(Application* app)
 : m_pInputManager(app->m_pInputManager)
 , m_pCameraManager(app->m_pCameraManager)
 , m_currMoveSpeed(0)
-, m_moveSpeedSlow(1)
-, m_moveSpeed(5)
-, m_moveSpeedFast(12)
+, m_moveSpeedSlow(3)
+, m_moveSpeed(10)
+, m_moveSpeedFast(20)
 , m_lastMousePos(0, 0)
 {
     Camera* currCamera = m_pCameraManager->GetCurrentCamera();

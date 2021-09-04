@@ -1,4 +1,4 @@
-#include "VulkanManager.h"
+#include "Managers/VulkanManager.h"
 
 #include "Application.h"
 #include "Managers/BufferManager.h"
@@ -13,7 +13,6 @@ VulkanManager::VulkanManager(Application* pApplication)
     m_pWindow = m_pApplication->m_pWindow;
     m_pBufferManager = new BufferManager(this);
     m_pTextureManager = new TextureManager(this, m_pBufferManager);
-    m_pModelManager = new ModelManager(this);
 
     CreateInstance();
     SetupDebugMessenger();
@@ -31,9 +30,10 @@ VulkanManager::VulkanManager(Application* pApplication)
     m_pTextureManager->CreateTextureImage();
     m_pTextureManager->CreateTextureImageView();
     m_pTextureManager->CreateTextureSampler();
-    m_pModelManager->LoadModel(MODEL_PATH, m_pModelManager->vertices, m_pModelManager->indices);
+    m_pModelManager = new ModelManager(this);
+    //m_pModelManager->LoadModel(MODEL_PATH, m_pModelManager->vertices, m_pModelManager->indices);
     //m_pModelManager->LoadModel(MODEL_CUBE_OBJ_PATH);
-    m_pBufferManager->CreateBuffers();
+    //m_pBufferManager->CreateBuffers();
     CreateCommandBuffers();
     CreateSyncObjects();
 }
@@ -86,7 +86,8 @@ void VulkanManager::DrawFrame(float DeltaTime) {
     }
     m_imagesInFlight[imageIndex] = m_inFlightFences[m_currentFrame];
 
-    m_pBufferManager->UpdateUniformBuffer(imageIndex, DeltaTime);
+    //m_pBufferManager->UpdateUniformBuffer(imageIndex, DeltaTime);
+    m_pModelManager->Update(DeltaTime, imageIndex);
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -479,7 +480,7 @@ void VulkanManager::CreateCommandPool() {
     VkCommandPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
     poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
-    //poolInfo.flags = 0;
+    poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
     if (vkCreateCommandPool(m_device, &poolInfo, nullptr, &m_commandPool) != VK_SUCCESS) {
         throw std::runtime_error("failed to create command pool");
@@ -498,6 +499,13 @@ void VulkanManager::CreateCommandBuffers() {
     if (vkAllocateCommandBuffers(m_device, &allocInfo, m_commandBuffers.data()) != VK_SUCCESS) {
         throw std::runtime_error("failed to allocate command buffers");
     }
+
+    UpdateCommandBuffers();
+}
+
+void VulkanManager::UpdateCommandBuffers()
+{
+    std::vector<Model*> models = m_pModelManager->m_pModels;
 
     for (size_t i = 0; i < m_commandBuffers.size(); i++)
     {
@@ -523,19 +531,30 @@ void VulkanManager::CreateCommandBuffers() {
         renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
         renderPassInfo.pClearValues = clearValues.data();
 
-
         vkCmdBeginRenderPass(m_commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
         vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_graphicsPipeline);
 
-        VkBuffer vertexBuffers[] = { m_pBufferManager->m_vertexBuffer};
-        VkDeviceSize offsets[] = { 0 };
-        vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
+        for (Model* model : models)
+        {
+            VkBuffer vertexBuffers[] = { model->m_vertexBuffer};
+            VkDeviceSize offsets[] = { 0 };
+            vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
-        vkCmdBindIndexBuffer(m_commandBuffers[i], m_pBufferManager->m_indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+            vkCmdBindIndexBuffer(m_commandBuffers[i], model->m_indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
-        vkCmdBindDescriptorSets(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_pBufferManager->m_descriptorSets[i], 0, nullptr);
+            vkCmdBindDescriptorSets(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &model->m_descriptorSets[i], 0, nullptr);
 
-        vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(m_pModelManager->indices.size()), 1, 0, 0, 0);
+            vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(model->indices.size()), 1, 0, 0, 0);
+        }
+        //VkBuffer vertexBuffers[] = { m_pBufferManager->m_vertexBuffer };
+        //VkDeviceSize offsets[] = { 0 };
+        //vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
+
+        //vkCmdBindIndexBuffer(m_commandBuffers[i], m_pBufferManager->m_indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+
+        //vkCmdBindDescriptorSets(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_pBufferManager->m_descriptorSets[i], 0, nullptr);
+
+        //vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(m_pModelManager->indices.size()), 1, 0, 0, 0);
 
         vkCmdEndRenderPass(m_commandBuffers[i]);
 
@@ -921,7 +940,7 @@ void VulkanManager::CleanupSwapChain() {
 
     vkDestroySwapchainKHR(m_device, m_swapChain, nullptr);
 
-    m_pBufferManager->CleanupUniformBuffers(m_swapChainImages.size());
+    m_pModelManager->CleanupUniformBuffers(m_swapChainImages.size());
 }
 
 void VulkanManager::RecreateSwapChain() {
@@ -942,9 +961,7 @@ void VulkanManager::RecreateSwapChain() {
     CreateGraphicsPipeline();
     m_pTextureManager->CreateDepthResources();
     CreateFramebuffers();
-    m_pBufferManager->CreateUniformBuffers();
-    m_pBufferManager->CreateDescriptorPool();
-    m_pBufferManager->CreateDescriptorSets();
+    m_pModelManager->Recreate();
     CreateCommandBuffers();
 }
 

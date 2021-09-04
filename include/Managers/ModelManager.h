@@ -21,16 +21,19 @@ public:
     ~ModelManager();
 
     void LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
-
+    void Update(float DeltaTime, int imageIndex);
+    void Recreate();
+    void CleanupUniformBuffers(size_t swapChainImagesSize);
+    Model* CreateModel(std::string path);
 
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 
-    Model* pModel;
+    std::vector<Model*> m_pModels;
 
 private:
-    void LoadObj(std::string path);
-    bool LoadFbx(std::string path);
+    void LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
+    bool LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
 
     VulkanManager* m_pVulkanManager;
 

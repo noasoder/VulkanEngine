@@ -89,6 +89,7 @@ public:
     void CreateFramebuffers();
     void CreateCommandPool();
     void CreateCommandBuffers();
+    void UpdateCommandBuffers();
 
     VkCommandBuffer BeginSingleTimeCommands();
     void EndSingleTimeCommands(VkCommandBuffer commandBuffer);

@@ -1,5 +1,5 @@
 
-#include "Camera.h"
+#include "Camera/Camera.h"
 
 #include "glm/gtx/matrix_operation.hpp"
 #include "Utility/Types.h"

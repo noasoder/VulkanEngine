@@ -39,8 +39,8 @@ public:
         double nanoSec = std::chrono::duration_cast<std::chrono::nanoseconds>(m_clock.now().time_since_epoch()).count();
 
         double time = nanoSec / BILLION;
-
         m_timestep.SetTimestep(time - m_LastFrameTime);
+        m_timestep.SetTime(time);
 
         m_LastFrameTime = time;
     }

@@ -4,6 +4,7 @@
 #include "Managers/VulkanManager.h"
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"
+#include "Managers/ModelManager.h"
 #include "Camera/CameraControllers/CameraController.h"
 #include "Camera/Camera.h"
 
@@ -67,6 +68,8 @@ void Application::Run()
     // Matrix4 mat = Matrix4();
     glm::vec2 lastMousePos = m_pInputManager->GetMousePosition();
     
+    bool pressing1 = false;
+
     while (!glfwWindowShouldClose(m_pWindow)) {
         UpdateTimestep();
 
@@ -91,7 +94,17 @@ void Application::Run()
             newRot = newRot + Vec3(0, 0, 1);
         if (m_pInputManager->GetKey(GLFW_KEY_K))
             newRot = newRot + Vec3(0, 0, -1);
-        
+        if (m_pInputManager->GetKey(GLFW_KEY_1) && !pressing1 || m_pInputManager->GetKey(GLFW_KEY_2))
+        {
+            pressing1 = true;
+            Model* model = m_pVulkanManager->m_pModelManager->CreateModel(MODEL_CUBE_OBJ_PATH);
+            Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
+            model->TranslateWorld(move);
+        }
+        if (m_pInputManager->GetKey(GLFW_KEY_1) == 0)
+        {
+            pressing1 = false;
+        }
         //Vec3 move = Vec3();
 
         //if (m_pInputManager->GetKey(GLFW_KEY_UP))

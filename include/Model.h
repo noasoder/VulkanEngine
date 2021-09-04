@@ -18,6 +18,7 @@ public:
 	~Model();
 
 	void Render();
+	void Update(float DeltaTime, int imageIndex);
 
 	void CreateVertexBuffer();
 	void CreateIndexBuffer();
@@ -26,9 +27,8 @@ public:
 	void UpdateUniformBuffer(uint32_t currentImage, float DeltaTime);
 	void CleanupUniformBuffers(size_t swapChainImagesSize);
 
+	void CreateDescriptorPool();
 	void CreateDescriptorSets();
-
-	void CreateCommandBuffers();
 
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
