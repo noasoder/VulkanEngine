@@ -29,7 +29,8 @@ const bool enableValidationLayers = true;
 #define PROJECT_NAME "VulkanEngine"
 
 const std::string MODEL_PATH = "../bin/Assets/Models/viking_room.obj";
-const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";
+//const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";
+const std::string TEXTURE_PATH = "../bin/Assets/Textures/DefaultTex.png";
 
 const std::string MODEL_CUBE_OBJ_PATH = "../bin/Assets/Models/Primitives/Cube.obj";
 const std::string MODEL_CUBE_FBX_PATH = "../bin/Assets/Models/Primitives/Cube.fbx";
