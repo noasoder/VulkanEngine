@@ -45,9 +45,6 @@
     <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h">
       <Filter>include\Camera\CameraControllers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\HelloWorld.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\Managers\BufferManager.h">
       <Filter>include\Managers</Filter>
     </ClInclude>
@@ -101,7 +98,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HelloWorld.cpp" />
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
     </ClCompile>

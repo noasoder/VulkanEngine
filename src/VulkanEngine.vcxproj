@@ -95,7 +95,6 @@
     <ClInclude Include="..\include\Application.h" />
     <ClInclude Include="..\include\Camera\Camera.h" />
     <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h" />
-    <ClInclude Include="..\include\HelloWorld.h" />
     <ClInclude Include="..\include\Managers\BufferManager.h" />
     <ClInclude Include="..\include\Managers\CameraManager.h" />
     <ClInclude Include="..\include\Managers\InputManager.h" />
@@ -115,7 +114,6 @@
     <ClInclude Include="..\include\Vulkan.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HelloWorld.cpp" />
     <ClCompile Include="code\Application.cpp" />
     <ClCompile Include="code\Camera\Camera.cpp" />
     <ClCompile Include="code\Camera\CameraControllers\CameraController.cpp" />
