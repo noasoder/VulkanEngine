@@ -5,6 +5,7 @@
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/ModelManager.h"
+#include "Managers/WindowManager.h"
 #include "Camera/CameraControllers/CameraController.h"
 #include "Camera/Camera.h"
 
@@ -16,6 +17,7 @@
 #include "Utility/Maths.h"
 #include "Utility/Types.h"
 #include "Model.h"
+#include "Engine.h"
 
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>
@@ -25,18 +27,13 @@ Application::Application()
 {
 	m_Running = true;
 
-    InitWindow();
+    m_pEngine = new Engine();
 
-    m_pInputManager = new InputManager(this);
-    m_pVulkanManager = new VulkanManager(this);
-    m_pCameraManager = new CameraManager(this);
+    VkExtent2D* swapChainExtent = &m_pEngine->m_pVulkanManager->m_swapChainExtent;
+    m_pEngine->m_pCameraManager->CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
 
-    VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
-
-    m_pCameraManager->CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
-
-    CameraController* con = m_pCameraManager->CreateCameraController(this);
-    m_pCameraManager->SetCurrentCameraController(con);
+    CameraController* con = m_pEngine->m_pCameraManager->CreateCameraController(m_pEngine);
+    m_pEngine->m_pCameraManager->SetCurrentCameraController(con);
 
     m_timestep = Timestep(0);
 
@@ -45,13 +42,7 @@ Application::Application()
 
 Application::~Application()
 {
-    delete m_pCameraManager;
-
-    delete m_pVulkanManager;
-    delete m_pInputManager;
-
-    glfwDestroyWindow(m_pWindow);
-    glfwTerminate();
+    delete m_pEngine;
 }
 
 void Application::Run()
@@ -63,77 +54,46 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
-    //Model* pModel = new Model(this, MODEL_CUBE_OBJ_PATH);
-
-    // Matrix4 mat = Matrix4();
-    glm::vec2 lastMousePos = m_pInputManager->GetMousePosition();
+    glm::vec2 lastMousePos = m_pEngine->m_pInputManager->GetMousePosition();
     
     bool pressing1 = false;
 
-    while (!glfwWindowShouldClose(m_pWindow)) {
+    while (!glfwWindowShouldClose(m_pEngine->m_pWindowManager->m_pWindow)) {
         UpdateTimestep();
 
-        m_pCameraManager->Update(m_timestep.GetDeltaTime());
+        m_pEngine->m_pCameraManager->Update(m_timestep.GetDeltaTime());
 
         Vec3 newRot = Vec3();
 
-        if (m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
             break;
         }
 
-        if (m_pInputManager->GetKey(GLFW_KEY_Y))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_Y))
             newRot = newRot + Vec3(1, 0, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_H))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_H))
             newRot = newRot + Vec3(-1, 0, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_U))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_U))
             newRot = newRot + Vec3(0, 1, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_J))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_J))
             newRot = newRot + Vec3(0, -1, 0);
-        if (m_pInputManager->GetKey(GLFW_KEY_I))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_I))
             newRot = newRot + Vec3(0, 0, 1);
-        if (m_pInputManager->GetKey(GLFW_KEY_K))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_K))
             newRot = newRot + Vec3(0, 0, -1);
-        if (m_pInputManager->GetKey(GLFW_KEY_1) && !pressing1 || m_pInputManager->GetKey(GLFW_KEY_2))
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_1) && !pressing1 || m_pEngine->m_pInputManager->GetKey(GLFW_KEY_2))
         {
             pressing1 = true;
-            Model* model = m_pVulkanManager->m_pModelManager->CreateModel(MODEL_CUBE_OBJ_PATH);
+            Model* model = m_pEngine->m_pVulkanManager->m_pModelManager->CreateModel(MODEL_CUBE_OBJ_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
         }
-        if (m_pInputManager->GetKey(GLFW_KEY_1) == 0)
+        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_1) == 0)
         {
             pressing1 = false;
         }
-        //Vec3 move = Vec3();
 
-        //if (m_pInputManager->GetKey(GLFW_KEY_UP))
-        //    move = move + Vec3(0, 1, 0);
-        //if (m_pInputManager->GetKey(GLFW_KEY_DOWN))
-        //    move = move + Vec3(0, -1, 0);
-        //if (m_pInputManager->GetKey(GLFW_KEY_RIGHT))
-        //    move = move + Vec3(1, 0, 0);
-        //if (m_pInputManager->GetKey(GLFW_KEY_LEFT))
-        //    move = move + Vec3(-1, 0, 0);
-
-        //move *= m_timestep.GetDeltaTime();
-        //newRot = newRot * m_timestep.GetDeltaTime();
-
-        //pModel.Rotate(newRot);
-        //pModel.Translate(move);
-
-        //Rotor3 rotor = Rotor3(10, 0, 1, 0);
-
-        //Vec3 rot = rotor.rotate(Vec3(PI, 0, 0));
-        //
-        //printf("\nL: %f, %f, %f, %f\n U: %f, %f, %f, %f\n A: %f, %f, %f, %f\n P: %f, %f, %f, %f\n", 
-        //    pModel.m0.x, pModel.m0.y, pModel.m0.z, pModel.m0.w, 
-        //    pModel.m1.x, pModel.m1.y, pModel.m1.z, pModel.m1.w, 
-        //    pModel.m2.x, pModel.m2.y, pModel.m2.z, pModel.m2.w, 
-        //    pModel.m3.x, pModel.m3.y, pModel.m3.z, pModel.m3.w);
-        //mat = mat.Rotate(newRot);
-
-        
         if (lerpValue > TWO_PI)
             lerpValue -= TWO_PI;
         else
@@ -154,30 +114,13 @@ void Application::Run()
 
         glfwPollEvents();
         //pModel->Render();
-        m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
+        m_pEngine->m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
     }
 
-    vkDeviceWaitIdle(m_pVulkanManager->m_device);
+    vkDeviceWaitIdle(m_pEngine->m_pVulkanManager->m_device);
 }
 
 void Application::CloseApplication()
 {
     m_Running = false;
-}
-
-void Application::InitWindow() {
-    glfwInit();
-
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-
-    m_pWindow = glfwCreateWindow(WIDTH, HEIGHT, PROJECT_NAME, nullptr, nullptr);
-    glfwSetWindowUserPointer(m_pWindow, this);
-    glfwSetFramebufferSizeCallback(m_pWindow, FramebufferResizeCallback);
-}
-
-void Application::FramebufferResizeCallback(GLFWwindow* window, int width, int height) 
-{
-    auto app = reinterpret_cast<VulkanManager*>(glfwGetWindowUserPointer(window));
-    app->m_framebufferResized = true;
 }

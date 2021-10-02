@@ -14,19 +14,16 @@
 #include <set>
 #include <fstream>
 
-class Application;
 class BufferManager;
 class TextureManager;
 class ModelManager;
+class Engine;
 
 #ifdef NDEBUG
 const bool enableValidationLayers = false;
 #else
 const bool enableValidationLayers = true;
 #endif
-
-#define ENGINE_NAME "VulkanEngine"
-#define PROJECT_NAME "VulkanEngine"
 
 const std::string MODEL_PATH = "../bin/Assets/Models/viking_room.obj";
 //const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";
@@ -72,7 +69,7 @@ class VulkanManager
 {
 public:
 
-    VulkanManager(Application* pApplication);
+    VulkanManager(Engine* pEngine, GLFWwindow* window);
 
     ~VulkanManager();
 
@@ -211,7 +208,7 @@ private:
 
 
 public :
-    Application* m_pApplication;
+    Engine* m_pEngine;
     BufferManager* m_pBufferManager;
     TextureManager* m_pTextureManager;
     ModelManager* m_pModelManager;

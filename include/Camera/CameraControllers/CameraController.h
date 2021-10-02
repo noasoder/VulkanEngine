@@ -1,6 +1,6 @@
 #pragma once
 
-class Application;
+class Engine;
 class InputManager;
 class VulkanManager;
 class CameraManager;
@@ -10,7 +10,7 @@ class CameraManager;
 class CameraController
 {
 public:
-	CameraController(Application* app);
+	CameraController(Engine* pEngine);
 	~CameraController();
 
 	void Update(float DeltaTime);

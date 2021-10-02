@@ -2,12 +2,12 @@
 
 #include	"Vulkan.h"
 
-class Application;
+class Engine;
 
 class InputManager
 {
 public:
-	InputManager(Application* pApplication);
+	InputManager(Engine* pEngine, GLFWwindow* window);
 	~InputManager();
 
 	int GetKey(int key);
@@ -15,5 +15,6 @@ public:
 
 	glm::vec2 GetMousePosition();
 private:
-	Application* m_pApplication;
+	Engine* m_pEngine;
+	GLFWwindow* m_pWindow;
 };

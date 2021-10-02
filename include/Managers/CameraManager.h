@@ -3,14 +3,14 @@
 #include <vector>
 #include "Utility/Types.h"
 
-class Application;
+class Engine;
 class Camera;
 class CameraController;
 
 class CameraManager
 {
 public:
-	CameraManager(Application* pApplication);
+	CameraManager(Engine* pEngine);
 	~CameraManager();
 
 	void Update(float DeltaTime);
@@ -19,13 +19,13 @@ public:
 	Camera* CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect, float Near, float Far);
 
 
-	CameraController* CreateCameraController(Application* app);
+	CameraController* CreateCameraController(Engine* pEngine);
 
 	void SetCurrentCameraController(CameraController* pCon);
 	void SetCurrentCameraController(int index);
 
 private:
-	Application* m_pApplication;
+	Engine* m_pEngine;
 
 	std::vector<Camera*> m_cameras;
 	std::vector<CameraController*> m_cameraControllers;

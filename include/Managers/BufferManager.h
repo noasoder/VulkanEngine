@@ -4,7 +4,7 @@
 
 #include <vector>
 
-class Application;
+class Engine;
 class VulkanManager;
 
 class BufferManager
@@ -22,6 +22,6 @@ public:
 
 private:
 
-	Application* m_pApplication;
+	Engine* m_pEngine;
 	VulkanManager* m_pVulkanManager;
 };

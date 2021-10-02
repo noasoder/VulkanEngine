@@ -10,11 +10,12 @@ class VulkanManager;
 class BufferManager;
 class Application;
 class ModelManager;
+class Engine;
 
 class Model : public Transform
 {
 public:
-	Model(Application* pApplication, std::string path);
+	Model(Engine* pEngine, std::string path);
 	~Model();
 
 	void Render();
@@ -49,7 +50,7 @@ public:
 	std::vector<VkCommandBuffer> m_commandBuffers;
 private:
 
-	Application* m_pApplication;
+	Engine* m_pEngine;
 	VulkanManager* m_pVulkanManager;
 	BufferManager* m_pBufferManager;
 	ModelManager* m_pModelManager;

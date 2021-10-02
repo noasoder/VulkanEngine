@@ -8,15 +8,9 @@
 #include "Timestep.h"
 #include "Utility/Maths.h"
 
-
-class VulkanManager;
-class InputManager;
-class CameraManager;
 class CameraController;
 class Model;
-
-const uint32_t WIDTH = 800;
-const uint32_t HEIGHT = 600;
+class Engine;
 
 class Application
 {
@@ -25,14 +19,6 @@ public:
     ~Application();
     void Run();
     void CloseApplication();
-
-    void InitWindow();
-
-    void mainLoop() {
-
-    }
-
-    static void FramebufferResizeCallback(GLFWwindow* window, int width, int height);
 
     void UpdateTimestep() {
         std::chrono::high_resolution_clock m_clock;
@@ -44,15 +30,12 @@ public:
 
         m_LastFrameTime = time;
     }
-    VulkanManager* m_pVulkanManager;
-    InputManager* m_pInputManager;
-    CameraManager* m_pCameraManager;
-
-    GLFWwindow* m_pWindow;
 
 private:
     bool m_Running;
     double m_LastFrameTime;
+
+    Engine* m_pEngine;
 
     Timestep m_timestep;
 };
