@@ -22,7 +22,6 @@ public:
 
 private:
     bool m_Running;
-    double m_LastFrameTime;
 
     Engine* m_pEngine;
 };
