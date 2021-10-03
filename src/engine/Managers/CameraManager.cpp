@@ -5,9 +5,8 @@
 #include "Application.h"
 #include "Camera/CameraControllers/CameraController.h"
 
-CameraManager::CameraManager(Engine* pEngine)
-: m_pEngine(pEngine)
-, m_currentCamera(-1)
+CameraManager::CameraManager()
+: m_currentCamera(-1)
 , m_currentCameraController(-1)
 {
 
@@ -40,9 +39,9 @@ Camera* CameraManager::CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect
 	return newCamera;
 }
 
-CameraController* CameraManager::CreateCameraController(Engine* pEngine)
+CameraController* CameraManager::CreateCameraController()
 {
-	m_cameraControllers.push_back(new CameraController(pEngine));
+	m_cameraControllers.push_back(new CameraController());
 	return m_cameraControllers[m_cameraControllers.size() - 1];
 }
 

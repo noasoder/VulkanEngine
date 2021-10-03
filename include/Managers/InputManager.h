@@ -1,13 +1,15 @@
 #pragma once
 
-#include	"Vulkan.h"
+#include "Vulkan.h"
+#include "Utility/Singleton.h"
 
 class Engine;
 
-class InputManager
+class InputManager : public Singleton<InputManager>
 {
 public:
-	InputManager(Engine* pEngine, GLFWwindow* window);
+
+	InputManager();
 	~InputManager();
 
 	int GetKey(int key);
@@ -15,6 +17,5 @@ public:
 
 	glm::vec2 GetMousePosition();
 private:
-	Engine* m_pEngine;
-	GLFWwindow* m_pWindow;
+	int m;
 };

@@ -17,9 +17,6 @@ public:
     void Update();
 
     VulkanManager* m_pVulkanManager;
-    InputManager* m_pInputManager;
-    CameraManager* m_pCameraManager;
-    WindowManager* m_pWindowManager;
 private:
 
 };

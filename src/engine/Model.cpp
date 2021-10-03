@@ -110,7 +110,7 @@ void Model::UpdateUniformBuffer(uint32_t currentImage, float DeltaTime)
 {
     VkDevice* pDevice = &m_pVulkanManager->m_device;
     VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
-    Camera* pCamera = m_pEngine->m_pCameraManager->GetCurrentCamera();
+    Camera* pCamera = CameraManager::Instance().GetCurrentCamera();
 
     pCamera->UpdateAspect(swapChainExtent->width / (float)swapChainExtent->height);
 

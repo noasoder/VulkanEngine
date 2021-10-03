@@ -95,12 +95,14 @@
     <ClInclude Include="..\include\Application.h" />
     <ClInclude Include="..\include\Camera\Camera.h" />
     <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h" />
+    <ClInclude Include="..\include\Engine.h" />
     <ClInclude Include="..\include\Managers\BufferManager.h" />
     <ClInclude Include="..\include\Managers\CameraManager.h" />
     <ClInclude Include="..\include\Managers\InputManager.h" />
     <ClInclude Include="..\include\Managers\ModelManager.h" />
     <ClInclude Include="..\include\Managers\TextureManager.h" />
     <ClInclude Include="..\include\Managers\VulkanManager.h" />
+    <ClInclude Include="..\include\Managers\WindowManager.h" />
     <ClInclude Include="..\include\Mesh.h" />
     <ClInclude Include="..\include\Model.h" />
     <ClInclude Include="..\include\Timestep.h" />
@@ -109,27 +111,30 @@
     <ClInclude Include="..\include\Utility\Matrix3.h" />
     <ClInclude Include="..\include\Utility\Matrix4.h" />
     <ClInclude Include="..\include\Utility\Rotor3.h" />
+    <ClInclude Include="..\include\Utility\Singleton.h" />
     <ClInclude Include="..\include\Utility\Types.h" />
     <ClInclude Include="..\include\Utility\Vertex.h" />
     <ClInclude Include="..\include\Vulkan.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
-    <ClCompile Include="code\Camera\Camera.cpp" />
-    <ClCompile Include="code\Camera\CameraControllers\CameraController.cpp" />
-    <ClCompile Include="code\Managers\BufferManager.cpp" />
-    <ClCompile Include="code\Managers\CameraManager.cpp" />
-    <ClCompile Include="code\Managers\InputManager.cpp" />
-    <ClCompile Include="code\Managers\ModelManager.cpp" />
-    <ClCompile Include="code\Managers\TextureManager.cpp" />
-    <ClCompile Include="code\Managers\VulkanManager.cpp" />
-    <ClCompile Include="code\Mesh.cpp" />
-    <ClCompile Include="code\Model.cpp" />
-    <ClCompile Include="code\Transform.cpp" />
-    <ClCompile Include="code\Utility\Maths.cpp" />
-    <ClCompile Include="code\Utility\Matrix3.cpp" />
-    <ClCompile Include="code\Utility\Matrix4.cpp" />
-    <ClCompile Include="code\Utility\Types.cpp" />
+    <ClCompile Include="engine\Camera\Camera.cpp" />
+    <ClCompile Include="engine\Camera\CameraControllers\CameraController.cpp" />
+    <ClCompile Include="engine\Engine.cpp" />
+    <ClCompile Include="engine\Managers\BufferManager.cpp" />
+    <ClCompile Include="engine\Managers\CameraManager.cpp" />
+    <ClCompile Include="engine\Managers\InputManager.cpp" />
+    <ClCompile Include="engine\Managers\ModelManager.cpp" />
+    <ClCompile Include="engine\Managers\TextureManager.cpp" />
+    <ClCompile Include="engine\Managers\VulkanManager.cpp" />
+    <ClCompile Include="engine\Managers\WindowManager.cpp" />
+    <ClCompile Include="engine\Mesh.cpp" />
+    <ClCompile Include="engine\Model.cpp" />
+    <ClCompile Include="engine\Transform.cpp" />
+    <ClCompile Include="engine\Utility\Maths.cpp" />
+    <ClCompile Include="engine\Utility\Matrix3.cpp" />
+    <ClCompile Include="engine\Utility\Matrix4.cpp" />
+    <ClCompile Include="engine\Utility\Types.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

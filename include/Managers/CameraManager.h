@@ -2,15 +2,16 @@
 
 #include <vector>
 #include "Utility/Types.h"
+#include "Utility/Singleton.h"
 
 class Engine;
 class Camera;
 class CameraController;
 
-class CameraManager
+class CameraManager : public Singleton<CameraManager>
 {
 public:
-	CameraManager(Engine* pEngine);
+	CameraManager();
 	~CameraManager();
 
 	void Update(float DeltaTime);
@@ -19,13 +20,12 @@ public:
 	Camera* CreateCamera(Vec3 Pos, Vec3 LookAt, int FOV, float Aspect, float Near, float Far);
 
 
-	CameraController* CreateCameraController(Engine* pEngine);
+	CameraController* CreateCameraController();
 
 	void SetCurrentCameraController(CameraController* pCon);
 	void SetCurrentCameraController(int index);
 
 private:
-	Engine* m_pEngine;
 
 	std::vector<Camera*> m_cameras;
 	std::vector<CameraController*> m_cameraControllers;

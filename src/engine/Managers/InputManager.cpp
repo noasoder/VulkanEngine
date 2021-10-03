@@ -1,16 +1,15 @@
 #include "Managers/InputManager.h"
+#include "Managers/WindowManager.h"
 
 #include "Engine.h"
 #include "Utility/Types.h"
 
-InputManager::InputManager(Engine* pEngine, GLFWwindow* window)
-: m_pEngine(pEngine)
-, m_pWindow(window)
+InputManager::InputManager()
 {
     if (glfwRawMouseMotionSupported())
-        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+        glfwSetInputMode(WindowManager::Instance().m_pWindow, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(WindowManager::Instance().m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 InputManager::~InputManager()
@@ -20,7 +19,7 @@ InputManager::~InputManager()
 
 int InputManager::GetKey(int key)
 {
-    return glfwGetKey(m_pWindow, key);
+    return glfwGetKey(WindowManager::Instance().m_pWindow, key);
 }
 
 const char* InputManager::GetKeyName(int key, int scancode)
@@ -31,7 +30,7 @@ const char* InputManager::GetKeyName(int key, int scancode)
 glm::vec2 InputManager::GetMousePosition()
 {
     double xpos, ypos;
-    glfwGetCursorPos(m_pWindow, &xpos, &ypos);
+    glfwGetCursorPos(WindowManager::Instance().m_pWindow, &xpos, &ypos);
 
     return glm::vec2(xpos, ypos);
 }

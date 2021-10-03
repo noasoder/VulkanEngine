@@ -4,17 +4,20 @@
     <Filter Include="code">
       <UniqueIdentifier>{803E957C-6C75-960D-1562-7C100178120F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="code\Camera">
-      <UniqueIdentifier>{F882C1BA-6438-3AB0-ED2C-348759E130B4}</UniqueIdentifier>
+    <Filter Include="engine">
+      <UniqueIdentifier>{FBDB78FB-E77D-A3D1-D038-B725BC792A22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="code\Camera\CameraControllers">
-      <UniqueIdentifier>{07446431-735C-4B5B-3C09-DBF4A8E0DFF4}</UniqueIdentifier>
+    <Filter Include="engine\Camera">
+      <UniqueIdentifier>{13C8731F-7F88-EF55-48C3-38D3B4423432}</UniqueIdentifier>
     </Filter>
-    <Filter Include="code\Managers">
-      <UniqueIdentifier>{5D50C7AD-C910-43E4-924B-8C61FECA87C0}</UniqueIdentifier>
+    <Filter Include="engine\Camera\CameraControllers">
+      <UniqueIdentifier>{E2912E33-4E75-3D73-5778-6BAFC3DA03C4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="code\Utility">
-      <UniqueIdentifier>{C37C97A8-AFDF-264D-5865-5F0344A7F2CF}</UniqueIdentifier>
+    <Filter Include="engine\Managers">
+      <UniqueIdentifier>{38481F08-A4D3-8CCC-ADE4-0FC119EFE8CC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\Utility">
+      <UniqueIdentifier>{3E6592A3-2A33-86A9-13C7-F6CFFF33620E}</UniqueIdentifier>
     </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
@@ -45,6 +48,9 @@
     <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h">
       <Filter>include\Camera\CameraControllers</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Engine.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Managers\BufferManager.h">
       <Filter>include\Managers</Filter>
     </ClInclude>
@@ -61,6 +67,9 @@
       <Filter>include\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Managers\VulkanManager.h">
+      <Filter>include\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Managers\WindowManager.h">
       <Filter>include\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Mesh.h">
@@ -87,6 +96,9 @@
     <ClInclude Include="..\include\Utility\Rotor3.h">
       <Filter>include\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Utility\Singleton.h">
+      <Filter>include\Utility</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Utility\Types.h">
       <Filter>include\Utility</Filter>
     </ClInclude>
@@ -101,50 +113,56 @@
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
     </ClCompile>
-    <ClCompile Include="code\Camera\Camera.cpp">
-      <Filter>code\Camera</Filter>
+    <ClCompile Include="engine\Camera\Camera.cpp">
+      <Filter>engine\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="code\Camera\CameraControllers\CameraController.cpp">
-      <Filter>code\Camera\CameraControllers</Filter>
+    <ClCompile Include="engine\Camera\CameraControllers\CameraController.cpp">
+      <Filter>engine\Camera\CameraControllers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Managers\BufferManager.cpp">
-      <Filter>code\Managers</Filter>
+    <ClCompile Include="engine\Engine.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="code\Managers\CameraManager.cpp">
-      <Filter>code\Managers</Filter>
+    <ClCompile Include="engine\Managers\BufferManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Managers\InputManager.cpp">
-      <Filter>code\Managers</Filter>
+    <ClCompile Include="engine\Managers\CameraManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Managers\ModelManager.cpp">
-      <Filter>code\Managers</Filter>
+    <ClCompile Include="engine\Managers\InputManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Managers\TextureManager.cpp">
-      <Filter>code\Managers</Filter>
+    <ClCompile Include="engine\Managers\ModelManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Managers\VulkanManager.cpp">
-      <Filter>code\Managers</Filter>
+    <ClCompile Include="engine\Managers\TextureManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Mesh.cpp">
-      <Filter>code</Filter>
+    <ClCompile Include="engine\Managers\VulkanManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Model.cpp">
-      <Filter>code</Filter>
+    <ClCompile Include="engine\Managers\WindowManager.cpp">
+      <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="code\Transform.cpp">
-      <Filter>code</Filter>
+    <ClCompile Include="engine\Mesh.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="code\Utility\Maths.cpp">
-      <Filter>code\Utility</Filter>
+    <ClCompile Include="engine\Model.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="code\Utility\Matrix3.cpp">
-      <Filter>code\Utility</Filter>
+    <ClCompile Include="engine\Transform.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="code\Utility\Matrix4.cpp">
-      <Filter>code\Utility</Filter>
+    <ClCompile Include="engine\Utility\Maths.cpp">
+      <Filter>engine\Utility</Filter>
     </ClCompile>
-    <ClCompile Include="code\Utility\Types.cpp">
-      <Filter>code\Utility</Filter>
+    <ClCompile Include="engine\Utility\Matrix3.cpp">
+      <Filter>engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Utility\Matrix4.cpp">
+      <Filter>engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Utility\Types.cpp">
+      <Filter>engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>

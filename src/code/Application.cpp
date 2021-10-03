@@ -19,6 +19,8 @@
 #include "Model.h"
 #include "Engine.h"
 
+#include "Utility/Singleton.h"
+
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>
 //#include <backends/imgui_impl_vulkan.h
@@ -30,10 +32,10 @@ Application::Application()
     m_pEngine = new Engine();
 
     VkExtent2D* swapChainExtent = &m_pEngine->m_pVulkanManager->m_swapChainExtent;
-    m_pEngine->m_pCameraManager->CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
+    CameraManager::Instance().CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
 
-    CameraController* con = m_pEngine->m_pCameraManager->CreateCameraController(m_pEngine);
-    m_pEngine->m_pCameraManager->SetCurrentCameraController(con);
+    CameraController* con = CameraManager::Instance().CreateCameraController();
+    CameraManager::Instance().SetCurrentCameraController(con);
 
     m_timestep = Timestep(0);
 
@@ -47,6 +49,7 @@ Application::~Application()
 
 void Application::Run()
 {
+    GLFWwindow* pWindow = WindowManager::Instance().m_pWindow;
     struct std::tm start;
     std::chrono::high_resolution_clock m_clock;
 
@@ -54,44 +57,54 @@ void Application::Run()
     float lerp = 0;
     float lerpValue = 0;
 
-    glm::vec2 lastMousePos = m_pEngine->m_pInputManager->GetMousePosition();
+    glm::vec2 lastMousePos = InputManager::Instance().GetMousePosition();
     
     bool pressing1 = false;
+    bool pressing4 = false;
 
-    while (!glfwWindowShouldClose(m_pEngine->m_pWindowManager->m_pWindow)) {
+    while (!glfwWindowShouldClose(pWindow)) {
         UpdateTimestep();
 
-        m_pEngine->m_pCameraManager->Update(m_timestep.GetDeltaTime());
+        CameraManager::Instance().Update(m_timestep.GetDeltaTime());
 
         Vec3 newRot = Vec3();
 
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        if (InputManager::Instance().GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
             break;
         }
 
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_Y))
+        if (InputManager::Instance().GetKey(GLFW_KEY_Y))
             newRot = newRot + Vec3(1, 0, 0);
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_H))
+        if (InputManager::Instance().GetKey(GLFW_KEY_H))
             newRot = newRot + Vec3(-1, 0, 0);
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_U))
+        if (InputManager::Instance().GetKey(GLFW_KEY_U))
             newRot = newRot + Vec3(0, 1, 0);
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_J))
+        if (InputManager::Instance().GetKey(GLFW_KEY_J))
             newRot = newRot + Vec3(0, -1, 0);
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_I))
+        if (InputManager::Instance().GetKey(GLFW_KEY_I))
             newRot = newRot + Vec3(0, 0, 1);
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_K))
+        if (InputManager::Instance().GetKey(GLFW_KEY_K))
             newRot = newRot + Vec3(0, 0, -1);
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_1) && !pressing1 || m_pEngine->m_pInputManager->GetKey(GLFW_KEY_2))
+        if (InputManager::Instance().GetKey(GLFW_KEY_1) && !pressing1 || InputManager::Instance().GetKey(GLFW_KEY_2))
         {
             pressing1 = true;
             Model* model = m_pEngine->m_pVulkanManager->m_pModelManager->CreateModel(MODEL_CUBE_OBJ_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
         }
-        if (m_pEngine->m_pInputManager->GetKey(GLFW_KEY_1) == 0)
+        if (InputManager::Instance().GetKey(GLFW_KEY_1) == 0)
         {
             pressing1 = false;
+        }
+        if (InputManager::Instance().GetKey(GLFW_KEY_4) && !pressing4)
+        {
+            pressing4 = true;
+            std::cout << "4" << std::endl;
+        }
+        if (InputManager::Instance().GetKey(GLFW_KEY_4) == 0)
+        {
+            pressing4 = false;
         }
 
         if (lerpValue > TWO_PI)

@@ -8,20 +8,19 @@
 
 Engine::Engine()
 {
-    m_pWindowManager = new WindowManager();
-    m_pInputManager = new InputManager(this, m_pWindowManager->m_pWindow);
-    m_pVulkanManager = new VulkanManager(this, m_pWindowManager->m_pWindow);
-    m_pCameraManager = new CameraManager(this);
+    WindowManager::Init();
+    InputManager::Init();
+    m_pVulkanManager = new VulkanManager(this, WindowManager::Instance().m_pWindow);
+    CameraManager::Init();
 }
 
 Engine::~Engine()
 {
-    delete m_pCameraManager;
-
+    CameraManager::Destroy();
     delete m_pVulkanManager;
-    delete m_pInputManager;
 
-    delete m_pWindowManager;
+    InputManager::Destroy();
+    WindowManager::Destroy();
 }
 
 void Engine::Update()
