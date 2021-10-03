@@ -10,14 +10,14 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 
 #include "Utility/Vertex.h"
+#include "Utility/Singleton.h"
 
-class VulkanManager;
 class Model;
 
-class ModelManager
+class ModelManager : public Singleton<ModelManager>
 {
 public:
-    ModelManager(VulkanManager* pVulkanManager);
+    ModelManager();
     ~ModelManager();
 
     void LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
@@ -34,8 +34,4 @@ public:
 private:
     void LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
     bool LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
-
-    VulkanManager* m_pVulkanManager;
-
-    //ofbx::IScene* scene;
 };

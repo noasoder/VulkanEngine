@@ -10,15 +10,14 @@ Engine::Engine()
 {
     WindowManager::Init();
     InputManager::Init();
-    m_pVulkanManager = new VulkanManager(this, WindowManager::Instance().m_pWindow);
+    VulkanManager::Init();
     CameraManager::Init();
 }
 
 Engine::~Engine()
 {
     CameraManager::Destroy();
-    delete m_pVulkanManager;
-
+    VulkanManager::Destroy();
     InputManager::Destroy();
     WindowManager::Destroy();
 }

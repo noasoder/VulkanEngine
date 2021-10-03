@@ -10,13 +10,11 @@
 #include "Application.h"
 #include "Engine.h"
 
-Model::Model(Engine* pEngine, std::string path)
-: m_pVulkanManager(pEngine->m_pVulkanManager)
-, m_pEngine(pEngine)
-, m_pBufferManager(pEngine->m_pVulkanManager->m_pBufferManager)
-, m_pModelManager(pEngine->m_pVulkanManager->m_pModelManager)
+Model::Model(std::string path)
+: m_pVulkanManager(&VulkanManager::Instance())
+, m_pBufferManager(m_pVulkanManager->m_pBufferManager)
 {
-    m_pModelManager->LoadModel(path, vertices, indices);
+    ModelManager::Instance().LoadModel(path, vertices, indices);
 
 
     CreateVertexBuffer();
@@ -49,7 +47,7 @@ void Model::Update(float DeltaTime, int imageIndex)
 void Model::CreateVertexBuffer()
 {
     VkDevice* pDevice = &m_pVulkanManager->m_device;
-    ModelManager* pModelManager = m_pVulkanManager->m_pModelManager;
+    ModelManager* pModelManager = &ModelManager::Instance();
 
     VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 

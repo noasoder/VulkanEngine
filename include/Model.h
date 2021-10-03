@@ -8,14 +8,11 @@
 
 class VulkanManager;
 class BufferManager;
-class Application;
-class ModelManager;
-class Engine;
 
 class Model : public Transform
 {
 public:
-	Model(Engine* pEngine, std::string path);
+	Model(std::string path);
 	~Model();
 
 	void Render();
@@ -50,11 +47,8 @@ public:
 	std::vector<VkCommandBuffer> m_commandBuffers;
 private:
 
-	Engine* m_pEngine;
 	VulkanManager* m_pVulkanManager;
 	BufferManager* m_pBufferManager;
-	ModelManager* m_pModelManager;
-
 
 	struct UniformBufferObject {
 		alignas(16) glm::mat4 model;

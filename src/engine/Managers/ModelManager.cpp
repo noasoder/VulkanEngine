@@ -10,9 +10,7 @@
 #include "Model.h"
 
 
-ModelManager::ModelManager(VulkanManager* pVulkanManager)
-: m_pVulkanManager(pVulkanManager)
-//, g_scene(nullptr)
+ModelManager::ModelManager()
 {
 
 }
@@ -35,9 +33,9 @@ void ModelManager::Update(float DeltaTime, int imageIndex)
 
 Model* ModelManager::CreateModel(std::string path)
 {
-    Model* newModel = new Model(m_pVulkanManager->m_pEngine, path);
+    Model* newModel = new Model(path);
     m_pModels.push_back(newModel);
-    m_pVulkanManager->UpdateCommandBuffers();
+    VulkanManager::Instance().UpdateCommandBuffers();
 
     printf("total models: %i\n", m_pModels.size());
 

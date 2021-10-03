@@ -6,8 +6,8 @@
 
 #include <stb_image.h>
 
-TextureManager::TextureManager(VulkanManager* pVulkanManager, BufferManager* pBufferManager)
-: m_pVulkanManager(pVulkanManager)
+TextureManager::TextureManager(BufferManager* pBufferManager)
+: m_pVulkanManager(&VulkanManager::Instance())
 , m_pBufferManager(pBufferManager)
 {
 

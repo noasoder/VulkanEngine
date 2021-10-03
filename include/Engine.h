@@ -3,11 +3,6 @@
 #define ENGINE_NAME "VulkanEngine"
 #define PROJECT_NAME "VulkanEngine"
 
-class VulkanManager;
-class InputManager;
-class CameraManager;
-class WindowManager;
-
 class Engine
 {
 public:
@@ -15,8 +10,6 @@ public:
     ~Engine();
 
     void Update();
-
-    VulkanManager* m_pVulkanManager;
 private:
 
 };

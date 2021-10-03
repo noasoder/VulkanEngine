@@ -12,7 +12,7 @@ class BufferManager;
 class TextureManager
 {
 public :
-	TextureManager(VulkanManager* pVulkanManager, BufferManager* pBufferManager);
+	TextureManager(BufferManager* pBufferManager);
 	~TextureManager();
 
 	void CreateDepthResources();

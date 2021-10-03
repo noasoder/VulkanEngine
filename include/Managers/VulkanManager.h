@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vulkan.h"
+#include "Utility/Singleton.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -65,11 +66,11 @@ struct SwapChainSupportDetails {
 };
 
 
-class VulkanManager
+class VulkanManager : public Singleton<VulkanManager>
 {
 public:
 
-    VulkanManager(Engine* pEngine, GLFWwindow* window);
+    VulkanManager();
 
     ~VulkanManager();
 
@@ -208,7 +209,6 @@ private:
 
 
 public :
-    Engine* m_pEngine;
     BufferManager* m_pBufferManager;
     TextureManager* m_pTextureManager;
     ModelManager* m_pModelManager;

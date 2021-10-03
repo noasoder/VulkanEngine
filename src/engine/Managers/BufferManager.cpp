@@ -12,9 +12,8 @@
 
 #include "Utility/Maths.h"
 
-BufferManager::BufferManager(VulkanManager* pVulkanManager)
-: m_pVulkanManager(pVulkanManager)
-, m_pEngine(pVulkanManager->m_pEngine)
+BufferManager::BufferManager()
+: m_pVulkanManager(&VulkanManager::Instance())
 {
 
 }

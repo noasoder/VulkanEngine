@@ -4,16 +4,15 @@
 #include "Managers/BufferManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"
+#include "Managers/WindowManager.h"
 #include "Model.h"
 #include "Engine.h"
 
-VulkanManager::VulkanManager(Engine* pEngine, GLFWwindow* pWindow) 
-: m_pEngine(pEngine)
-, m_pWindow(pWindow)
+VulkanManager::VulkanManager() 
+: m_pWindow(WindowManager::Instance().m_pWindow)
 {
-    m_pEngine->m_pVulkanManager = this;
-    m_pBufferManager = new BufferManager(this);
-    m_pTextureManager = new TextureManager(this, m_pBufferManager);
+    m_pBufferManager = new BufferManager();
+    m_pTextureManager = new TextureManager(m_pBufferManager);
 
     CreateInstance();
     SetupDebugMessenger();
@@ -31,10 +30,7 @@ VulkanManager::VulkanManager(Engine* pEngine, GLFWwindow* pWindow)
     m_pTextureManager->CreateTextureImage();
     m_pTextureManager->CreateTextureImageView();
     m_pTextureManager->CreateTextureSampler();
-    m_pModelManager = new ModelManager(this);
-    //m_pModelManager->LoadModel(MODEL_PATH, m_pModelManager->vertices, m_pModelManager->indices);
-    //m_pModelManager->LoadModel(MODEL_CUBE_OBJ_PATH);
-    //m_pBufferManager->CreateBuffers();
+    ModelManager::Init();
     CreateCommandBuffers();
     CreateSyncObjects();
 }
@@ -46,7 +42,7 @@ VulkanManager::~VulkanManager() {
 void VulkanManager::Cleanup() {
     CleanupSwapChain();
 
-    delete m_pModelManager;
+    ModelManager::Destroy();
     delete m_pTextureManager;
     delete m_pBufferManager;
 
@@ -88,7 +84,7 @@ void VulkanManager::DrawFrame(float DeltaTime) {
     m_imagesInFlight[imageIndex] = m_inFlightFences[m_currentFrame];
 
     //m_pBufferManager->UpdateUniformBuffer(imageIndex, DeltaTime);
-    m_pModelManager->Update(DeltaTime, imageIndex);
+    ModelManager::Instance().Update(DeltaTime, imageIndex);
 
     VkSubmitInfo submitInfo{};
     submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -506,7 +502,7 @@ void VulkanManager::CreateCommandBuffers() {
 
 void VulkanManager::UpdateCommandBuffers()
 {
-    std::vector<Model*> models = m_pModelManager->m_pModels;
+    std::vector<Model*> models = ModelManager::Instance().m_pModels;
 
     for (size_t i = 0; i < m_commandBuffers.size(); i++)
     {
@@ -941,7 +937,7 @@ void VulkanManager::CleanupSwapChain() {
 
     vkDestroySwapchainKHR(m_device, m_swapChain, nullptr);
 
-    m_pModelManager->CleanupUniformBuffers(m_swapChainImages.size());
+    ModelManager::Instance().CleanupUniformBuffers(m_swapChainImages.size());
 }
 
 void VulkanManager::RecreateSwapChain() {
@@ -962,7 +958,7 @@ void VulkanManager::RecreateSwapChain() {
     CreateGraphicsPipeline();
     m_pTextureManager->CreateDepthResources();
     CreateFramebuffers();
-    m_pModelManager->Recreate();
+    ModelManager::Instance().Recreate();
     CreateCommandBuffers();
 }
 

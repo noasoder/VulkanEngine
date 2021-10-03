@@ -31,7 +31,7 @@ Application::Application()
 
     m_pEngine = new Engine();
 
-    VkExtent2D* swapChainExtent = &m_pEngine->m_pVulkanManager->m_swapChainExtent;
+    VkExtent2D* swapChainExtent = &VulkanManager::Instance().m_swapChainExtent;
     CameraManager::Instance().CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
 
     CameraController* con = CameraManager::Instance().CreateCameraController();
@@ -89,7 +89,7 @@ void Application::Run()
         if (InputManager::Instance().GetKey(GLFW_KEY_1) && !pressing1 || InputManager::Instance().GetKey(GLFW_KEY_2))
         {
             pressing1 = true;
-            Model* model = m_pEngine->m_pVulkanManager->m_pModelManager->CreateModel(MODEL_CUBE_OBJ_PATH);
+            Model* model = ModelManager::Instance().CreateModel(MODEL_CUBE_OBJ_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
         }
@@ -127,10 +127,10 @@ void Application::Run()
 
         glfwPollEvents();
         //pModel->Render();
-        m_pEngine->m_pVulkanManager->DrawFrame(m_timestep.GetDeltaTime());
+        VulkanManager::Instance().DrawFrame(m_timestep.GetDeltaTime());
     }
 
-    vkDeviceWaitIdle(m_pEngine->m_pVulkanManager->m_device);
+    vkDeviceWaitIdle(VulkanManager::Instance().m_device);
 }
 
 void Application::CloseApplication()

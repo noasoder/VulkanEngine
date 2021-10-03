@@ -4,13 +4,12 @@
 
 #include <vector>
 
-class Engine;
 class VulkanManager;
 
 class BufferManager
 {
 public:
-	BufferManager(VulkanManager* pVulkanManager);
+	BufferManager();
 	~BufferManager();
 
 	void CreateDescriptorSetLayout();
@@ -21,7 +20,5 @@ public:
 	VkDescriptorSetLayout m_descriptorSetLayout;
 
 private:
-
-	Engine* m_pEngine;
 	VulkanManager* m_pVulkanManager;
 };
