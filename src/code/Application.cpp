@@ -37,21 +37,20 @@ Application::Application()
     CameraController* con = CameraManager::Instance().CreateCameraController();
     CameraManager::Instance().SetCurrentCameraController(con);
 
-    m_timestep = Timestep(0);
-
-    UpdateTimestep();
+    Timestep::Init();
+    Timestep::Instance().UpdateTimestep();
 }
 
 Application::~Application()
 {
     delete m_pEngine;
+
+    Timestep::Destroy();
 }
 
 void Application::Run()
 {
     GLFWwindow* pWindow = WindowManager::Instance().m_pWindow;
-    struct std::tm start;
-    std::chrono::high_resolution_clock m_clock;
 
     float writeCooldown = 1.0f;
     float lerp = 0;
@@ -63,9 +62,9 @@ void Application::Run()
     bool pressing4 = false;
 
     while (!glfwWindowShouldClose(pWindow)) {
-        UpdateTimestep();
+        Timestep::Instance().UpdateTimestep();
 
-        CameraManager::Instance().Update(m_timestep.GetDeltaTime());
+        CameraManager::Instance().Update(Timestep::Instance().GetDeltaTime());
 
         Vec3 newRot = Vec3();
 
@@ -110,24 +109,24 @@ void Application::Run()
         if (lerpValue > TWO_PI)
             lerpValue -= TWO_PI;
         else
-            lerpValue += m_timestep.GetDeltaTime();
+            lerpValue += Timestep::Instance().GetDeltaTime();
         //std::cout << "lerpValue: " << lerpValue << " lerp: " << lerp << std::endl;
         lerp = cos(lerpValue);
 
 
         if (writeCooldown > 0.0f)
         {
-            writeCooldown -= m_timestep.GetDeltaTime();
+            writeCooldown -= Timestep::Instance().GetDeltaTime();
         }
         else
         {
-            std::cout << "FPS: " << m_timestep.GetFPS() << " delta: " << m_timestep.GetDeltaTime() << std::endl;
+            std::cout << "FPS: " << Timestep::Instance().GetFPS() << " delta: " << Timestep::Instance().GetDeltaTime() << std::endl;
             writeCooldown = 1.0f;
         }
 
         glfwPollEvents();
         //pModel->Render();
-        VulkanManager::Instance().DrawFrame(m_timestep.GetDeltaTime());
+        VulkanManager::Instance().DrawFrame(Timestep::Instance().GetDeltaTime());
     }
 
     vkDeviceWaitIdle(VulkanManager::Instance().m_device);
