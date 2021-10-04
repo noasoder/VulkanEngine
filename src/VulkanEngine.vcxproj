@@ -105,6 +105,8 @@
     <ClInclude Include="..\include\Managers\WindowManager.h" />
     <ClInclude Include="..\include\Mesh.h" />
     <ClInclude Include="..\include\Model.h" />
+    <ClInclude Include="..\include\OpenFBX\miniz.h" />
+    <ClInclude Include="..\include\OpenFBX\ofbx.h" />
     <ClInclude Include="..\include\Timestep.h" />
     <ClInclude Include="..\include\Transform.h" />
     <ClInclude Include="..\include\Utility\Maths.h" />
@@ -130,6 +132,8 @@
     <ClCompile Include="engine\Managers\WindowManager.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
+    <ClCompile Include="engine\OpenFBX\miniz.cpp" />
+    <ClCompile Include="engine\OpenFBX\ofbx.cpp" />
     <ClCompile Include="engine\Transform.cpp" />
     <ClCompile Include="engine\Utility\Maths.cpp" />
     <ClCompile Include="engine\Utility\Matrix3.cpp" />

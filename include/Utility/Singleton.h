@@ -1,11 +1,29 @@
 #pragma once
 
+#include <assert.h>
+
 template<typename T>
 class Singleton {
 public:
-    static T& Instance();
-    static void Init();
-    static void Destroy();
+    static T& Instance() {
+        if (Singleton::instance_ == 0) {
+            Singleton::instance_ = CreateInstance();
+            ScheduleForDestruction(Singleton::Destroy);
+        }
+        return *(Singleton::instance_);
+    };
+    static void Init() {
+        if (Singleton::instance_ == 0) {
+            Singleton::instance_ = CreateInstance();
+            ScheduleForDestruction(Singleton::Destroy);
+        }
+    };
+    static void Destroy() {
+        if (Singleton::instance_ != 0) {
+            DestroyInstance(Singleton::instance_);
+            Singleton::instance_ = 0;
+        }
+    };
 
 protected:
     inline explicit Singleton() {
@@ -17,9 +35,9 @@ protected:
     }
 
 private:
-    static T* CreateInstance();
-    static void ScheduleForDestruction(void (*)());
-    static void DestroyInstance(T*);
+    static T* CreateInstance() { return new T(); };
+    static void ScheduleForDestruction(void (*pFun)()) { std::atexit(pFun); };
+    static void DestroyInstance(T* p) { delete p; };
 
 private:
     static T* instance_;
@@ -27,47 +45,7 @@ private:
 private:
     inline explicit Singleton(Singleton const&) {}
     inline Singleton& operator=(Singleton const&) { return *this; }
-};    //    end of class Singleton
+};    //end of class Singleton
 
 template<typename T>
-typename T& Singleton<T>::Instance() {
-    if (Singleton::instance_ == 0) {
-        Singleton::instance_ = CreateInstance();
-        ScheduleForDestruction(Singleton::Destroy);
-    }
-    return *(Singleton::instance_);
-}
-
-template<typename T>
-void Singleton<T>::Init() {
-    if (Singleton::instance_ == 0) {
-        Singleton::instance_ = CreateInstance();
-        ScheduleForDestruction(Singleton::Destroy);
-    }
-}
-
-template<typename T>
-void Singleton<T>::Destroy() {
-    if (Singleton::instance_ != 0) {
-        DestroyInstance(Singleton::instance_);
-        Singleton::instance_ = 0;
-    }
-}
-
-template<typename T>
-inline typename T* Singleton<T>::CreateInstance() {
-    return new T();
-}
-
-template<typename T>
-inline void Singleton<T>::ScheduleForDestruction(void (*pFun)()) {
-    std::atexit(pFun);
-}
-
-template<typename T>
-inline void Singleton<T>::DestroyInstance(T* p) {
-    delete p;
-}
-
-template<typename T>
-typename T* Singleton<T>::instance_ = 0;
+T* Singleton<T>::instance_ = 0;

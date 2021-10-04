@@ -1,5 +1,5 @@
-#include "ofbx.h"
-#include "miniz.h"
+#include "OpenFBX/ofbx.h"
+#include "OpenFBX/miniz.h"
 #include <cassert>
 #include <math.h>
 #include <ctype.h>

@@ -2,7 +2,6 @@
 
 #include "Vulkan.h"
 
-#include <ofbx.h>
 #include <string>
 #include <vector>
 #include <array>

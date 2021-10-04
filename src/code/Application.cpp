@@ -86,9 +86,13 @@ void Application::Run()
         if (InputManager::Instance().GetKey(GLFW_KEY_1) && !pressing1 || InputManager::Instance().GetKey(GLFW_KEY_2))
         {
             pressing1 = true;
-            Model* model = ModelManager::Instance().CreateModel(MODEL_CUBE_OBJ_PATH);
+            //Model* model = ModelManager::Instance().CreateModel(MODEL_CUBE_OBJ_PATH);
+            Model* model = ModelManager::Instance().CreateModel(MODEL_CUBE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
+            Model* model2 = ModelManager::Instance().CreateModel(MODEL_CUBE_OBJ_PATH);
+            Vec3 move2 = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
+            model2->TranslateWorld(move2);
         }
         if (InputManager::Instance().GetKey(GLFW_KEY_1) == 0)
         {
@@ -118,7 +122,7 @@ void Application::Run()
         }
         else
         {
-            std::cout << "FPS: " << Timestep::Instance().GetFPS() << " delta: " << Timestep::Instance().GetDeltaTime() << std::endl;
+            //std::cout << "FPS: " << Timestep::Instance().GetFPS() << " delta: " << Timestep::Instance().GetDeltaTime() << std::endl;
             writeCooldown = 1.0f;
         }
 

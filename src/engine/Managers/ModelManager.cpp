@@ -2,9 +2,9 @@
 
 #include "Managers/VulkanManager.h"
 
-//#include "FBX/ofbx.h"
 #include <unordered_map>
 #include <tiny_obj_loader.h>
+#include <OpenFBX/ofbx.h>
 #include <string>
 #include <memory>
 #include "Model.h"
@@ -125,27 +125,58 @@ void ModelManager::LoadObj(std::string path, std::vector<Vertex>& vertices, std:
 
 bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
 {
-    printf("load fbx");
+    ofbx::IScene* scene = nullptr;
 
-    //FILE* fp = fopen(path.c_str(), "rb");
+    FILE* fp = fopen(path.c_str(), "rb");
 
-    //if (!fp) return false;
+    if (!fp) return false;
 
-    //fseek(fp, 0, SEEK_END);
-    //long file_size = ftell(fp);
-    //fseek(fp, 0, SEEK_SET);
-    //auto* content = new ofbx::u8[file_size];
-    //fread(content, 1, file_size, fp);
-    //scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
-    //if (!scene) {
-    //    //OutputDebugString(ofbx::getError());
-    //    printf("no g_scene");
-    //}
-    //else {
-    //    //saveAsOBJ(*g_scene, "out.obj");
-    //}
-    //delete[] content;
-    //fclose(fp);
+    fseek(fp, 0, SEEK_END);
+    long file_size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    auto* content = new ofbx::u8[file_size];
+    fread(content, 1, file_size, fp);
+    scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
+    if (!scene) 
+    {
+        printf("no scene");
+    }
+    else 
+    {
+        std::unordered_map<Vertex, uint32_t> uniqueVertices{};
+        const int meshCount = scene->getMeshCount();
+        int totalVerts = 0;
+
+        for (int i = 0; i < meshCount; i++)
+        {
+            Vertex vertex{};
+
+            const ofbx::Mesh& mesh = *scene->getMesh(i);
+            const ofbx::Geometry& geom = *mesh.getGeometry();
+            int vertexCount = geom.getVertexCount();
+            const ofbx::Vec3* newVerts = geom.getVertices();
+
+            totalVerts += vertexCount;
+            for (int j = 0; j < vertexCount; j++)
+            {
+                vertex.pos.x = newVerts[j].x;
+                vertex.pos.y = newVerts[j].y;
+                vertex.pos.z = newVerts[j].z;
+
+                printf("vert[%i]: %f, %f, %f\n", i * meshCount + j, vertex.pos.x, vertex.pos.y, vertex.pos.z);
+            }
+
+            if (uniqueVertices.count(vertex) == 0) {
+                uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+                vertices.push_back(vertex);
+            }
+
+            indices.push_back(uniqueVertices[vertex]);
+        }
+        std::cout << "verts: " << totalVerts << std::endl;
+    }
+    delete[] content;
+    fclose(fp);
 
     return true;
 }

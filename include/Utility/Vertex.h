@@ -4,11 +4,12 @@
 
 #include <glm/gtx/hash.hpp>
 #include <array>
+#include "Utility/Types.h"
 
 struct Vertex {
-    glm::vec3 pos;
-    glm::vec3 color;
-    glm::vec2 texCoord;
+    Vec3 pos;
+    Vec3 color;
+    Vec2 texCoord;
 
     static VkVertexInputBindingDescription getBindingDescription() {
         VkVertexInputBindingDescription bindingDescription{};
