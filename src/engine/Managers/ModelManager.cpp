@@ -111,7 +111,7 @@ void ModelManager::LoadObj(std::string path, std::vector<Vertex>& vertices, std:
                 1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
             };
 
-            vertex.color = { 1.0f, 1.0f, 1.0f };
+            vertex.color = { 1.0f, 0.0f, 1.0f };
 
             if (uniqueVertices.count(vertex) == 0) {
                 uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
@@ -149,8 +149,6 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
 
         for (int i = 0; i < meshCount; i++)
         {
-            Vertex vertex{};
-
             const ofbx::Mesh& mesh = *scene->getMesh(i);
             const ofbx::Geometry& geom = *mesh.getGeometry();
             int vertexCount = geom.getVertexCount();
@@ -159,19 +157,26 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
             totalVerts += vertexCount;
             for (int j = 0; j < vertexCount; j++)
             {
+                Vertex vertex{};
+
                 vertex.pos.x = newVerts[j].x;
                 vertex.pos.y = newVerts[j].y;
                 vertex.pos.z = newVerts[j].z;
+                
+                vertex.texCoord = { 
+                    geom.getUVs()[j].x,
+                    geom.getUVs()[j].y
+                };
 
-                printf("vert[%i]: %f, %f, %f\n", i * meshCount + j, vertex.pos.x, vertex.pos.y, vertex.pos.z);
+                vertex.color = { 1.0f, 0.0f, 1.0f };
+
+                if (uniqueVertices.count(vertex) == 0) {
+                    uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
+                    vertices.push_back(vertex);
+                }
+
+                indices.push_back(uniqueVertices[vertex]);
             }
-
-            if (uniqueVertices.count(vertex) == 0) {
-                uniqueVertices[vertex] = static_cast<uint32_t>(vertices.size());
-                vertices.push_back(vertex);
-            }
-
-            indices.push_back(uniqueVertices[vertex]);
         }
         std::cout << "verts: " << totalVerts << std::endl;
     }
