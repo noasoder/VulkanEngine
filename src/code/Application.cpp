@@ -60,29 +60,16 @@ void Application::Run()
     bool pressing4 = false;
 
     while (!glfwWindowShouldClose(pWindow)) {
-        Timestep::Instance().UpdateTimestep();
-
-        CameraManager::Instance().Update(Timestep::Instance().GetDeltaTime());
-
-        Vec3 newRot = Vec3();
-
         if (InputManager::Instance().GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
             break;
         }
 
-        if (InputManager::Instance().GetKey(GLFW_KEY_Y))
-            newRot = newRot + Vec3(1, 0, 0);
-        if (InputManager::Instance().GetKey(GLFW_KEY_H))
-            newRot = newRot + Vec3(-1, 0, 0);
-        if (InputManager::Instance().GetKey(GLFW_KEY_U))
-            newRot = newRot + Vec3(0, 1, 0);
-        if (InputManager::Instance().GetKey(GLFW_KEY_J))
-            newRot = newRot + Vec3(0, -1, 0);
-        if (InputManager::Instance().GetKey(GLFW_KEY_I))
-            newRot = newRot + Vec3(0, 0, 1);
-        if (InputManager::Instance().GetKey(GLFW_KEY_K))
-            newRot = newRot + Vec3(0, 0, -1);
+        Timestep::Instance().UpdateTimestep();
+
+        CameraManager::Instance().Update(Timestep::Instance().GetDeltaTime());
+
+
         if (InputManager::Instance().GetKey(GLFW_KEY_1) && !pressing1 || InputManager::Instance().GetKey(GLFW_KEY_2))
         {
             pressing1 = true;
