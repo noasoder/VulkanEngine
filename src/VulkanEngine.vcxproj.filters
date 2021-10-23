@@ -78,6 +78,9 @@
     <ClInclude Include="..\include\Managers\WindowManager.h">
       <Filter>include\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Material.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Mesh.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -154,6 +157,9 @@
     </ClCompile>
     <ClCompile Include="engine\Managers\WindowManager.cpp">
       <Filter>engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Material.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
     <ClCompile Include="engine\Mesh.cpp">
       <Filter>engine</Filter>

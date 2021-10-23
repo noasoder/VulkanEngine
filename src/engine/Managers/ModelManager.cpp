@@ -132,9 +132,9 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
     if (!fp) return false;
 
     fseek(fp, 0, SEEK_END);
-    long file_size = ftell(fp);
+    int file_size = ftell(fp);
     fseek(fp, 0, SEEK_SET);
-    auto* content = new ofbx::u8[file_size];
+    ofbx::u8* content = new ofbx::u8[file_size];
     fread(content, 1, file_size, fp);
     scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
     if (!scene) 

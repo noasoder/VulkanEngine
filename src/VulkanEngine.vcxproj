@@ -103,6 +103,7 @@
     <ClInclude Include="..\include\Managers\TextureManager.h" />
     <ClInclude Include="..\include\Managers\VulkanManager.h" />
     <ClInclude Include="..\include\Managers\WindowManager.h" />
+    <ClInclude Include="..\include\Material.h" />
     <ClInclude Include="..\include\Mesh.h" />
     <ClInclude Include="..\include\Model.h" />
     <ClInclude Include="..\include\OpenFBX\miniz.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="engine\Managers\TextureManager.cpp" />
     <ClCompile Include="engine\Managers\VulkanManager.cpp" />
     <ClCompile Include="engine\Managers\WindowManager.cpp" />
+    <ClCompile Include="engine\Material.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
     <ClCompile Include="engine\OpenFBX\miniz.cpp" />
