@@ -19,12 +19,7 @@ class BufferManager;
 class TextureManager;
 class ModelManager;
 class Engine;
-
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
+class GraphicsPipeline;
 
 const std::string MODEL_ROOM_PATH = "../bin/Assets/Models/viking_room.obj";
 //const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";
@@ -84,8 +79,6 @@ public:
 
     void CreateRenderPass();
 
-    void CreateGraphicsPipeline();
-    VkShaderModule CreateShaderModule(const std::vector<char>& code);
     void CreateFramebuffers();
     void CreateCommandPool();
     void CreateCommandBuffers();
@@ -170,26 +163,7 @@ public:
 
         return true;
     }
-    const std::vector<char> readFile(const std::string& filename) {
-        std::ifstream file(filename, std::ios::ate | std::ios::binary);
 
-        if (!file.is_open()) {
-            std::cout << "File[" << filename << "] could not be opened :(" << std::endl;
-            throw std::runtime_error("failed to open file!");
-        }
-        
-        size_t fileSize = (size_t)file.tellg();
-        std::vector<char> buffer(fileSize);
-
-        if (enableValidationLayers) {
-            std::cout << "Size of file [" << filename << "]: " << fileSize << "" << std::endl;
-        }
-
-        file.seekg(0);
-        file.read(buffer.data(), fileSize);
-        file.close();
-        return buffer;
-    }
 
 private:
     const std::vector<const char*> validationLayers = {
@@ -213,6 +187,7 @@ public :
     BufferManager* m_pBufferManager;
     TextureManager* m_pTextureManager;
     ModelManager* m_pModelManager;
+    GraphicsPipeline* m_pGraphicsPipeline;
 
     VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 

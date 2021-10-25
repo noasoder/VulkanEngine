@@ -57,6 +57,9 @@
     <ClInclude Include="..\include\Engine.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GraphicsPipeline.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Managers\BufferManager.h">
       <Filter>include\Managers</Filter>
     </ClInclude>
@@ -64,6 +67,9 @@
       <Filter>include\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Managers\InputManager.h">
+      <Filter>include\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Managers\MaterialManager.h">
       <Filter>include\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Managers\ModelManager.h">
@@ -98,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="..\include\Transform.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Utility\FileReader.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Utility\Maths.h">
       <Filter>include\Utility</Filter>
@@ -137,6 +146,9 @@
     <ClCompile Include="engine\Engine.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="engine\GraphicsPipeline.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
     <ClCompile Include="engine\Managers\BufferManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
@@ -144,6 +156,9 @@
       <Filter>engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="engine\Managers\InputManager.cpp">
+      <Filter>engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Managers\MaterialManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="engine\Managers\ModelManager.cpp">

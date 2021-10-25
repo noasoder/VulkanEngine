@@ -5,6 +5,7 @@
 
 #include "Transform.h"
 #include "Utility/Vertex.h"
+#include "Material.h"
 
 class VulkanManager;
 class BufferManager;
@@ -27,6 +28,8 @@ public:
 
 	void CreateDescriptorPool();
 	void CreateDescriptorSets();
+
+	Material& GetMaterial() { return m_material; };
 
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
@@ -55,4 +58,6 @@ private:
 		alignas(16) glm::mat4 view;
 		alignas(16) glm::mat4 proj;
 	};
+
+	Material& m_material;
 };

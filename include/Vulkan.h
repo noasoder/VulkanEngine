@@ -16,5 +16,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+#ifdef NDEBUG
+#define ENABLE_VALIDATION_LAYERS false
+#else
+#define ENABLE_VALIDATION_LAYERS true
+#endif
 
 #endif // !VULKAN_ENGINE_INCLUDE
