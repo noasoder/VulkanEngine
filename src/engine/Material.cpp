@@ -1,12 +1,30 @@
 
 #include "Material.h"
+#include "GraphicsPipeline.h"
+#include "Managers/MaterialManager.h"
 
-Material::Material()
+Material::Material(MaterialCreateDesc& createDesc)
 {
-
+	m_createDesc = createDesc;
+	CreatePipeline(createDesc);
 }
 
 Material::~Material()
 {
 
+}
+
+void Material::CreatePipeline(MaterialCreateDesc& createDesc)
+{
+	GraphicsPipeline::PipelineCreateDesc pipelineCreateDesc{};
+
+	pipelineCreateDesc.vertexShaderPath = createDesc.shaderName + "_vert.spv";
+	pipelineCreateDesc.fragmentShaderPath = createDesc.shaderName + "_frag.spv";
+
+	m_pGraphicsPipeline = MaterialManager::Instance().m_pGraphicsPipeline->CreateGraphicsPipeline(pipelineCreateDesc);
+}
+
+void Material::RecreatePipeline()
+{
+	CreatePipeline(m_createDesc);
 }

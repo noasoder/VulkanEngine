@@ -9,6 +9,7 @@
 #include "GraphicsPipeline.h"
 #include "Model.h"
 #include "Engine.h"
+#include "Material.h"
 
 VulkanManager::VulkanManager() 
 : m_pWindow(WindowManager::Instance().m_pWindow)
@@ -26,7 +27,11 @@ VulkanManager::VulkanManager()
     CreateImageViews();
     CreateRenderPass();
     m_pBufferManager->CreateDescriptorSetLayout();
-    m_pGraphicsPipeline->CreateGraphicsPipeline();
+
+    Material::MaterialCreateDesc matCreateDesc{};
+    matCreateDesc.shaderName = "../bin/Assets/Shaders/shader";
+    MaterialManager::Instance().CreateNewMaterial(matCreateDesc);
+
     CreateCommandPool();
     m_pTextureManager->CreateDepthResources();
     CreateFramebuffers();
@@ -361,7 +366,7 @@ void VulkanManager::UpdateCommandBuffers()
 
         for (Material* material : materials)
         {
-            vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, material->GetPipeline());
+            vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *material->GetPipeline());
 
             std::vector<Model*> models = material->m_pModels;
 
@@ -791,7 +796,7 @@ void VulkanManager::RecreateSwapChain() {
     CreateSwapChain();
     CreateImageViews();
     CreateRenderPass();
-    m_pGraphicsPipeline->CreateGraphicsPipeline();
+    MaterialManager::Instance().RecreatePipelines();
     m_pTextureManager->CreateDepthResources();
     CreateFramebuffers();
     ModelManager::Instance().Recreate();

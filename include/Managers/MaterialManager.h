@@ -1,16 +1,24 @@
 #pragma once
-#include "Material.h"
 #include "Utility/Singleton.h"
 #include <vector>
+#include <string>
+
+class GraphicsPipeline;
+class Material;
 
 class MaterialManager : public Singleton<MaterialManager>
 {
 public:
+
 	MaterialManager();
 	~MaterialManager();
 
-	void CreateNewMaterial() {};
+	void CreateNewMaterial(Material::MaterialCreateDesc& createDesc);
+	void RecreatePipelines();
 
 	std::vector<Material*> m_pMaterials;
+
+	GraphicsPipeline* m_pGraphicsPipeline;
+
 private:
 };
