@@ -1,15 +1,16 @@
+#pragma once 
 #include "Vulkan.h"
 #include <vector>
 #include <string>
 
 class Model;
+struct MaterialCreateDesc
+{
+	std::string shaderName;
+};
 class Material
 {
 public:
-	struct MaterialCreateDesc
-	{
-		std::string shaderName;
-	};
 
 	Material(MaterialCreateDesc& createDesc);
 	~Material();

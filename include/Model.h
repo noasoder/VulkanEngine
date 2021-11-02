@@ -29,7 +29,7 @@ public:
 	void CreateDescriptorPool();
 	void CreateDescriptorSets();
 
-	Material& GetMaterial() { return m_material; };
+	//Material& GetMaterial() { return m_material; };
 
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
@@ -59,5 +59,5 @@ private:
 		alignas(16) glm::mat4 proj;
 	};
 
-	Material& m_material;
+	//Material& m_material;
 };

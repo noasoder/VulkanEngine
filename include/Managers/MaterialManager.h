@@ -2,9 +2,9 @@
 #include "Utility/Singleton.h"
 #include <vector>
 #include <string>
+#include "Material.h"
 
 class GraphicsPipeline;
-class Material;
 
 class MaterialManager : public Singleton<MaterialManager>
 {
@@ -13,7 +13,7 @@ public:
 	MaterialManager();
 	~MaterialManager();
 
-	void CreateNewMaterial(Material::MaterialCreateDesc& createDesc);
+	void CreateNewMaterial(MaterialCreateDesc& createDesc);
 	void RecreatePipelines();
 
 	std::vector<Material*> m_pMaterials;

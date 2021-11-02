@@ -13,7 +13,7 @@ MaterialManager::~MaterialManager()
 	delete m_pGraphicsPipeline;
 }
 
-void MaterialManager::CreateNewMaterial(Material::MaterialCreateDesc& createDesc)
+void MaterialManager::CreateNewMaterial(MaterialCreateDesc& createDesc)
 {
 	Material* newMaterial = new Material(createDesc);
 

@@ -17,6 +17,7 @@ VulkanManager::VulkanManager()
     m_pBufferManager = new BufferManager();
     m_pTextureManager = new TextureManager(m_pBufferManager);
     m_pGraphicsPipeline = new GraphicsPipeline();
+    MaterialManager::Instance();
 
     CreateInstance();
     SetupDebugMessenger();
@@ -28,7 +29,7 @@ VulkanManager::VulkanManager()
     CreateRenderPass();
     m_pBufferManager->CreateDescriptorSetLayout();
 
-    Material::MaterialCreateDesc matCreateDesc{};
+    MaterialCreateDesc matCreateDesc{};
     matCreateDesc.shaderName = "../bin/Assets/Shaders/shader";
     MaterialManager::Instance().CreateNewMaterial(matCreateDesc);
 
