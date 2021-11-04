@@ -186,8 +186,6 @@ private:
 public :
     BufferManager* m_pBufferManager;
     TextureManager* m_pTextureManager;
-    ModelManager* m_pModelManager;
-    GraphicsPipeline* m_pGraphicsPipeline;
 
     VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
 
@@ -198,7 +196,6 @@ public :
     std::vector<VkCommandBuffer> m_commandBuffers;
     std::vector<VkFramebuffer> m_swapChainFramebuffers;
 
-    VkPipeline m_graphicsPipeline;
     VkPipelineLayout m_pipelineLayout;
 private: 
     VkSwapchainKHR m_swapChain;

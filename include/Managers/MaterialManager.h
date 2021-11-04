@@ -16,6 +16,8 @@ public:
 	void CreateNewMaterial(MaterialCreateDesc& createDesc);
 	void RecreatePipelines();
 
+	void DestroyPipelines();
+
 	std::vector<Material*> m_pMaterials;
 
 	GraphicsPipeline* m_pGraphicsPipeline;

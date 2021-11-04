@@ -1,5 +1,6 @@
 #pragma once 
 #include "Vulkan.h"
+#include "Managers/VulkanManager.h"
 #include <vector>
 #include <string>
 
@@ -15,13 +16,19 @@ public:
 	Material(MaterialCreateDesc& createDesc);
 	~Material();
 
-	VkPipeline* GetPipeline() { return m_pGraphicsPipeline; };
+	VkPipeline GetPipeline() { return m_graphicsPipeline; };
 	void RecreatePipeline();
-	void AddModel(Model* model) { m_pModels.push_back(model); };
+	void DeletePipeline();
+	void AddModel(Model* model) 
+	{ 
+		m_pModels.push_back(model); 
+		VulkanManager::Instance().UpdateCommandBuffers();
+	};
 
 	std::vector<Model*> m_pModels;
+	VkPipeline m_graphicsPipeline;
+
 private:
-	VkPipeline* m_pGraphicsPipeline;
 	MaterialCreateDesc m_createDesc;
 
 	void CreatePipeline(MaterialCreateDesc& createDesc);

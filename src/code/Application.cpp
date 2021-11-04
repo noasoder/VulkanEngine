@@ -6,6 +6,7 @@
 #include "Managers/CameraManager.h"
 #include "Managers/ModelManager.h"
 #include "Managers/WindowManager.h"
+#include "Managers/MaterialManager.h"
 #include "Camera/CameraControllers/CameraController.h"
 #include "Camera/Camera.h"
 
@@ -27,6 +28,7 @@ Application::Application()
 {
 	m_Running = true;
 
+    //Start the core engine
     m_pEngine = new Engine();
 
     VkExtent2D* swapChainExtent = &VulkanManager::Instance().m_swapChainExtent;
@@ -34,6 +36,9 @@ Application::Application()
 
     CameraController* con = CameraManager::Instance().CreateCameraController();
     CameraManager::Instance().SetCurrentCameraController(con);
+
+    MaterialCreateDesc createDesc{ "../bin/Assets/Shaders/flat" };
+    MaterialManager::Instance().CreateNewMaterial(createDesc);
 
     Timestep::Init();
     Timestep::Instance().UpdateTimestep();
@@ -77,6 +82,8 @@ void Application::Run()
             Model* model = ModelManager::Instance().CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
+
+            MaterialManager::Instance().m_pMaterials[0]->AddModel(model);
         }
         if (InputManager::Instance().GetKey(GLFW_KEY_1) == 0)
         {
@@ -85,7 +92,11 @@ void Application::Run()
         if (InputManager::Instance().GetKey(GLFW_KEY_4) && !pressing4)
         {
             pressing4 = true;
-            std::cout << "4" << std::endl;
+            Model* model = ModelManager::Instance().CreateModel(MODEL_ICOSPHERE_FBX_PATH);
+            Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
+            model->TranslateWorld(move);
+
+            MaterialManager::Instance().m_pMaterials[1]->AddModel(model);
         }
         if (InputManager::Instance().GetKey(GLFW_KEY_4) == 0)
         {

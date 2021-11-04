@@ -16,8 +16,7 @@ VulkanManager::VulkanManager()
 {
     m_pBufferManager = new BufferManager();
     m_pTextureManager = new TextureManager(m_pBufferManager);
-    m_pGraphicsPipeline = new GraphicsPipeline();
-    MaterialManager::Instance();
+    MaterialManager::Init();
 
     CreateInstance();
     SetupDebugMessenger();
@@ -54,7 +53,8 @@ void VulkanManager::Cleanup() {
     ModelManager::Destroy();
     delete m_pTextureManager;
     delete m_pBufferManager;
-    delete m_pGraphicsPipeline;
+
+    MaterialManager::Destroy();
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
         vkDestroySemaphore(m_device, m_renderFinishedSemaphores[i], nullptr);
@@ -367,7 +367,7 @@ void VulkanManager::UpdateCommandBuffers()
 
         for (Material* material : materials)
         {
-            vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, *material->GetPipeline());
+            vkCmdBindPipeline(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, material->GetPipeline());
 
             std::vector<Model*> models = material->m_pModels;
 
@@ -384,16 +384,6 @@ void VulkanManager::UpdateCommandBuffers()
                 vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(model->indices.size()), 1, 0, 0, 0);
             }
         }
-
-        //VkBuffer vertexBuffers[] = { m_pBufferManager->m_vertexBuffer };
-        //VkDeviceSize offsets[] = { 0 };
-        //vkCmdBindVertexBuffers(m_commandBuffers[i], 0, 1, vertexBuffers, offsets);
-
-        //vkCmdBindIndexBuffer(m_commandBuffers[i], m_pBufferManager->m_indexBuffer, 0, VK_INDEX_TYPE_UINT32);
-
-        //vkCmdBindDescriptorSets(m_commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipelineLayout, 0, 1, &m_pBufferManager->m_descriptorSets[i], 0, nullptr);
-
-        //vkCmdDrawIndexed(m_commandBuffers[i], static_cast<uint32_t>(m_pModelManager->indices.size()), 1, 0, 0, 0);
 
         vkCmdEndRenderPass(m_commandBuffers[i]);
 
@@ -769,7 +759,7 @@ void VulkanManager::CleanupSwapChain() {
 
     vkFreeCommandBuffers(m_device, m_commandPool, static_cast<uint32_t>(m_commandBuffers.size()), m_commandBuffers.data());
 
-    vkDestroyPipeline(m_device, m_graphicsPipeline, nullptr);
+    MaterialManager::Instance().DestroyPipelines();
     vkDestroyPipelineLayout(m_device, m_pipelineLayout, nullptr);
     vkDestroyRenderPass(m_device, m_renderPass, nullptr);
 

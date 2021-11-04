@@ -1,5 +1,6 @@
 
 #include "Managers/MaterialManager.h"
+#include "Managers/VulkanManager.h"
 #include "GraphicsPipeline.h"
 #include "Material.h"
 
@@ -25,5 +26,13 @@ void MaterialManager::RecreatePipelines()
 	for(Material* mat : m_pMaterials)
 	{
 		mat->RecreatePipeline();
+	}
+}
+
+void MaterialManager::DestroyPipelines()
+{
+	for (Material* mat : m_pMaterials)
+	{
+		vkDestroyPipeline(VulkanManager::Instance().m_device, mat->m_graphicsPipeline, nullptr);
 	}
 }

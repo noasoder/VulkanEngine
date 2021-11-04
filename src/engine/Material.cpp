@@ -21,10 +21,15 @@ void Material::CreatePipeline(MaterialCreateDesc& createDesc)
 	pipelineCreateDesc.vertexShaderPath = createDesc.shaderName + "_vert.spv";
 	pipelineCreateDesc.fragmentShaderPath = createDesc.shaderName + "_frag.spv";
 
-	m_pGraphicsPipeline = MaterialManager::Instance().m_pGraphicsPipeline->CreateGraphicsPipeline(pipelineCreateDesc);
+	m_graphicsPipeline = *MaterialManager::Instance().m_pGraphicsPipeline->CreateGraphicsPipeline(pipelineCreateDesc);
 }
 
 void Material::RecreatePipeline()
+{
+	CreatePipeline(m_createDesc);
+}
+
+void Material::DeletePipeline()
 {
 	CreatePipeline(m_createDesc);
 }

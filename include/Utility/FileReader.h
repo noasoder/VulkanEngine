@@ -21,7 +21,7 @@ namespace File
 
         if (ENABLE_VALIDATION_LAYERS) {
             //std::cout << "Size of file [" << filename << "]: " << fileSize << "" << std::endl;
-            printf("Size of file [%s]: %i", filename.c_str(), (int)fileSize);
+            printf("Size of file [%s]: %i\n", filename.c_str(), (int)fileSize);
         }
 
         file.seekg(0);
