@@ -16,8 +16,11 @@ public:
 	GraphicsPipeline();
 	~GraphicsPipeline();
 
-	VkPipeline* CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc);
+	void CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc);
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
-private:
 
+	VkPipeline GetPipeline() { return m_graphicsPipeline; };
+	
+private:
+	VkPipeline m_graphicsPipeline;
 };

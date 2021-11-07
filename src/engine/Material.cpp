@@ -21,7 +21,7 @@ void Material::CreatePipeline(MaterialCreateDesc& createDesc)
 	pipelineCreateDesc.vertexShaderPath = createDesc.shaderName + "_vert.spv";
 	pipelineCreateDesc.fragmentShaderPath = createDesc.shaderName + "_frag.spv";
 
-	m_graphicsPipeline = *MaterialManager::Instance().m_pGraphicsPipeline->CreateGraphicsPipeline(pipelineCreateDesc);
+	CreateGraphicsPipeline(pipelineCreateDesc);
 }
 
 void Material::RecreatePipeline()

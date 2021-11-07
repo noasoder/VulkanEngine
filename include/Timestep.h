@@ -12,13 +12,13 @@ public:
 
     };
 
-    float GetSeconds() const { return m_Timestep; };
-    float GetMilliseconds() const { return m_Timestep * 1000.0f; };
+    double GetSeconds() const { return m_Timestep; };
+    double GetMilliseconds() const { return m_Timestep * 1000.0f; };
 
-    float GetDeltaTime() { return GetSeconds(); };
-    uint32_t GetFPS() const { return 1.0f / m_Timestep; };
+    double GetDeltaTime() { return GetSeconds(); };
+    uint32_t GetFPS() const { return (uint32_t)(1.0f / m_Timestep); };
 
-    void SetTimestep(float time) { m_Timestep = time; };
+    void SetTimestep(double time) { m_Timestep = time; };
     void SetTime(double time) { m_Time = time; };
 
     void UpdateTimestep() {
@@ -34,5 +34,5 @@ public:
 private:
     double m_Time;
     double m_LastFrameTime;
-    float m_Timestep;
+    double m_Timestep;
 };

@@ -4,8 +4,6 @@
 #include <string>
 #include "Material.h"
 
-class GraphicsPipeline;
-
 class MaterialManager : public Singleton<MaterialManager>
 {
 public:
@@ -19,8 +17,6 @@ public:
 	void DestroyPipelines();
 
 	std::vector<Material*> m_pMaterials;
-
-	GraphicsPipeline* m_pGraphicsPipeline;
 
 private:
 };

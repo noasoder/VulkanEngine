@@ -1,6 +1,7 @@
 #pragma once 
 #include "Vulkan.h"
 #include "Managers/VulkanManager.h"
+#include "GraphicsPipeline.h"
 #include <vector>
 #include <string>
 
@@ -9,14 +10,13 @@ struct MaterialCreateDesc
 {
 	std::string shaderName;
 };
-class Material
+class Material : public GraphicsPipeline
 {
 public:
 
 	Material(MaterialCreateDesc& createDesc);
 	~Material();
 
-	VkPipeline GetPipeline() { return m_graphicsPipeline; };
 	void RecreatePipeline();
 	void DeletePipeline();
 	void AddModel(Model* model) 
@@ -26,7 +26,6 @@ public:
 	};
 
 	std::vector<Model*> m_pModels;
-	VkPipeline m_graphicsPipeline;
 
 private:
 	MaterialCreateDesc m_createDesc;

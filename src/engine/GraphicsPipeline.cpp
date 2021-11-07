@@ -16,9 +16,8 @@ GraphicsPipeline::~GraphicsPipeline()
 
 }
 
-VkPipeline* GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc) 
+void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc) 
 {
-    VkPipeline rCreatedPipeline;
     VkExtent2D* pExtent = &VulkanManager::Instance().m_swapChainExtent;
     VkDevice* pDevice = &VulkanManager::Instance().m_device;
 
@@ -175,14 +174,12 @@ VkPipeline* GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelin
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
     pipelineInfo.basePipelineIndex = -1;
 
-    if (vkCreateGraphicsPipelines(*pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &rCreatedPipeline) != VK_SUCCESS) {
+    if (vkCreateGraphicsPipelines(*pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_graphicsPipeline) != VK_SUCCESS) {
         throw std::runtime_error("failed to create graphics pipeline");
     }
 
     vkDestroyShaderModule(*pDevice, vertShaderModule, nullptr);
     vkDestroyShaderModule(*pDevice, fragShaderModule, nullptr);
-
-    return &rCreatedPipeline;
 }
 
 VkShaderModule GraphicsPipeline::CreateShaderModule(const std::vector<char>& code) 

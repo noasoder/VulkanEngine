@@ -37,7 +37,7 @@ Model* ModelManager::CreateModel(std::string path)
     m_pModels.push_back(newModel);
     VulkanManager::Instance().UpdateCommandBuffers();
 
-    printf("total models: %i\n", m_pModels.size());
+    printf("total models: %zi\n", m_pModels.size());
 
     return newModel;
 }
@@ -127,7 +127,8 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
 {
     ofbx::IScene* scene = nullptr;
 
-    FILE* fp = fopen(path.c_str(), "rb");
+    FILE* fp;
+    fopen_s(&fp, path.c_str(), "rb");
 
     if (!fp) return false;
 
