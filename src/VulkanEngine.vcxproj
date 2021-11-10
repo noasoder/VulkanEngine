@@ -115,7 +115,6 @@
     <ClInclude Include="engine\Utility\Matrix3.h" />
     <ClInclude Include="engine\Utility\Matrix4.h" />
     <ClInclude Include="engine\Utility\Rotor3.h" />
-    <ClInclude Include="engine\Utility\Singleton.h" />
     <ClInclude Include="engine\Utility\Types.h" />
     <ClInclude Include="engine\Utility\Vertex.h" />
     <ClInclude Include="engine\Vulkan.h" />
@@ -147,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openfbx\miniz.cpp" />
     <ClCompile Include="openfbx\ofbx.cpp" />
+    <ClCompile Include="Timestep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\flat.frag" />

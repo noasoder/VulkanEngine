@@ -3,18 +3,9 @@
 #include "Managers/VulkanManager.h"
 #include "Engine.h"
 
-WindowManager::WindowManager()
-{
-    InitWindow();
-}
+GLFWwindow* m_pWindow;
 
-WindowManager::~WindowManager()
-{
-    glfwDestroyWindow(m_pWindow);
-    glfwTerminate();
-}
-
-void WindowManager::InitWindow()
+void InitWindow()
 {
     glfwInit();
 
@@ -22,12 +13,29 @@ void WindowManager::InitWindow()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
     m_pWindow = glfwCreateWindow(WIDTH, HEIGHT, PROJECT_NAME, nullptr, nullptr);
-    glfwSetWindowUserPointer(m_pWindow, this);
-    glfwSetFramebufferSizeCallback(m_pWindow, FramebufferResizeCallback);
+    //glfwSetWindowUserPointer(m_pWindow, this);
+    glfwSetFramebufferSizeCallback(m_pWindow, WindowManager::FramebufferResizeCallback);
 }
 
-void WindowManager::FramebufferResizeCallback(GLFWwindow* window, int width, int height) 
+namespace WindowManager
 {
-    auto app = reinterpret_cast<VulkanManager*>(glfwGetWindowUserPointer(window));
-    app->m_framebufferResized = true;
+    void Init()
+    {
+        InitWindow();
+    }
+
+    void Destroy()
+    {
+        glfwDestroyWindow(m_pWindow);
+        glfwTerminate();
+    }
+    void FramebufferResizeCallback(GLFWwindow* window, int width, int height)
+    {
+        VulkanManager::SetFrameBufferResized(true);
+    }
+
+    GLFWwindow* GetWindow()
+    {
+        return m_pWindow;
+    }
 }

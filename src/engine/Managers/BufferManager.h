@@ -4,8 +4,6 @@
 
 #include <vector>
 
-class VulkanManager;
-
 class BufferManager
 {
 public:
@@ -20,5 +18,5 @@ public:
 	VkDescriptorSetLayout m_descriptorSetLayout;
 
 private:
-	VulkanManager* m_pVulkanManager;
+
 };

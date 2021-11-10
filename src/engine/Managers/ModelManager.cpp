@@ -9,80 +9,7 @@
 #include <memory>
 #include "Model.h"
 
-
-ModelManager::ModelManager()
-{
-
-}
-
-ModelManager::~ModelManager()
-{
-    for (Model* model : m_pModels)
-    {
-        delete model;
-    }
-}
-
-void ModelManager::Update(float DeltaTime, int imageIndex)
-{
-    for (Model* model : m_pModels)
-    {
-        model->Update(DeltaTime, imageIndex);
-    }
-}
-
-Model* ModelManager::CreateModel(std::string path)
-{
-    Model* newModel = new Model(path);
-    m_pModels.push_back(newModel);
-    VulkanManager::Instance().UpdateCommandBuffers();
-
-    printf("total models: %zi\n", m_pModels.size());
-
-    return newModel;
-}
-
-void ModelManager::Recreate()
-{
-    for (Model* model : m_pModels)
-    {
-        model->CreateUniformBuffers();
-        model->CreateDescriptorPool();
-        model->CreateDescriptorSets();
-    }
-}
-
-void ModelManager::CleanupUniformBuffers(size_t swapChainImagesSize)
-{
-    for (Model* model : m_pModels)
-    {
-        model->CleanupUniformBuffers(swapChainImagesSize);
-    }
-}
-
-void ModelManager::LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
-{
-    char end[4]{'\0'};
-
-    memcpy(end, path.c_str() + path.size() - 4, 4);
-
-    std::string type;
-    for (char ch : end)
-    {
-        type.push_back(ch);
-    }
-
-    if (type == ".obj")
-    {
-        LoadObj(path, vertices, indices);
-    }
-    if (type == ".fbx")
-    {
-        LoadFbx(path, vertices, indices);
-    }
-}
-
-void ModelManager::LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
+void LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
 {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
@@ -123,7 +50,7 @@ void ModelManager::LoadObj(std::string path, std::vector<Vertex>& vertices, std:
     }
 }
 
-bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
+bool LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
 {
     ofbx::IScene* scene = nullptr;
 
@@ -138,11 +65,11 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
     ofbx::u8* content = new ofbx::u8[file_size];
     fread(content, 1, file_size, fp);
     scene = ofbx::load((ofbx::u8*)content, file_size, (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
-    if (!scene) 
+    if (!scene)
     {
         printf("no scene");
     }
-    else 
+    else
     {
         std::unordered_map<Vertex, uint32_t> uniqueVertices{};
         const int meshCount = scene->getMeshCount();
@@ -163,8 +90,8 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
                 vertex.pos.x = newVerts[j].x;
                 vertex.pos.y = newVerts[j].y;
                 vertex.pos.z = newVerts[j].z;
-                
-                vertex.texCoord = { 
+
+                vertex.texCoord = {
                     geom.getUVs()[j].x,
                     geom.getUVs()[j].y
                 };
@@ -185,4 +112,84 @@ bool ModelManager::LoadFbx(std::string path, std::vector<Vertex>& vertices, std:
     fclose(fp);
 
     return true;
+}
+
+namespace ModelManager 
+{
+    std::vector<Vertex> vertices;
+    std::vector<uint32_t> indices;
+
+    std::vector<Model*> m_pModels;
+
+    void Init()
+    {
+    
+    }
+    
+    void Destroy()
+    {
+        for (Model* model : m_pModels)
+        {
+            delete model;
+        }
+    }
+    
+    void Update(float DeltaTime, int imageIndex)
+    {
+        for (Model* model : m_pModels)
+        {
+            model->Update(DeltaTime, imageIndex);
+        }
+    }
+    
+    Model* CreateModel(std::string path)
+    {
+        Model* newModel = new Model(path);
+        m_pModels.push_back(newModel);
+        VulkanManager::UpdateCommandBuffers();
+    
+        printf("total models: %zi\n", m_pModels.size());
+    
+        return newModel;
+    }
+    
+    void Recreate()
+    {
+        for (Model* model : m_pModels)
+        {
+            model->CreateUniformBuffers();
+            model->CreateDescriptorPool();
+            model->CreateDescriptorSets();
+        }
+    }
+    
+    void CleanupUniformBuffers(size_t swapChainImagesSize)
+    {
+        for (Model* model : m_pModels)
+        {
+            model->CleanupUniformBuffers(swapChainImagesSize);
+        }
+    }
+    
+    void LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
+    {
+        char end[4]{'\0'};
+    
+        memcpy(end, path.c_str() + path.size() - 4, 4);
+    
+        std::string type;
+        for (char ch : end)
+        {
+            type.push_back(ch);
+        }
+    
+        if (type == ".obj")
+        {
+            LoadObj(path, vertices, indices);
+        }
+        if (type == ".fbx")
+        {
+            LoadFbx(path, vertices, indices);
+        }
+    }
 }

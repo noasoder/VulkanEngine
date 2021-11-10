@@ -7,7 +7,6 @@
 #include "Utility/Vertex.h"
 #include "Material.h"
 
-class VulkanManager;
 class BufferManager;
 
 class Model : public Transform
@@ -50,7 +49,6 @@ public:
 	std::vector<VkCommandBuffer> m_commandBuffers;
 private:
 
-	VulkanManager* m_pVulkanManager;
 	BufferManager* m_pBufferManager;
 
 	struct UniformBufferObject {

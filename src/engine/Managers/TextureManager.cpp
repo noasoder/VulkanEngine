@@ -7,15 +7,14 @@
 #include <stb_image.h>
 
 TextureManager::TextureManager(BufferManager* pBufferManager)
-: m_pVulkanManager(&VulkanManager::Instance())
-, m_pBufferManager(pBufferManager)
+: m_pBufferManager(pBufferManager)
 {
 
 }
 
 TextureManager::~TextureManager()
 {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     vkDestroySampler(*pDevice, m_textureSampler, nullptr);
     vkDestroyImageView(*pDevice, m_textureImageView, nullptr);
@@ -26,12 +25,12 @@ TextureManager::~TextureManager()
 
 void TextureManager::CreateDepthResources()
 {
-    VkExtent2D* swapChainExtent = &m_pVulkanManager->m_swapChainExtent;
+    VkExtent2D* swapChainExtent = VulkanManager::GetSwapChainExtent();
 
     VkFormat depthFormat = FindDepthFormat();
 
     CreateImage(swapChainExtent->width, swapChainExtent->height, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_depthImage, m_depthImageMemory);
-    m_depthImageView = m_pVulkanManager->CreateImageView(m_depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
+    m_depthImageView = VulkanManager::CreateImageView(m_depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
 
     TransitionImageLayout(m_depthImage, depthFormat, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
 }
@@ -46,7 +45,7 @@ VkFormat TextureManager::FindDepthFormat() {
 
 VkFormat TextureManager::FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) 
 {
-    VkPhysicalDevice* pPhysicalDevice = &m_pVulkanManager->m_physicalDevice;
+    VkPhysicalDevice* pPhysicalDevice = VulkanManager::GetPhysicalDevice();
 
     for (VkFormat format : candidates) 
     {
@@ -66,7 +65,7 @@ VkFormat TextureManager::FindSupportedFormat(const std::vector<VkFormat>& candid
 
 void TextureManager::CreateTextureImage()
 {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     int texWidth, texHeight, texChannels;
     stbi_uc* pixels = stbi_load(TEXTURE_PATH.c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
@@ -104,13 +103,13 @@ void TextureManager::CreateTextureImage()
 
 void TextureManager::CreateTextureImageView()
 {
-    m_textureImageView = m_pVulkanManager->CreateImageView(m_textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
+    m_textureImageView = VulkanManager::CreateImageView(m_textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 }
 
 void TextureManager::CreateImage(   uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, 
                                     VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory)
 {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkImageCreateInfo imageInfo{};
     imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -138,7 +137,7 @@ void TextureManager::CreateImage(   uint32_t width, uint32_t height, VkFormat fo
     VkMemoryAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     allocInfo.allocationSize = memRequirements.size;
-    allocInfo.memoryTypeIndex = m_pVulkanManager->FindMemoryType(memRequirements.memoryTypeBits, properties);
+    allocInfo.memoryTypeIndex = VulkanManager::FindMemoryType(memRequirements.memoryTypeBits, properties);
 
     if (vkAllocateMemory(*pDevice, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
         throw std::runtime_error("failed to allocate image memory!");
@@ -149,7 +148,7 @@ void TextureManager::CreateImage(   uint32_t width, uint32_t height, VkFormat fo
 
 void TextureManager::CreateTextureSampler() 
 {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkSamplerCreateInfo samplerInfo{};
     samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -160,7 +159,7 @@ void TextureManager::CreateTextureSampler()
     samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
 
     VkPhysicalDeviceProperties properties{};
-    vkGetPhysicalDeviceProperties(m_pVulkanManager->m_physicalDevice, &properties);
+    vkGetPhysicalDeviceProperties(*VulkanManager::GetPhysicalDevice(), &properties);
 
     samplerInfo.anisotropyEnable = VK_TRUE;
     samplerInfo.maxAnisotropy = properties.limits.maxSamplerAnisotropy;
@@ -180,7 +179,7 @@ void TextureManager::CreateTextureSampler()
 }
 
 void TextureManager::TransitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout) {
-    VkCommandBuffer commandBuffer = m_pVulkanManager->BeginSingleTimeCommands();
+    VkCommandBuffer commandBuffer = VulkanManager::BeginSingleTimeCommands();
 
     VkImageMemoryBarrier barrier{};
     barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -240,11 +239,11 @@ void TextureManager::TransitionImageLayout(VkImage image, VkFormat format, VkIma
         1, &barrier
     );
 
-    m_pVulkanManager->EndSingleTimeCommands(commandBuffer);
+    VulkanManager::EndSingleTimeCommands(commandBuffer);
 }
 
 void TextureManager::CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height) {
-    VkCommandBuffer commandBuffer = m_pVulkanManager->BeginSingleTimeCommands();
+    VkCommandBuffer commandBuffer = VulkanManager::BeginSingleTimeCommands();
 
     VkBufferImageCopy region{};
     region.bufferOffset = 0;
@@ -259,5 +258,5 @@ void TextureManager::CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t 
 
     vkCmdCopyBufferToImage(commandBuffer, buffer, image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &region);
 
-    m_pVulkanManager->EndSingleTimeCommands(commandBuffer);
+    VulkanManager::EndSingleTimeCommands(commandBuffer);
 }

@@ -96,9 +96,6 @@
     <ClInclude Include="engine\Utility\Rotor3.h">
       <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="engine\Utility\Singleton.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="engine\Utility\Types.h">
       <Filter>engine\Utility</Filter>
     </ClInclude>
@@ -185,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="openfbx\ofbx.cpp">
       <Filter>openfbx</Filter>
+    </ClCompile>
+    <ClCompile Include="Timestep.cpp">
+      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

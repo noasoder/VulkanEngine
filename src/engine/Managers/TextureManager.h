@@ -6,7 +6,6 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 
-class VulkanManager;
 class BufferManager;
 
 class TextureManager
@@ -42,7 +41,6 @@ public :
 	VkSampler m_textureSampler;
 
 private:
-	VulkanManager* m_pVulkanManager;
 	BufferManager* m_pBufferManager;
 
 	VkImage m_textureImage;

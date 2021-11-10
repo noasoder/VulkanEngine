@@ -1,22 +1,20 @@
-#pragma once
-#include "Utility/Singleton.h"
+#ifndef MATERIAL_MANAGER_H
+#define MATERIAL_MANAGER_H
+
 #include <vector>
 #include <string>
 #include "Material.h"
 
-class MaterialManager : public Singleton<MaterialManager>
+namespace MaterialManager
 {
-public:
-
-	MaterialManager();
-	~MaterialManager();
+	void Init();
+	void Destroy();
 
 	void CreateNewMaterial(MaterialCreateDesc& createDesc);
 	void RecreatePipelines();
 
 	void DestroyPipelines();
+	std::vector<Material*> GetMaterials();
+}
 
-	std::vector<Material*> m_pMaterials;
-
-private:
-};
+#endif // !MATERIAL_MANAGER_H

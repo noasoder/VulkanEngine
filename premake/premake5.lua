@@ -17,7 +17,7 @@ project "VulkanEngine"
     location "../src"
     kind "ConsoleApp"
     language "C++"
-    files { "../src/**.h", "../src/**.cpp", "../src/**.vert", "../src/**.frag" }
+    files { "../src/**.h", "../src/**.cpp", "../src/**.c", "../src/**.vert", "../src/**.frag" }
 
     filter { "configurations:Debug" }
         targetname "VulkanEngine_Debug"

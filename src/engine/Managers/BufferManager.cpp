@@ -12,20 +12,19 @@
 #include "Utility/Maths.h"
 
 BufferManager::BufferManager()
-: m_pVulkanManager(&VulkanManager::Instance())
 {
 
 }
 
 BufferManager::~BufferManager()
 {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     vkDestroyDescriptorSetLayout(*pDevice, m_descriptorSetLayout, nullptr);
 }
 
 void BufferManager::CreateDescriptorSetLayout() {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkDescriptorSetLayoutBinding uboLayoutBinding{};
     uboLayoutBinding.binding = 0;
@@ -55,7 +54,7 @@ void BufferManager::CreateDescriptorSetLayout() {
 
 void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) 
 {
-    VkDevice* pDevice = &m_pVulkanManager->m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkBufferCreateInfo bufferInfo{};
     bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -74,7 +73,7 @@ void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, Vk
     VkMemoryAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
     allocInfo.allocationSize = memRequirements.size;
-    allocInfo.memoryTypeIndex = m_pVulkanManager->FindMemoryType(memRequirements.memoryTypeBits, properties);
+    allocInfo.memoryTypeIndex = VulkanManager::FindMemoryType(memRequirements.memoryTypeBits, properties);
 
     if (vkAllocateMemory(*pDevice, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
         throw std::runtime_error("failed to allocate vertex buffer memory!");
@@ -85,7 +84,7 @@ void BufferManager::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, Vk
 
 void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) 
 {
-    VkCommandBuffer commandBuffer = m_pVulkanManager->BeginSingleTimeCommands();
+    VkCommandBuffer commandBuffer = VulkanManager::BeginSingleTimeCommands();
 
     VkBufferCopy copyRegion{};
     copyRegion.srcOffset = 0;
@@ -94,5 +93,5 @@ void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceS
 
     vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
 
-    m_pVulkanManager->EndSingleTimeCommands(commandBuffer);
+    VulkanManager::EndSingleTimeCommands(commandBuffer);
 }

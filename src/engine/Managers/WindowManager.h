@@ -1,19 +1,19 @@
+#ifndef WINDOW_MANAGER_H
+#define WINDOW_MANAGER_H
+
 #include "Vulkan.h"
-#include "Utility/Singleton.h"
 
 #define WIDTH 800
 #define HEIGHT 600
 
-class WindowManager : public Singleton<WindowManager>
+namespace WindowManager
 {
-public:
-    WindowManager();
-    ~WindowManager();
+    void Init();
+    void Destroy();
 
     static void FramebufferResizeCallback(GLFWwindow* window, int width, int height);
 
-    GLFWwindow* m_pWindow;
+    GLFWwindow* GetWindow();
+}
 
-private:
-    void InitWindow();
-};
+#endif // !WINDOW_MANAGER_H

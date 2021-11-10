@@ -22,7 +22,7 @@ public:
 	void AddModel(Model* model) 
 	{ 
 		m_pModels.push_back(model); 
-		VulkanManager::Instance().UpdateCommandBuffers();
+		VulkanManager::UpdateCommandBuffers();
 	};
 
 	std::vector<Model*> m_pModels;

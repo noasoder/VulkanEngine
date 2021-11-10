@@ -3,35 +3,45 @@
 #include "Managers/VulkanManager.h"
 #include "Material.h"
 
-MaterialManager::MaterialManager()
+std::vector<Material*> m_pMaterials;
+
+namespace MaterialManager 
 {
-
-}
-
-MaterialManager::~MaterialManager()
-{
-
-}
-
-void MaterialManager::CreateNewMaterial(MaterialCreateDesc& createDesc)
-{
-	Material* newMaterial = new Material(createDesc);
-
-	 m_pMaterials.push_back(newMaterial);
-}
-
-void MaterialManager::RecreatePipelines()
-{
-	for(Material* mat : m_pMaterials)
+	void Init()
 	{
-		mat->RecreatePipeline();
+	
 	}
-}
-
-void MaterialManager::DestroyPipelines()
-{
-	for (Material* mat : m_pMaterials)
+	
+	void Destroy()
 	{
-		vkDestroyPipeline(VulkanManager::Instance().m_device, mat->GetPipeline(), nullptr);
+	
+	}
+	
+	void CreateNewMaterial(MaterialCreateDesc& createDesc)
+	{
+		Material* newMaterial = new Material(createDesc);
+	
+		 m_pMaterials.push_back(newMaterial);
+	}
+	
+	void RecreatePipelines()
+	{
+		for(Material* mat : m_pMaterials)
+		{
+			mat->RecreatePipeline();
+		}
+	}
+	
+	void DestroyPipelines()
+	{
+		for (Material* mat : m_pMaterials)
+		{
+			vkDestroyPipeline(*VulkanManager::GetDevice(), mat->GetPipeline(), nullptr);
+		}
+	}
+	
+	std::vector<Material*> GetMaterials()
+	{
+		return m_pMaterials;
 	}
 }

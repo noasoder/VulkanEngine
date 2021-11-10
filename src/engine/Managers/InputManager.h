@@ -1,21 +1,19 @@
-#pragma once
+#ifndef INPUT_MANAGER_H
+#define INPUT_MANAGER_H
 
 #include "Vulkan.h"
-#include "Utility/Singleton.h"
 
 class Engine;
 
-class InputManager : public Singleton<InputManager>
+namespace InputManager
 {
-public:
-
-	InputManager();
-	~InputManager();
+	void Init();
+	void Destroy();
 
 	int GetKey(int key);
 	const char* GetKeyName(int key, int scancode = 0);
 
 	glm::vec2 GetMousePosition();
-private:
-	int m;
 };
+
+#endif // !INPUT_MANAGER_H

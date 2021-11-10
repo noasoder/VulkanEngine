@@ -31,74 +31,71 @@ Application::Application()
     //Start the core engine
     m_pEngine = new Engine();
 
-    VkExtent2D* swapChainExtent = &VulkanManager::Instance().m_swapChainExtent;
-    CameraManager::Instance().CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
+    VkExtent2D* swapChainExtent = VulkanManager::GetSwapChainExtent();
+    CameraManager::CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
 
-    CameraController* con = CameraManager::Instance().CreateCameraController();
-    CameraManager::Instance().SetCurrentCameraController(con);
+    CameraController* con = CameraManager::CreateCameraController();
+    CameraManager::SetCurrentCameraController(con);
 
     MaterialCreateDesc createDesc{ "../bin/Assets/Shaders/flat" };
-    MaterialManager::Instance().CreateNewMaterial(createDesc);
+    MaterialManager::CreateNewMaterial(createDesc);
 
-    Timestep::Init();
-    Timestep::Instance().UpdateTimestep();
+    Time::UpdateTimestep();
 }
 
 Application::~Application()
 {
     delete m_pEngine;
-
-    Timestep::Destroy();
 }
 
 void Application::Run()
 {
-    GLFWwindow* pWindow = WindowManager::Instance().m_pWindow;
+    GLFWwindow* pWindow = WindowManager::GetWindow();
 
     float writeCooldown = 1.0f;
     float lerp = 0;
     float lerpValue = 0;
 
-    glm::vec2 lastMousePos = InputManager::Instance().GetMousePosition();
+    glm::vec2 lastMousePos = InputManager::GetMousePosition();
     
     bool pressing1 = false;
     bool pressing4 = false;
 
     while (!glfwWindowShouldClose(pWindow)) {
-        if (InputManager::Instance().GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        if (InputManager::GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             //shutdown application
             break;
         }
 
-        Timestep::Instance().UpdateTimestep();
+        Time::UpdateTimestep();
 
-        CameraManager::Instance().Update(Timestep::Instance().GetDeltaTime());
+        CameraManager::Update(Time::GetDeltaTime());
 
 
-        if (InputManager::Instance().GetKey(GLFW_KEY_1) && !pressing1 || InputManager::Instance().GetKey(GLFW_KEY_2))
+        if (InputManager::GetKey(GLFW_KEY_1) && !pressing1 || InputManager::GetKey(GLFW_KEY_2))
         {
             pressing1 = true;
-            //Model* model = ModelManager::Instance().CreateModel(MODEL_CUBE_OBJ_PATH);
-            Model* model = ModelManager::Instance().CreateModel(MODEL_ICOSPHERE_FBX_PATH);
+            //Model* model = ModelManager::CreateModel(MODEL_CUBE_OBJ_PATH);
+            Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
 
-            MaterialManager::Instance().m_pMaterials[0]->AddModel(model);
+            MaterialManager::GetMaterials()[0]->AddModel(model);
         }
-        if (InputManager::Instance().GetKey(GLFW_KEY_1) == 0)
+        if (InputManager::GetKey(GLFW_KEY_1) == 0)
         {
             pressing1 = false;
         }
-        if (InputManager::Instance().GetKey(GLFW_KEY_4) && !pressing4)
+        if (InputManager::GetKey(GLFW_KEY_4) && !pressing4)
         {
             pressing4 = true;
-            Model* model = ModelManager::Instance().CreateModel(MODEL_ICOSPHERE_FBX_PATH);
+            Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
 
-            MaterialManager::Instance().m_pMaterials[1]->AddModel(model);
+            MaterialManager::GetMaterials()[1]->AddModel(model);
         }
-        if (InputManager::Instance().GetKey(GLFW_KEY_4) == 0)
+        if (InputManager::GetKey(GLFW_KEY_4) == 0)
         {
             pressing4 = false;
         }
@@ -106,14 +103,14 @@ void Application::Run()
         if (lerpValue > TWO_PI)
             lerpValue -= TWO_PI;
         else
-            lerpValue += Timestep::Instance().GetDeltaTime();
+            lerpValue += Time::GetDeltaTime();
         //std::cout << "lerpValue: " << lerpValue << " lerp: " << lerp << std::endl;
         lerp = cos(lerpValue);
 
 
         if (writeCooldown > 0.0f)
         {
-            writeCooldown -= Timestep::Instance().GetDeltaTime();
+            writeCooldown -= Time::GetDeltaTime();
         }
         else
         {
@@ -123,10 +120,10 @@ void Application::Run()
 
         glfwPollEvents();
         //pModel->Render();
-        VulkanManager::Instance().DrawFrame(Timestep::Instance().GetDeltaTime());
+        VulkanManager::DrawFrame(Time::GetDeltaTime());
     }
 
-    vkDeviceWaitIdle(VulkanManager::Instance().m_device);
+    vkDeviceWaitIdle(*VulkanManager::GetDevice());
 }
 
 void Application::CloseApplication()

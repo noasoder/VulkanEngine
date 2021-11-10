@@ -1,7 +1,7 @@
-#pragma once
+#ifndef VULKAN_MANAGER_H
+#define VULKAN_MANAGER_H
 
 #include "Vulkan.h"
-#include "Utility/Singleton.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -17,7 +17,6 @@
 
 class BufferManager;
 class TextureManager;
-class ModelManager;
 class Engine;
 class GraphicsPipeline;
 
@@ -29,23 +28,6 @@ const std::string MODEL_CUBE_OBJ_PATH = "../bin/Assets/Models/Primitives/Cube.ob
 const std::string MODEL_CUBE_FBX_PATH = "../bin/Assets/Models/Primitives/Cube.fbx";
 const std::string MODEL_ICOSPHERE_FBX_PATH = "../bin/Assets/Models/Primitives/Icosphere.fbx";
 const std::string TEXTURE_CUBE_PATH = "../bin/Assets/Textures/Texture.png";
-
-//const std::vector<Vertex> vertices = {
-//    {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-//    {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-//    {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-//    {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-//
-//    {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-//    {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-//    {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-//    {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
-//};
-//
-//const std::vector<uint16_t> indices = {
-//    0, 1, 2, 2, 3, 0,
-//    4, 5, 6, 6, 7, 4
-//};
 
 struct QueueFamilyIndices {
     std::optional<uint32_t> graphicsFamily;
@@ -61,14 +43,10 @@ struct SwapChainSupportDetails {
     std::vector<VkPresentModeKHR> presentModes;
 };
 
-
-class VulkanManager : public Singleton<VulkanManager>
+namespace VulkanManager
 {
-public:
-
-    VulkanManager();
-
-    ~VulkanManager();
+    void Init();
+    void Destroy();
 
     void Cleanup();
     void DrawFrame(float DeltaTime);
@@ -108,112 +86,20 @@ public:
     void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     std::vector<const char*> GetRequiredExtensions();
     uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
-    
-    static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
-        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
-        VkDebugUtilsMessageTypeFlagsEXT messageType,
-        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-        void* pUserData) {
-        if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-            // Message is important enough to show
-        }
-        std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 
-        return VK_FALSE;
-    }
+    //Get
+    VkDevice* GetDevice();
+    VkExtent2D* GetSwapChainExtent();
+    std::vector<VkImage> GetSwapChainImages();
+    VkCommandPool* GetCommandPool();
+    BufferManager* GetBufferManager();
+    TextureManager* GetTextureManager();
+    VkPipelineLayout* GetPipelineLayout();
+    VkPhysicalDevice* GetPhysicalDevice();
+    VkRenderPass* GetRenderPass();
+    //Set
+    void SetFrameBufferResized(bool state);
 
-    VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger) {
-        auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-        if (func != nullptr) {
-            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-        }
-        else {
-            return VK_ERROR_EXTENSION_NOT_PRESENT;
-        }
-    }
+}
 
-    static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
-        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-        if (func != nullptr) {
-            func(instance, debugMessenger, pAllocator);
-        }
-    }
-
-    bool checkValidationLayerSupport() {
-        uint32_t layerCount;
-        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-
-        std::vector<VkLayerProperties> availableLayers(layerCount);
-        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
-        for (const char* layerName : validationLayers)
-        {
-            bool layerFound = false;
-            for (const auto& layerProperties : availableLayers)
-            {
-                if (strcmp(layerName, layerProperties.layerName) == 0) {
-                    layerFound = true;
-                    break;
-                }
-            }
-            if (!layerFound) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-private:
-    const std::vector<const char*> validationLayers = {
-        "VK_LAYER_KHRONOS_validation"
-    };
-    const std::vector<const char*> deviceExtensions = {
-        VK_KHR_SWAPCHAIN_EXTENSION_NAME
-    };
-
-
-    const int MAX_FRAMES_IN_FLIGHT = 2;
-
-    GLFWwindow* m_pWindow;
-
-    VkInstance m_instance;
-    VkDebugUtilsMessengerEXT m_debugMessenger;
-    VkSurfaceKHR m_surface;
-
-
-public :
-    BufferManager* m_pBufferManager;
-    TextureManager* m_pTextureManager;
-
-    VkPhysicalDevice m_physicalDevice = VK_NULL_HANDLE;
-
-    VkRenderPass m_renderPass;
-
-    std::vector<VkImage> m_swapChainImages;
-    VkExtent2D m_swapChainExtent;
-    std::vector<VkCommandBuffer> m_commandBuffers;
-    std::vector<VkFramebuffer> m_swapChainFramebuffers;
-
-    VkPipelineLayout m_pipelineLayout;
-private: 
-    VkSwapchainKHR m_swapChain;
-    VkFormat m_swapChainImageFormat;
-    std::vector<VkImageView> m_swapChainImageViews;
-
-
-    std::vector<VkSemaphore> m_imageAvailableSemaphores;
-    std::vector<VkSemaphore> m_renderFinishedSemaphores;
-    std::vector<VkFence> m_inFlightFences;
-    std::vector<VkFence> m_imagesInFlight;
-    size_t m_currentFrame = 0;
-
-public:
-    bool m_framebufferResized = false;
-    VkDevice m_device;
-    VkCommandPool m_commandPool;
-
-    VkQueue m_graphicsQueue;
-    VkQueue m_presentQueue;
-};
+#endif // !VULKAN_MANAGER_H

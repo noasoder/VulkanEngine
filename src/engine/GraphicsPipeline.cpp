@@ -18,8 +18,8 @@ GraphicsPipeline::~GraphicsPipeline()
 
 void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc) 
 {
-    VkExtent2D* pExtent = &VulkanManager::Instance().m_swapChainExtent;
-    VkDevice* pDevice = &VulkanManager::Instance().m_device;
+    VkExtent2D* pExtent = VulkanManager::GetSwapChainExtent();
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     auto vertShaderCode = File::ReadFile(pipelineCreateDesc.vertexShaderPath);
     auto fragShaderCode = File::ReadFile(pipelineCreateDesc.fragmentShaderPath);
@@ -147,11 +147,11 @@ void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreate
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
     pipelineLayoutInfo.setLayoutCount = 1;
-    pipelineLayoutInfo.pSetLayouts = &VulkanManager::Instance().m_pBufferManager->m_descriptorSetLayout;
+    pipelineLayoutInfo.pSetLayouts = &VulkanManager::GetBufferManager()->m_descriptorSetLayout;
     pipelineLayoutInfo.pushConstantRangeCount = 0;
     pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
-    if (vkCreatePipelineLayout(*pDevice, &pipelineLayoutInfo, nullptr, &VulkanManager::Instance().m_pipelineLayout) != VK_SUCCESS) {
+    if (vkCreatePipelineLayout(*pDevice, &pipelineLayoutInfo, nullptr, VulkanManager::GetPipelineLayout()) != VK_SUCCESS) {
         throw std::runtime_error("failed to create pipeline layout!");
     }
 
@@ -168,8 +168,8 @@ void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreate
     pipelineInfo.pColorBlendState = &colorBlending;
     pipelineInfo.pDynamicState = nullptr;
 
-    pipelineInfo.layout = VulkanManager::Instance().m_pipelineLayout;
-    pipelineInfo.renderPass = VulkanManager::Instance().m_renderPass;
+    pipelineInfo.layout = *VulkanManager::GetPipelineLayout();
+    pipelineInfo.renderPass = *VulkanManager::GetRenderPass();
     pipelineInfo.subpass = 0;
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
     pipelineInfo.basePipelineIndex = -1;
@@ -184,7 +184,7 @@ void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreate
 
 VkShaderModule GraphicsPipeline::CreateShaderModule(const std::vector<char>& code) 
 {
-    VkDevice* pDevice = &VulkanManager::Instance().m_device;
+    VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkShaderModuleCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
