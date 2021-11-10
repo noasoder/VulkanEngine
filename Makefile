@@ -38,7 +38,7 @@ INCLUDE_DLL = -Isrc/engine -Isrc/engine/Camera -Isrc/engine/Camera/CameraControl
 INCLUDE = -Isrc/code
 
 
-all: ofbx dll exe
+all: dll exe
 
 ofbx: 
 	$(CXX) -std=c++17 -c src/openfbx/miniz.cpp src/openfbx/ofbx.cpp 
@@ -49,6 +49,3 @@ dll: $(SRCS_DLL)
 
 exe: $(SRC)/main.cpp $(SRCS)
 	$(CXX) $(CXX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -lVulkanEngine
-
-clean:
-	-rm $(BIN)/*

@@ -138,6 +138,7 @@
     <ClCompile Include="engine\Material.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
+    <ClCompile Include="engine\Timestep.cpp" />
     <ClCompile Include="engine\Transform.cpp" />
     <ClCompile Include="engine\Utility\Maths.cpp" />
     <ClCompile Include="engine\Utility\Matrix3.cpp" />
@@ -146,7 +147,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openfbx\miniz.cpp" />
     <ClCompile Include="openfbx\ofbx.cpp" />
-    <ClCompile Include="Timestep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\flat.frag" />

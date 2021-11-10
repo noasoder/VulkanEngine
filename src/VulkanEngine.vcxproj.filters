@@ -161,6 +161,9 @@
     <ClCompile Include="engine\Model.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="engine\Timestep.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
     <ClCompile Include="engine\Transform.cpp">
       <Filter>engine</Filter>
     </ClCompile>
@@ -182,9 +185,6 @@
     </ClCompile>
     <ClCompile Include="openfbx\ofbx.cpp">
       <Filter>openfbx</Filter>
-    </ClCompile>
-    <ClCompile Include="Timestep.cpp">
-      <Filter>engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

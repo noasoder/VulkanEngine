@@ -127,7 +127,7 @@ namespace VulkanManager
     VkQueue m_graphicsQueue;
     VkQueue m_presentQueue;
 
-    void VulkanManager::Init()
+    void Init()
     {
         m_pWindow = WindowManager::GetWindow();
         m_pBufferManager = new BufferManager();
@@ -159,11 +159,11 @@ namespace VulkanManager
         CreateSyncObjects();
     }
 
-    void VulkanManager::Destroy() {
+    void Destroy() {
         Cleanup();
     }
 
-    void VulkanManager::Cleanup() {
+    void Cleanup() {
         CleanupSwapChain();
 
         ModelManager::Destroy();
@@ -190,7 +190,7 @@ namespace VulkanManager
         vkDestroyInstance(m_instance, nullptr);
     }
 
-    void VulkanManager::DrawFrame(float DeltaTime) {
+    void DrawFrame(float DeltaTime) {
         vkWaitForFences(m_device, 1, &m_inFlightFences[m_currentFrame], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;
@@ -258,7 +258,7 @@ namespace VulkanManager
         m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 
-    void VulkanManager::CreateInstance() {
+    void CreateInstance() {
 
         if (ENABLE_VALIDATION_LAYERS && !checkValidationLayerSupport()) {
             throw std::runtime_error("validation layer requested, but not available");
@@ -314,7 +314,7 @@ namespace VulkanManager
         }
     }
 
-    std::vector<const char*> VulkanManager::GetRequiredExtensions() {
+    std::vector<const char*> GetRequiredExtensions() {
         uint32_t glfwExtensionCount = 0;
         const char** glfwExtensions;
         glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
@@ -327,7 +327,7 @@ namespace VulkanManager
         return extensions;
     }
 
-    uint32_t VulkanManager::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
+    uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties) {
         VkPhysicalDeviceMemoryProperties memProperties;
         vkGetPhysicalDeviceMemoryProperties(m_physicalDevice, &memProperties);
 
@@ -340,7 +340,7 @@ namespace VulkanManager
         throw std::runtime_error("failed to find suitable memory type!");
     }
 
-    void VulkanManager::CreateRenderPass() {
+    void CreateRenderPass() {
         VkAttachmentDescription depthAttachment{};
         depthAttachment.format = m_pTextureManager->FindDepthFormat();
         depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -398,7 +398,7 @@ namespace VulkanManager
         }
     }
 
-    void VulkanManager::CreateFramebuffers() {
+    void CreateFramebuffers() {
         m_swapChainFramebuffers.resize(m_swapChainImageViews.size());
         for (size_t i = 0; i < m_swapChainImageViews.size(); i++)
         {
@@ -422,7 +422,7 @@ namespace VulkanManager
         }
     }
 
-    void VulkanManager::CreateCommandPool() {
+    void CreateCommandPool() {
         QueueFamilyIndices queueFamilyIndices = FindQueueFamilies(m_physicalDevice);
 
         VkCommandPoolCreateInfo poolInfo{};
@@ -435,7 +435,7 @@ namespace VulkanManager
         }
     }
 
-    void VulkanManager::CreateCommandBuffers() {
+    void CreateCommandBuffers() {
         m_commandBuffers.resize(m_swapChainFramebuffers.size());
 
         VkCommandBufferAllocateInfo allocInfo{};
@@ -451,7 +451,7 @@ namespace VulkanManager
         UpdateCommandBuffers();
     }
 
-    void VulkanManager::UpdateCommandBuffers()
+    void UpdateCommandBuffers()
     {
         std::vector<Material*> materials = MaterialManager::GetMaterials();
 
@@ -509,7 +509,7 @@ namespace VulkanManager
         }
     }
 
-    VkCommandBuffer VulkanManager::BeginSingleTimeCommands() {
+    VkCommandBuffer BeginSingleTimeCommands() {
         VkCommandBufferAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
         allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
@@ -528,7 +528,7 @@ namespace VulkanManager
         return commandBuffer;
     }
 
-    void VulkanManager::EndSingleTimeCommands(VkCommandBuffer commandBuffer) {
+    void EndSingleTimeCommands(VkCommandBuffer commandBuffer) {
         vkEndCommandBuffer(commandBuffer);
 
         VkSubmitInfo submitInfo{};
@@ -542,7 +542,7 @@ namespace VulkanManager
         vkFreeCommandBuffers(m_device, m_commandPool, 1, &commandBuffer);
     }
 
-    void VulkanManager::CreateSyncObjects() {
+    void CreateSyncObjects() {
         m_imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
         m_renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
         m_inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
@@ -565,7 +565,7 @@ namespace VulkanManager
         }
     }
 
-    void VulkanManager::CreateLogicalDevice() {
+    void CreateLogicalDevice() {
         QueueFamilyIndices indices = FindQueueFamilies(m_physicalDevice);
 
         std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -608,7 +608,7 @@ namespace VulkanManager
         vkGetDeviceQueue(m_device, indices.presentFamily.value(), 0, &m_presentQueue);
     }
 
-    void VulkanManager::PickPhysicalDevice() {
+    void PickPhysicalDevice() {
         uint32_t deviceCount = 0;
         vkEnumeratePhysicalDevices(m_instance, &deviceCount, nullptr);
 
@@ -636,7 +636,7 @@ namespace VulkanManager
             throw std::runtime_error("failed to find a suitable GPU!");
         }
     }
-    bool VulkanManager::IsDeviceSuitable(VkPhysicalDevice device) {
+    bool IsDeviceSuitable(VkPhysicalDevice device) {
         QueueFamilyIndices indices = FindQueueFamilies(device);
 
         bool extensionsSupported = CheckDeviceExtensionSupport(device);
@@ -652,7 +652,7 @@ namespace VulkanManager
 
         return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
     }
-    bool VulkanManager::CheckDeviceExtensionSupport(VkPhysicalDevice device) {
+    bool CheckDeviceExtensionSupport(VkPhysicalDevice device) {
         uint32_t extensionCount;
         vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
@@ -676,7 +676,7 @@ namespace VulkanManager
         return requiredExtensions.empty();
     }
 
-    int VulkanManager::RateDeviceSuitability(VkPhysicalDevice device) {
+    int RateDeviceSuitability(VkPhysicalDevice device) {
 
         int score = 0;
         VkPhysicalDeviceProperties deviceProperties;
@@ -709,7 +709,7 @@ namespace VulkanManager
         return score;
     }
 
-    QueueFamilyIndices VulkanManager::FindQueueFamilies(VkPhysicalDevice device) {
+    QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device) {
         QueueFamilyIndices indices;
 
         uint32_t queueFamilyCount = 0;
@@ -742,7 +742,7 @@ namespace VulkanManager
         return indices;
     }
 
-    SwapChainSupportDetails VulkanManager::QuerySwapChainSupport(VkPhysicalDevice device) {
+    SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device) {
         SwapChainSupportDetails details;
 
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, m_surface, &details.capabilities);
@@ -766,7 +766,7 @@ namespace VulkanManager
         return details;
     }
 
-    VkSurfaceFormatKHR VulkanManager::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
+    VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats) {
         for (const auto& availableFormat : availableFormats) {
             if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
                 return availableFormat;
@@ -778,7 +778,7 @@ namespace VulkanManager
         return availableFormats[0];
     }
 
-    VkPresentModeKHR VulkanManager::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
+    VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes) {
         for (const auto& availablePresentMode : availablePresentModes) {
             if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR) {
                 return availablePresentMode;
@@ -790,7 +790,7 @@ namespace VulkanManager
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
-    VkExtent2D VulkanManager::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
+    VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities) {
         if (capabilities.currentExtent.width != UINT32_MAX) {
             return capabilities.currentExtent;
         }
@@ -810,7 +810,7 @@ namespace VulkanManager
         }
     }
 
-    void VulkanManager::CreateSwapChain() {
+    void CreateSwapChain() {
         SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(m_physicalDevice);
 
         VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -864,7 +864,7 @@ namespace VulkanManager
         m_swapChainExtent = extent;
     }
 
-    void VulkanManager::CleanupSwapChain() {
+    void CleanupSwapChain() {
         vkDestroyImageView(m_device, m_pTextureManager->m_depthImageView, nullptr);
         vkDestroyImage(m_device, m_pTextureManager->m_depthImage, nullptr);
         vkFreeMemory(m_device, m_pTextureManager->m_depthImageMemory, nullptr);
@@ -888,7 +888,7 @@ namespace VulkanManager
         ModelManager::CleanupUniformBuffers(m_swapChainImages.size());
     }
 
-    void VulkanManager::RecreateSwapChain() {
+    void RecreateSwapChain() {
         int width = 0, height = 0;
         glfwGetFramebufferSize(m_pWindow, &width, &height);
         while (width == 0 || height == 0) {
@@ -910,7 +910,7 @@ namespace VulkanManager
         CreateCommandBuffers();
     }
 
-    void VulkanManager::CreateImageViews() {
+    void CreateImageViews() {
         m_swapChainImageViews.resize(m_swapChainImages.size());
 
         for (size_t i = 0; i < m_swapChainImages.size(); i++)
@@ -919,7 +919,7 @@ namespace VulkanManager
         }
     }
 
-    VkImageView VulkanManager::CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags) {
+    VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags) {
         VkImageViewCreateInfo viewInfo{};
         viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
         viewInfo.image = image;
@@ -939,7 +939,7 @@ namespace VulkanManager
         return imageView;
     }
 
-    void VulkanManager::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+    void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
         createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
         createInfo.messageSeverity =    //VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
                                         //VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
@@ -955,7 +955,7 @@ namespace VulkanManager
         createInfo.pNext = NULL;
     }
 
-    void VulkanManager::SetupDebugMessenger() {
+    void SetupDebugMessenger() {
         if (!ENABLE_VALIDATION_LAYERS) return;
 
         VkDebugUtilsMessengerCreateInfoEXT createInfo;
@@ -966,7 +966,7 @@ namespace VulkanManager
         }
     }
 
-    void VulkanManager::CreateSurface() {
+    void CreateSurface() {
         if (glfwCreateWindowSurface(m_instance, m_pWindow, nullptr, &m_surface) != VK_SUCCESS) {
             throw std::runtime_error("failed to create window surface");
         }
