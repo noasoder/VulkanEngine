@@ -2,7 +2,6 @@
 
 #include "Utility/Types.h"
 #include "Camera/Camera.h"
-#include "Application.h"
 #include "Camera/CameraControllers/CameraController.h"
 
 CameraManager::CameraManager()

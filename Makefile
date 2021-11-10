@@ -7,9 +7,9 @@ CXX_DLL	:= $(CXX) -shared
 BIN     := bin
 SRC     := src
 INCLUDE_EXT := -IC:/VulkanSDK/1.2.182.0/Include -Ilib/glfw-3.3.4.bin.WIN64/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
-LIBPATH := -LC:/VulkanSDK/1.2.182.0/Lib -Llib/glfw-3.3.4.bin.WIN64/lib-mingw-w64
+LIBPATH := -LC:/VulkanSDK/1.2.182.0/Lib -Llib/glfw-3.3.4.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib
 
-LIBRARIES   := -l:libglfw3dll.a -lvulkan-1
+LIBRARIES   := -l:libglfw3dll.a -lvulkan-1 -l:OpenFBX.a
 DLL  := VulkanEngine.dll
 EXECUTABLE  := VulkanEngine
 OUTEXE := $(BIN)/$(EXECUTABLE)
@@ -23,24 +23,32 @@ SEARCHCPP = $(addsuffix /*.cpp ,$(DIRS))
 SRCS = $(wildcard $(SEARCHC))
 SRCS += $(wildcard $(SEARCHCPP))
 
-DIRS_DLL = $(SRC)/engine $(SRC)/engine/Camera $(SRC)/engine/Camera/CameraControllers $(SRC)/engine/Managers $(SRC)/engine/Utility $(SRC)/engine/OpenFBX
+DIRS_DLL = $(SRC)/engine $(SRC)/engine/Camera $(SRC)/engine/Camera/CameraControllers $(SRC)/engine/Managers $(SRC)/engine/Utility
 vpath %.c $(DIRS_DLL)
 vpath %.cpp $(DIRS_DLL)
+vpath %.o $(BIN)/lib
 SEARCHC_DLL = $(addsuffix /*.c ,$(DIRS_DLL))
 SEARCHCPP_DLL = $(addsuffix /*.cpp ,$(DIRS_DLL))
+SEARCHO_DLL = $(addsuffix /*.o ,$(BIN)/lib))
 SRCS_DLL = $(wildcard $(SEARCHC_DLL))
 SRCS_DLL += $(wildcard $(SEARCHCPP_DLL))
+SRCSO_DLL = $(wildcard $(SEARCHO_DLL))
 
-INCLUDE = -Iinclude -Iinclude/Camera -Iinclude/Camera/CameraControllers -Iinclude/Managers -Iinclude/Utility -Iinclude/OpenFBX
+INCLUDE_DLL = -Isrc/engine -Isrc/engine/Camera -Isrc/engine/Camera/CameraControllers -Isrc/engine/Managers -Isrc/engine/Utility -Isrc/openfbx
+INCLUDE = -Isrc/code
 
 
-all: dll exe
+all: ofbx dll exe
+
+ofbx: 
+	$(CXX) -std=c++17 -c src/openfbx/miniz.cpp src/openfbx/ofbx.cpp 
+	ar crf bin/lib/OpenFBX.a miniz.o ofbx.o
 
 dll: $(SRCS_DLL)
-	$(CXX_DLL) $(CXX_FLAGS) -g $^ -o $(OUTDLL) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(LIBRARIES)
+	$(CXX_DLL) $(CXX_FLAGS) -g $^ -o $(OUTDLL) $(INCLUDE_EXT) $(INCLUDE_DLL) $(LIBPATH) $(LIBRARIES) 
 
 exe: $(SRC)/main.cpp $(SRCS)
-	$(CXX) $(CXX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) -Lbin/ $(LIBRARIES) -lVulkanEngine
+	$(CXX) $(CXX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -lVulkanEngine
 
 clean:
 	-rm $(BIN)/*

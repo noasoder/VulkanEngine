@@ -1,6 +1,5 @@
 #include "Managers/VulkanManager.h"
 
-#include "Application.h"
 #include "Managers/BufferManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"

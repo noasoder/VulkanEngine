@@ -1,9 +1,8 @@
 
 #include "Managers/BufferManager.h"
-         
+
 #include <stdexcept>
-         
-#include "Application.h"
+
 #include "Managers/VulkanManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"

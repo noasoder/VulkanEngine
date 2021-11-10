@@ -2,7 +2,6 @@
 
 #include "Vulkan.h"
 #include "Utility/Types.h"
-#include "Application.h"
 #include "Camera/Camera.h"
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"

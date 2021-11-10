@@ -7,7 +7,6 @@
 #include "Managers/TextureManager.h"
 #include "Utility/Maths.h"
 #include "Camera/Camera.h"
-#include "Application.h"
 #include "Engine.h"
 
 Model::Model(std::string path)

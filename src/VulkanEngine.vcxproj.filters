@@ -16,121 +16,103 @@
     <Filter Include="engine\Managers">
       <UniqueIdentifier>{38481F08-A4D3-8CCC-ADE4-0FC119EFE8CC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\OpenFBX">
-      <UniqueIdentifier>{7C7118CC-683F-0CD2-51D3-7CF83D40E836}</UniqueIdentifier>
-    </Filter>
     <Filter Include="engine\Utility">
       <UniqueIdentifier>{3E6592A3-2A33-86A9-13C7-F6CFFF33620E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\Camera">
-      <UniqueIdentifier>{E14F8AFA-CD1D-7E00-B6B1-EE26A21E5A65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\Camera\CameraControllers">
-      <UniqueIdentifier>{30216F13-1C72-5A55-45D6-48173186EDBE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\Managers">
-      <UniqueIdentifier>{86FBF602-72F4-1555-9B26-FBD9877EF560}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\OpenFBX">
-      <UniqueIdentifier>{0AF3FF09-767E-6DCE-7F8F-F0C2EB99C9CE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\Utility">
-      <UniqueIdentifier>{CCE679E1-3872-E7A5-4183-6A9AAD8D43A6}</UniqueIdentifier>
+    <Filter Include="openfbx">
+      <UniqueIdentifier>{1777E370-8356-620C-8C6E-EDE2F8CCC86D}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{0F45D591-7B24-542D-843C-DF03F09ABA8E}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Application.h">
-      <Filter>include</Filter>
+    <ClInclude Include="code\Application.h">
+      <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Camera\Camera.h">
-      <Filter>include\Camera</Filter>
+    <ClInclude Include="engine\Camera\Camera.h">
+      <Filter>engine\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Camera\CameraControllers\CameraController.h">
-      <Filter>include\Camera\CameraControllers</Filter>
+    <ClInclude Include="engine\Camera\CameraControllers\CameraController.h">
+      <Filter>engine\Camera\CameraControllers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Engine.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\Engine.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\GraphicsPipeline.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\GraphicsPipeline.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\BufferManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\BufferManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\CameraManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\CameraManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\InputManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\InputManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\MaterialManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\MaterialManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\ModelManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\ModelManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\TextureManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\TextureManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\VulkanManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\VulkanManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Managers\WindowManager.h">
-      <Filter>include\Managers</Filter>
+    <ClInclude Include="engine\Managers\WindowManager.h">
+      <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Material.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\Material.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Mesh.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\Mesh.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Model.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\Model.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\OpenFBX\miniz.h">
-      <Filter>include\OpenFBX</Filter>
+    <ClInclude Include="engine\Timestep.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\OpenFBX\ofbx.h">
-      <Filter>include\OpenFBX</Filter>
+    <ClInclude Include="engine\Transform.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Timestep.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\Utility\FileReader.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Transform.h">
-      <Filter>include</Filter>
+    <ClInclude Include="engine\Utility\Maths.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\FileReader.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Utility\Matrix3.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Maths.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Utility\Matrix4.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Matrix3.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Utility\Rotor3.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Matrix4.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Utility\Singleton.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Rotor3.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Utility\Types.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Singleton.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Utility\Vertex.h">
+      <Filter>engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Types.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="engine\Vulkan.h">
+      <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Utility\Vertex.h">
-      <Filter>include\Utility</Filter>
+    <ClInclude Include="openfbx\miniz.h">
+      <Filter>openfbx</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Vulkan.h">
-      <Filter>include</Filter>
+    <ClInclude Include="openfbx\ofbx.h">
+      <Filter>openfbx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +164,6 @@
     <ClCompile Include="engine\Model.cpp">
       <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="engine\OpenFBX\miniz.cpp">
-      <Filter>engine\OpenFBX</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\OpenFBX\ofbx.cpp">
-      <Filter>engine\OpenFBX</Filter>
-    </ClCompile>
     <ClCompile Include="engine\Transform.cpp">
       <Filter>engine</Filter>
     </ClCompile>
@@ -204,6 +180,12 @@
       <Filter>engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="openfbx\miniz.cpp">
+      <Filter>openfbx</Filter>
+    </ClCompile>
+    <ClCompile Include="openfbx\ofbx.cpp">
+      <Filter>openfbx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\flat.frag">

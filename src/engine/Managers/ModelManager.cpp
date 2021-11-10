@@ -1,10 +1,10 @@
-#include "Managers/ModelManager.h"
 
+#include "Managers/ModelManager.h"
 #include "Managers/VulkanManager.h"
 
 #include <unordered_map>
 #include <tiny_obj_loader.h>
-#include <OpenFBX/ofbx.h>
+#include "ofbx.h"
 #include <string>
 #include <memory>
 #include "Model.h"
