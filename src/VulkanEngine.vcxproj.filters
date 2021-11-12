@@ -4,6 +4,9 @@
     <Filter Include="code">
       <UniqueIdentifier>{803E957C-6C75-960D-1562-7C100178120F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Networking">
+      <UniqueIdentifier>{97F7754D-0383-E311-0C94-6606789E3F12}</UniqueIdentifier>
+    </Filter>
     <Filter Include="engine">
       <UniqueIdentifier>{FBDB78FB-E77D-A3D1-D038-B725BC792A22}</UniqueIdentifier>
     </Filter>
@@ -29,6 +32,12 @@
   <ItemGroup>
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\Client.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\WebClient.h">
+      <Filter>code\Networking</Filter>
     </ClInclude>
     <ClInclude Include="engine\Camera\Camera.h">
       <Filter>engine\Camera</Filter>
@@ -115,6 +124,12 @@
   <ItemGroup>
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\Client.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\WebClient.cpp">
+      <Filter>code\Networking</Filter>
     </ClCompile>
     <ClCompile Include="engine\Camera\Camera.cpp">
       <Filter>engine\Camera</Filter>

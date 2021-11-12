@@ -20,6 +20,8 @@
 #include "Model.h"
 #include "Engine.h"
 
+#include "Networking/WebClient.h"
+
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>
 //#include <backends/imgui_impl_vulkan.h
@@ -41,10 +43,27 @@ Application::Application()
     MaterialManager::CreateNewMaterial(createDesc);
 
     Time::UpdateTimestep();
+
+    //const std::string url = "www.noasoderlund.com";
+    //const std::string ext = "/projects/index.html";
+    const std::string url = "www.worldtimeapi.org";
+    //const std::string ext = "/api/timezone/Europe/Stockholm";
+    //const std::string ext = "/api/timezone/Africa/Johannesburg";
+    const std::string ext = "/api/timezone/Asia/Tokyo";
+
+    m_pWebClient = new WebClient(url);
+
+    if (!m_pWebClient->Connect())
+        std:throw("Failed to connect to web server\n");
+    else
+        m_pWebClient->GetHTTP(url, ext);
 }
 
 Application::~Application()
 {
+    if (m_pWebClient)
+        delete m_pWebClient;
+
     delete m_pEngine;
 }
 

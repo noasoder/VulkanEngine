@@ -10,8 +10,8 @@ workspace "VulkanEngine"
         cppdialect "C++17"
 
     includedirs { "C:/VulkanSDK/1.2.182.0/Include", "../lib/glfw-3.3.4.bin.WIN64/include", "../lib/glm", "../lib/stb", "../lib/tiny_obj_loader" , "../lib/OpenFBX", "../lib/imgui", "../src/engine", "../src/code", "../src/openfbx" }
-    libdirs { "C:/VulkanSDK/1.2.182.0/Lib", "../lib/glfw-3.3.4.bin.WIN64/lib-vc2019" }
-    links { "vulkan-1.lib", "glfw3.lib" }
+    libdirs { "C:/VulkanSDK/1.2.182.0/Lib", "../lib/glfw-3.3.4.bin.WIN64/lib-vc2019", "-LC:/Program Files (x86)/Windows Kits/10/Lib/10.0.20348.0/um/x86" }
+    links { "vulkan-1.lib", "glfw3.lib", "-lWS2_32.lib" }
 
 project "VulkanEngine"
     location "../src"

@@ -8,6 +8,7 @@
 #include "Utility/Maths.h"
 
 class Engine;
+class WebClient;
 
 class Application
 {
@@ -21,4 +22,6 @@ private:
     bool m_Running;
 
     Engine* m_pEngine;
+
+    WebClient* m_pWebClient;
 };

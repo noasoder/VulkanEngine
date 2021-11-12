@@ -7,7 +7,7 @@ CXX_DLL	:= $(CXX) -shared
 BIN     := bin
 SRC     := src
 INCLUDE_EXT := -IC:/VulkanSDK/1.2.182.0/Include -Ilib/glfw-3.3.4.bin.WIN64/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
-LIBPATH := -LC:/VulkanSDK/1.2.182.0/Lib -Llib/glfw-3.3.4.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib
+LIBPATH := -LC:/VulkanSDK/1.2.182.0/Lib -Llib/glfw-3.3.4.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib 
 
 LIBRARIES   := -l:libglfw3dll.a -lvulkan-1 -l:OpenFBX.a
 DLL  := VulkanEngine.dll
@@ -48,4 +48,4 @@ dll: $(SRCS_DLL)
 	$(CXX_DLL) $(CXX_FLAGS) -g $^ -o $(OUTDLL) $(INCLUDE_EXT) $(INCLUDE_DLL) $(LIBPATH) $(LIBRARIES) 
 
 exe: $(SRC)/main.cpp $(SRCS)
-	$(CXX) $(CXX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -lVulkanEngine
+	$(CXX) $(CXX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) -LC:/Program Files (x86)/Windows Kits/10/Lib/10.0.20348.0/um/x86 $(INCLUDE_DLL) -lWS2_32.dll $(LIBRARIES) -lVulkanEngine
