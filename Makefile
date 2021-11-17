@@ -1,6 +1,6 @@
 CXX       := g++
 CXX_FLAGS := -std=c++17 -static-libstdc++ -lpthread -lmsvcrt
-CXX_FLAGS_EXE := -std=c++17 -static-libstdc++ -02 -lpthread -lmsvcrt
+CXX_FLAGS_EXE := -std=c++17 -static-libgcc -static-libstdc++ -lpthread -lmsvcrt
 
 CXX_DLL	:= $(CXX) -shared
 
@@ -15,7 +15,7 @@ EXECUTABLE  := VulkanEngine
 OUTEXE := $(BIN)/$(EXECUTABLE)
 OUTDLL := $(BIN)/$(DLL)
 
-DIRS = $(SRC)/code
+DIRS = $(SRC)/code $(SRC)/code/Networking
 vpath %.c $(DIRS)
 vpath %.cpp $(DIRS)
 SEARCHC = $(addsuffix /*.c ,$(DIRS))
@@ -35,7 +35,7 @@ SRCS_DLL += $(wildcard $(SEARCHCPP_DLL))
 SRCSO_DLL = $(wildcard $(SEARCHO_DLL))
 
 INCLUDE_DLL = -Isrc/engine -Isrc/engine/Camera -Isrc/engine/Camera/CameraControllers -Isrc/engine/Managers -Isrc/engine/Utility -Isrc/openfbx
-INCLUDE = -Isrc/code
+INCLUDE = -Isrc/code -Isrc/code/Networking
 
 
 all: dll exe
@@ -48,4 +48,4 @@ dll: $(SRCS_DLL)
 	$(CXX_DLL) $(CXX_FLAGS) -g $^ -o $(OUTDLL) $(INCLUDE_EXT) $(INCLUDE_DLL) $(LIBPATH) $(LIBRARIES) 
 
 exe: $(SRC)/main.cpp $(SRCS)
-	$(CXX) $(CXX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) -LC:/Program Files (x86)/Windows Kits/10/Lib/10.0.20348.0/um/x86 $(INCLUDE_DLL) -lWS2_32.dll $(LIBRARIES) -lVulkanEngine
+	$(CXX) $(CXX_FLAGS_EXE) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -lVulkanEngine -lWS2_32

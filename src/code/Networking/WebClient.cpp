@@ -1,20 +1,49 @@
 
 #include "Networking/WebClient.h"
 
+#ifndef WINDOWS
+#define WINDOWS
+#endif // WINDOWS
+
 #include <iostream>
 #include <iterator>
 #include <list>
 #include <vector>
 
-#include <WS2tcpip.h>
+#ifdef UNIX
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#endif // UNIX
 
+#ifdef WINDOWS
+#include <stdlib.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
+#endif // WINDOWS
+
+SOCKET m_socket;
+
+struct addrinfo* result = 0, hints;
+
+int StartWinSock()
+{
+	WSADATA wsaData;
+
+	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (iResult != 0) {
+		printf("WSAStartup failed: %d\n", iResult);
+		return 1;
+	}
+	return 0;
+}
 
 WebClient::WebClient(std::string url)
-: m_socket( 0 )
 {
+	m_socket = 0;
 	if (StartWinSock() == 1)
 	{
-		
+	
 	}
 
 	ZeroMemory(&hints, sizeof(hints));
@@ -43,19 +72,6 @@ WebClient::WebClient(std::string url)
 		}
 	}
 }
-
-int StartWinSock()
-{
-	WSADATA wsaData;
-
-	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-	if (iResult != 0) {
-		printf("WSAStartup failed: %d\n", iResult);
-		return 1;
-	}
-	return 0;
-}
-
 
 WebClient::~WebClient()
 {
