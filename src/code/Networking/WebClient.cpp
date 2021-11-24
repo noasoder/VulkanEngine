@@ -1,86 +1,17 @@
 
 #include "Networking/WebClient.h"
 
-#ifndef WINDOWS
-#define WINDOWS
-#endif // WINDOWS
+#include <Networking/Networking.h>
 
 #include <iostream>
 #include <iterator>
 #include <list>
 #include <vector>
+#include <thread>
 
-#ifdef UNIX
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#endif // UNIX
-
-#ifdef WINDOWS
-#include <stdlib.h>
-#include <WS2tcpip.h>
-#include <Windows.h>
-#endif // WINDOWS
-
-SOCKET m_socket;
-
-struct addrinfo* result = 0, hints;
-
-int StartWinSock()
+bool Connect(SOCKET socket, addrinfo* result)
 {
-	WSADATA wsaData;
-
-	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-	if (iResult != 0) {
-		printf("WSAStartup failed: %d\n", iResult);
-		return 1;
-	}
-	return 0;
-}
-
-WebClient::WebClient(std::string url)
-{
-	m_socket = 0;
-	if (StartWinSock() == 1)
-	{
-	
-	}
-
-	ZeroMemory(&hints, sizeof(hints));
-	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_protocol = IPPROTO_TCP;
-
-	//sockaddr_in6 serverAddress;
-	char* ipString;
-
-	hostent* h = gethostbyname(url.c_str());
-	if (h == nullptr)
-	{
-		std::cout << "Host not found, h is null" << std::endl;
-	}
-	else
-	{
-		ipString = inet_ntoa(*((struct in_addr*)h->h_addr_list[0]));
-		getaddrinfo(ipString, "80", &hints, &result);
-		m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-		if (m_socket)
-		{
-			std::cout << "Connected to " << std::endl;
-			printf("socket created, ip to web server: %.*s", INET6_ADDRSTRLEN, ipString);
-			std::cout << std::endl;
-		}
-	}
-}
-
-WebClient::~WebClient()
-{
-	closesocket(m_socket);
-}
-
-bool WebClient::Connect()
-{
-	if (connect(m_socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR)
+	if (connect(socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR)
 	{
 		std::cout << "SOCKET_ERROR" << std::endl;
 	}
@@ -93,32 +24,32 @@ bool WebClient::Connect()
 	return false;
 }
 
-void WebClient::GetHTTP(const std::string url, const std::string ext)
+void SendAndRecv(const std::string url, const std::string ext, SOCKET socket)
 {
 	const int bufferLen = 2048;
 	char buffer[bufferLen];
 	int length = -1;
 	std::string get_http = "GET " + ext + " HTTP/1.1\r\nHost: " + url + "\r\nConnection: close\r\n\r\n";
 
-	send(m_socket, get_http.c_str(), strlen(get_http.c_str()), 0);
-
-	length = recv(m_socket, buffer, bufferLen, 0);
+	//sent a get request to the server
+	send(socket, get_http.c_str(), (int)strlen(get_http.c_str()), 0);
+	//wait for a response
+	length = recv(socket, buffer, bufferLen, 0);
 
 	std::cout << "length: " << length << std::endl;
 	if (length > 0)
 	{
-		printf("buffer: %s", buffer);
-		printf("web buffer: %.*s", length, buffer);
+		printf("buffer: \n %.*s", length, buffer);
 
 		//split the char array in smaller parts
 		std::vector<char*> toks = std::vector<char*>();
 		char* tok = strtok(buffer, " ,");
-		if(tok)
+		if (tok)
 			toks.push_back(tok);
 		while (tok != NULL)
 		{
 			tok = strtok(NULL, " ,");
-			if(tok)
+			if (tok)
 				toks.push_back(tok);
 		}
 
@@ -127,7 +58,52 @@ void WebClient::GetHTTP(const std::string url, const std::string ext)
 		//	printf("%s\n", tok);
 		//}
 
-		printf("\n	In %s the time and date is: \n", toks[41]);
+		//print the desired info
+		printf("\n\n	In %s the time and date is: \n", toks[41]);
 		printf("	%s\n\n", toks[33]);
 	}
+}
+
+WebClient::WebClient(std::string url, std::string ext)
+{
+	m_socket = 0;
+
+	ZeroMemory(&hints, sizeof(hints));
+	hints.ai_family = AF_INET;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_protocol = IPPROTO_TCP;
+
+	hostent* h = gethostbyname(url.c_str());
+	if (h == nullptr)
+	{
+		std::cout << "Host not found, h is null" << std::endl;
+	}
+	else
+	{
+		char ipString[INET6_ADDRSTRLEN];
+		inet_ntop(AF_INET, (struct in_addr*)h->h_addr_list[0], ipString, sizeof(ipString));
+		getaddrinfo(ipString, "80", &hints, &result);
+
+		m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+		if (m_socket)
+		{
+			printf("socket created, ip to http server: %.*s", sizeof(ipString), ipString);
+			std::cout << std::endl;
+		}
+
+		m_connected = Connect(m_socket, result);
+
+		if (m_connected)
+			GetHTTP(url, ext);
+	}
+}
+
+WebClient::~WebClient()
+{
+	closesocket(m_socket);
+}
+
+void WebClient::GetHTTP(const std::string url, const std::string ext)
+{
+	std::thread(SendAndRecv, url, ext, m_socket).detach();
 }

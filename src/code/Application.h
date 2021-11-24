@@ -1,14 +1,8 @@
-#pragma once 
-
-#include "Vulkan.h"
-
-#include <chrono>
-#include <cstdint>
-
-#include "Utility/Maths.h"
+#ifndef APPLICATION_H
+#define APPLICATION_H
 
 class Engine;
-class WebClient;
+class NetHandler;
 
 class Application
 {
@@ -23,5 +17,7 @@ private:
 
     Engine* m_pEngine;
 
-    WebClient* m_pWebClient;
+    NetHandler* m_pNetHandler;
 };
+
+#endif // !APPLICATION_H

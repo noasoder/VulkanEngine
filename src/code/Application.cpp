@@ -1,6 +1,8 @@
 
 #include "Application.h"
 
+#include "Networking/NetHandler.h"
+
 #include "Managers/VulkanManager.h"
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"
@@ -19,8 +21,6 @@
 #include "Utility/Types.h"
 #include "Model.h"
 #include "Engine.h"
-
-#include "Networking/WebClient.h"
 
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>
@@ -44,25 +44,13 @@ Application::Application()
 
     Time::UpdateTimestep();
 
-    //const std::string url = "www.noasoderlund.com";
-    //const std::string ext = "/projects/index.html";
-    const std::string url = "www.worldtimeapi.org";
-    //const std::string ext = "/api/timezone/Europe/Stockholm";
-    //const std::string ext = "/api/timezone/Africa/Johannesburg";
-    const std::string ext = "/api/timezone/Asia/Tokyo";
-
-    m_pWebClient = new WebClient(url);
-
-    if (!m_pWebClient->Connect())
-        std:throw("Failed to connect to web server\n");
-    else
-        m_pWebClient->GetHTTP(url, ext);
+    m_pNetHandler = new NetHandler();
 }
 
 Application::~Application()
 {
-    if (m_pWebClient)
-        delete m_pWebClient;
+    if (m_pNetHandler)
+        delete m_pNetHandler;
 
     delete m_pEngine;
 }
@@ -88,6 +76,7 @@ void Application::Run()
 
         Time::UpdateTimestep();
 
+        m_pNetHandler->Update();
         CameraManager::Update(Time::GetDeltaTime());
 
 
@@ -137,8 +126,9 @@ void Application::Run()
             writeCooldown = 1.0f;
         }
 
+        InputManager::Update();
         glfwPollEvents();
-        //pModel->Render();
+
         VulkanManager::DrawFrame(Time::GetDeltaTime());
     }
 

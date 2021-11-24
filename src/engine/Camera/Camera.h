@@ -18,7 +18,7 @@ public:
 
 private:
 
-	float m_fov;
+	int m_fov;
 	float m_aspect;
 	float m_near;
 	float m_far;

@@ -36,6 +36,15 @@
     <ClInclude Include="code\Networking\Client.h">
       <Filter>code\Networking</Filter>
     </ClInclude>
+    <ClInclude Include="code\Networking\NetHandler.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\Networking.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\Server.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
     <ClInclude Include="code\Networking\WebClient.h">
       <Filter>code\Networking</Filter>
     </ClInclude>
@@ -126,6 +135,12 @@
       <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="code\Networking\Client.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\NetHandler.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\Server.cpp">
       <Filter>code\Networking</Filter>
     </ClCompile>
     <ClCompile Include="code\Networking\WebClient.cpp">
