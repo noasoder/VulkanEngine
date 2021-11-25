@@ -31,9 +31,10 @@ NetHandler::NetHandler()
 	//const std::string url = "www.noasoderlund.com";
 	//const std::string ext = "/projects/index.html";
 	const std::string url = "www.worldtimeapi.org";
+	const std::string ext = "/api/ip";
 	//const std::string ext = "/api/timezone/Europe/Stockholm";
 	//const std::string ext = "/api/timezone/Africa/Johannesburg";
-	const std::string ext = "/api/timezone/Asia/Tokyo";
+	//const std::string ext = "/api/timezone/Asia/Tokyo";
 
 	m_pWebClient = new WebClient(url, ext);
 }

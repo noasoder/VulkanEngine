@@ -9,6 +9,8 @@
 #include <vector>
 #include <thread>
 
+#define PRINT_WHOLE_BUFFER false
+
 bool Connect(SOCKET socket, addrinfo* result)
 {
 	if (connect(socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR)
@@ -36,10 +38,11 @@ void SendAndRecv(const std::string url, const std::string ext, SOCKET socket)
 	//wait for a response
 	length = recv(socket, buffer, bufferLen, 0);
 
-	std::cout << "length: " << length << std::endl;
+	//printf("length: %i\n", length);
 	if (length > 0)
 	{
-		printf("buffer: \n %.*s", length, buffer);
+		if(PRINT_WHOLE_BUFFER)
+			printf("buffer: \n %.*s", length, buffer);
 
 		//split the char array in smaller parts
 		std::vector<char*> toks = std::vector<char*>();
@@ -59,8 +62,8 @@ void SendAndRecv(const std::string url, const std::string ext, SOCKET socket)
 		//}
 
 		//print the desired info
-		printf("\n\n	In %s the time and date is: \n", toks[41]);
-		printf("	%s\n\n", toks[33]);
+		printf("\n\n	In your %s the date and time is: \n", toks[41]);
+		printf("		%s\n\n", toks[33]);
 	}
 }
 
@@ -76,7 +79,7 @@ WebClient::WebClient(std::string url, std::string ext)
 	hostent* h = gethostbyname(url.c_str());
 	if (h == nullptr)
 	{
-		std::cout << "Host not found, h is null" << std::endl;
+		printf("Host not found, h is null\n");
 	}
 	else
 	{
@@ -87,8 +90,7 @@ WebClient::WebClient(std::string url, std::string ext)
 		m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 		if (m_socket)
 		{
-			printf("socket created, ip to http server: %.*s", sizeof(ipString), ipString);
-			std::cout << std::endl;
+			printf("socket created, ip to http server: %.*s\n", (int)sizeof(ipString), ipString);
 		}
 
 		m_connected = Connect(m_socket, result);
