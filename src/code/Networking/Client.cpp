@@ -8,6 +8,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <thread>
 
 #include "Managers/InputManager.h"
 
@@ -17,10 +18,9 @@ struct	PlayerState
 	Vec3 Rotation = Vec3(0, 0, 0);
 };
 
-Client::Client(UINT16 Port)
+void ConnectToServer(Client* pThis, UINT16 Port)
 {
-	m_socket = 0;
-	m_playerID = 0;
+	addrinfo* result = 0, hints;
 
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_UNSPEC;
@@ -35,45 +35,80 @@ Client::Client(UINT16 Port)
 
 	getaddrinfo(ipString, std::to_string(Port).c_str(), &hints, &result);
 
-	m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-	if (m_socket)
+	pThis->m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+
+	printf("client socket created, ip to remote server: %.*s\n", INET_ADDRSTRLEN, ipString);
+	while (!pThis->m_isConnected)
 	{
-		//std::cout << "Connected to " << std::endl;
-		printf("socket created, ip to remote server: %.*s", INET_ADDRSTRLEN, ipString);
-		std::cout << std::endl;
-
-		Connect(Port);
+		if (connect(pThis->m_socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
+			printf("Looking for server\n");
+			Sleep(500);
+		}
+		else {
+			printf("connected to server\n");
+			pThis->m_isConnected = true;
+		}
 	}
 }
 
-Client::~Client( void )
+Client::Client(UINT16 Port)
 {
-	closesocket(m_socket);
+	m_socket = 0;
+	m_playerID = 0;
+
+	std::thread(ConnectToServer, this, Port).detach();
 }
 
-bool Client::Connect( UINT16 Port )
+Client::~Client()
 {
-	if (connect(m_socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
-		std::cout << "SOCKET_ERROR" << std::endl;
-	}
-	else {
-		std::cout << "connected to server" << std::endl;
-		return true;
-	}
+	if(m_socket)
+		closesocket(m_socket);
+}
+
+bool Client::Connect(UINT16 Port)
+{
+
 	return false;
 }
 
 
-void Client::Update( void )
+void Client::Update()
+{
+	ReceiveFromServer();
+	SendToServer();
+}
+
+void Client::ReceiveFromServer()
+{
+	if (!m_socket)
+		return;
+
+	FD_SET readSet;
+	FD_ZERO(&readSet);
+	timeval timeout{ 0, 0 };
+
+	//Add socket to the read set
+	FD_SET(m_socket, &readSet);
+
+	if (select((int)m_socket, &readSet, NULL, NULL, &timeout) == 1)
+	{
+		char recvBuffer[64];
+		int recvLen = recv(m_socket, recvBuffer, 64, 0);
+
+		printf("Client recv: %.*s\n", recvLen, recvBuffer);
+	}
+}
+
+void Client::SendToServer()
 {
 	if (InputManager::GetKeyDown(GLFW_KEY_X))
 	{
 		std::string sendText = "Hello";
-		send(m_socket, sendText.c_str(), sendText.size(), 0);
+		send(m_socket, sendText.c_str(), (int)sendText.size(), 0);
 	}
+}
 
-
-	//FD_SET readfds;
+//FD_SET readfds;
 
 	//FD_ZERO(&readfds);
 
@@ -176,9 +211,8 @@ void Client::Update( void )
 	//		}
 	//	}
 	//}
-}
 
-//void Client::SendPlayerState( const PlayerState& rState )
+//void Client::SendPlayerState(const PlayerState& rState)
 //{
 //	const int plSize = sizeof(UINT64) + sizeof(Vec3) * 2 + sizeof(UINT8);
 //	const int headerSize = 8;

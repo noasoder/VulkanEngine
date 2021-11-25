@@ -16,12 +16,14 @@ public:
 
 	void Update();
 
+	bool m_isConnected = false;
+	SOCKET m_socket;
 private:
+	void ReceiveFromServer();
+	void SendToServer();
 	bool Connect (UINT16 Port);
 
-	SOCKET m_socket;
 	UINT64 m_playerID;
-	addrinfo* result = 0, hints;
 };
 
 #endif // CLIENT_H

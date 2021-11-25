@@ -25,6 +25,7 @@ public:
 private:
 
 	static void	ConnectThread(Server* pThis);
+	void ReceiveFromClients();
 	void Accept();
 
 	std::vector<Connection> m_connections;

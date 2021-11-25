@@ -64,9 +64,6 @@ void Application::Run()
     float lerpValue = 0;
 
     glm::vec2 lastMousePos = InputManager::GetMousePosition();
-    
-    bool pressing1 = false;
-    bool pressing4 = false;
 
     while (!glfwWindowShouldClose(pWindow)) {
         if (InputManager::GetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -80,9 +77,8 @@ void Application::Run()
         CameraManager::Update(Time::GetDeltaTime());
 
 
-        if (InputManager::GetKey(GLFW_KEY_1) && !pressing1 || InputManager::GetKey(GLFW_KEY_2))
+        if (InputManager::GetKeyDown(GLFW_KEY_1) || InputManager::GetKey(GLFW_KEY_2))
         {
-            pressing1 = true;
             //Model* model = ModelManager::CreateModel(MODEL_CUBE_OBJ_PATH);
             Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
@@ -90,22 +86,14 @@ void Application::Run()
 
             MaterialManager::GetMaterials()[0]->AddModel(model);
         }
-        if (InputManager::GetKey(GLFW_KEY_1) == 0)
+
+        if (InputManager::GetKeyDown(GLFW_KEY_4))
         {
-            pressing1 = false;
-        }
-        if (InputManager::GetKey(GLFW_KEY_4) && !pressing4)
-        {
-            pressing4 = true;
             Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
             model->TranslateWorld(move);
 
             MaterialManager::GetMaterials()[1]->AddModel(model);
-        }
-        if (InputManager::GetKey(GLFW_KEY_4) == 0)
-        {
-            pressing4 = false;
         }
 
         if (lerpValue > TWO_PI)
