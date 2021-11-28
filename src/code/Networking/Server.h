@@ -3,6 +3,7 @@
 
 #include <map>
 #include <iterator>
+#include <string>
 
 #include "Networking/Networking.h"
 #include <thread>
@@ -12,11 +13,17 @@ class Server
 {
 public:
 
+	struct PlayerInfo
+	{
+		std::string name;
+		Vec3 position;
+		Vec3 rotation;
+	};
 	struct Connection
 	{
 		sockaddr address;
 		int socket;
-		int id;
+		PlayerInfo playerInfo;
 	};
 
 	Server(const UINT16 Port);
