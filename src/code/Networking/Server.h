@@ -1,7 +1,10 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <vector>
+//#include <vector>
+//#include <set>
+#include <map>
+#include <iterator>
 
 #include "Networking/Networking.h"
 #include <thread>
@@ -14,7 +17,8 @@ public:
 	struct Connection
 	{
 		sockaddr address;
-		SOCKET socket;
+		int socket;
+		int id;
 	};
 
 	Server(const UINT16 Port);
@@ -22,24 +26,22 @@ public:
 
 	void Update();
 
+
 private:
 
 	static void	ConnectThread(Server* pThis);
 	void ReceiveFromClients();
 	void Accept();
 
-	std::vector<Connection> m_connections;
-
+	std::map<int, Connection> m_connections;
 
 	bool m_acceptThreadShouldRun;
-	std::thread* m_pAcceptThread;
 	
 	std::mutex* m_pConnectionsMutex;
 
 
 	SOCKET m_socket;
 	struct addrinfo* result = 0, hints;
-
 };
 
 #endif // SERVER_H

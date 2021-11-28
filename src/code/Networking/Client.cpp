@@ -37,15 +37,15 @@ void ConnectToServer(Client* pThis, UINT16 Port)
 
 	pThis->m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
 
-	printf("client socket created, ip to remote server: %.*s\n", INET_ADDRSTRLEN, ipString);
+	printf("CLIENT: socket created, ip to remote server: %.*s\n", INET_ADDRSTRLEN, ipString);
 	while (!pThis->m_isConnected)
 	{
 		if (connect(pThis->m_socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
-			printf("Looking for server\n");
+			printf("CLIENT: Looking for server\n");
 			Sleep(500);
 		}
 		else {
-			printf("connected to server\n");
+			printf("CLIENT: connected to server\n");
 			pThis->m_isConnected = true;
 		}
 	}
@@ -94,8 +94,14 @@ void Client::ReceiveFromServer()
 	{
 		char recvBuffer[64];
 		int recvLen = recv(m_socket, recvBuffer, 64, 0);
-
-		printf("Client recv: %.*s\n", recvLen, recvBuffer);
+		if (recvLen == 0)
+		{
+			printf("CLIENT: closed recv: %.*s\n", recvLen, recvBuffer);
+		}
+		else
+		{
+			printf("CLIENT: recv: %.*s\n", recvLen, recvBuffer);
+		}
 	}
 }
 

@@ -5,9 +5,14 @@
 #include <string>
 #include <thread>
 #include <mutex>
+#include <vector>
 
 #include "Managers/InputManager.h"
 
+bool operator < (const Server::Connection& lhs, const Server::Connection& rhs)
+{
+	return lhs.id < rhs.id;
+}
 
 Server::Server( const UINT16 Port )
 : m_connections()
@@ -25,7 +30,7 @@ Server::Server( const UINT16 Port )
 	char ipString[INET6_ADDRSTRLEN];
 
 	inet_ntop(AF_INET6, &in6addr_loopback, ipString, INET6_ADDRSTRLEN);
-	printf("ipv6: %.*s\n", INET6_ADDRSTRLEN, ipString);
+	printf("SERVER: ipv6: %.*s\n", INET6_ADDRSTRLEN, ipString);
 
 	int iResult = getaddrinfo(ipString, std::to_string((int)Port).c_str(), &hints, &result);
 	if (iResult != 0) {
@@ -50,15 +55,13 @@ Server::Server( const UINT16 Port )
 Server::~Server()
 {
 	m_acceptThreadShouldRun = false;
-	if (m_pAcceptThread)
-	{
-		delete m_pAcceptThread;
-	}
 
 	if (m_pConnectionsMutex)
 	{
 		delete m_pConnectionsMutex;
 	}
+
+	m_connections.clear();
 
 	closesocket(m_socket);
 }
@@ -67,10 +70,12 @@ void Server::Update( void )
 {
 	if (InputManager::GetKeyDown(GLFW_KEY_N))
 	{
-		for (int i = 0; i < m_connections.size(); i++)
+		std::map<int, Connection>::iterator conn = m_connections.begin();
+		while (conn != m_connections.end())
 		{
 			std::string message = "To allll";
-			send(m_connections[i].socket, message.c_str(), (int)message.length(), 0);
+			send(conn->second.socket, message.c_str(), (int)message.length(), 0);
+			conn++;
 		}
 	}
 
@@ -81,7 +86,9 @@ void Server::Update( void )
 
 void Server::ReceiveFromClients()
 {
-	for (int i = 0; i < m_connections.size(); i++)
+	std::vector<int> keysToRemove;
+	std::map<int, Connection>::iterator conn = m_connections.begin();
+	while (conn != m_connections.end())
 	{
 		FD_SET readSet;
 
@@ -90,9 +97,9 @@ void Server::ReceiveFromClients()
 		timeval timeout{ 0, 0 };
 
 		//Add socket to the read set
-		FD_SET(m_connections[i].socket, &readSet);
+		FD_SET(conn->second.socket, &readSet);
 
-		int result = select((int)m_connections[i].socket, &readSet, NULL, NULL, &timeout);
+		int result = select((int)conn->second.socket, &readSet, NULL, NULL, &timeout);
 
 		if (result == -1)
 		{
@@ -104,26 +111,39 @@ void Server::ReceiveFromClients()
 		}
 		else
 		{
-			if (FD_ISSET((SOCKET)m_connections[i].socket, &readSet))
+			if (FD_ISSET((SOCKET)conn->second.socket, &readSet))
 			{
 				const int recvLength = 512;
 				char buffer[recvLength] = { 'T', 'E', 'S', 'T' };
-				int length = recv(m_connections[i].socket, buffer, recvLength, 0);
+				int length = recv(conn->second.socket, buffer, recvLength, 0);
 				if (length > 0)
 				{
-					printf("recv: %.*s\n", length, buffer);
+					printf("SERVER: recv: %.*s\n", length, buffer);
+				}
+				else
+				{
+					printf("SERVER: connection to client closed");
+					keysToRemove.push_back(conn->first);
 				}
 			}
 		}
+
+		conn++;
+	}
+
+	//Remove connections that where disconnected
+	for (int key : keysToRemove)
+	{
+		m_connections.erase(key);
 	}
 }
 
 void Server::ConnectThread(Server* pThis)
 {
-	while(pThis->m_acceptThreadShouldRun)
+	while(pThis && pThis->m_acceptThreadShouldRun)
 	{
 		pThis->Accept();
-		Sleep(1);
+		Sleep(250);
 	}
 }
 
@@ -141,16 +161,17 @@ void Server::Accept()
 	if (select(0, &readSet, NULL, NULL, &timeout) == 1)
 	{
 		Connection newCon = Connection();
+		newCon.id = m_connections.size();
 		newCon.socket = accept(m_socket, &newCon.address, NULL);
 		if (newCon.socket == INVALID_SOCKET) {
 			printf("accept failed with error: %d\n", WSAGetLastError());
 		}
 		else
 		{
-			printf("client ip: %.*s\n", (int)sizeof(newCon.address.sa_data), newCon.address.sa_data);
+			printf("SERVER: client ip: %.*s\n", (int)sizeof(newCon.address.sa_data), newCon.address.sa_data);
 
 			m_pConnectionsMutex->lock();
-			m_connections.push_back(newCon);
+			m_connections.insert(std::make_pair(newCon.socket, newCon));
 			m_pConnectionsMutex->unlock();
 		}
 	}
