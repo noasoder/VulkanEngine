@@ -10,11 +10,8 @@ public:
     Application();
     ~Application();
     void Run();
-    void CloseApplication();
 
 private:
-    bool m_Running;
-
     Engine* m_pEngine;
 
     NetHandler* m_pNetHandler;

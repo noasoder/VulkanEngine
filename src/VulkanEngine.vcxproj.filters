@@ -33,6 +33,9 @@
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\Networking\CServer.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
     <ClInclude Include="code\Networking\Client.h">
       <Filter>code\Networking</Filter>
     </ClInclude>

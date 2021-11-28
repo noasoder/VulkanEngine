@@ -28,8 +28,6 @@
 
 Application::Application()
 {
-	m_Running = true;
-
     //Start the core engine
     m_pEngine = new Engine();
 
@@ -121,9 +119,4 @@ void Application::Run()
     }
 
     vkDeviceWaitIdle(*VulkanManager::GetDevice());
-}
-
-void Application::CloseApplication()
-{
-    m_Running = false;
 }
