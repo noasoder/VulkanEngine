@@ -16,7 +16,6 @@ bool operator < (const Server::Connection& lhs, const Server::Connection& rhs)
 
 Server::Server( const UINT16 Port )
 : m_connections()
-, m_pAcceptThread( 0 )
 , m_pConnectionsMutex( 0 )
 , m_socket( 0 )
 , m_acceptThreadShouldRun( true )
