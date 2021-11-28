@@ -9,11 +9,6 @@
 
 #include "Managers/InputManager.h"
 
-bool operator < (const Server::Connection& lhs, const Server::Connection& rhs)
-{
-	return lhs.id < rhs.id;
-}
-
 Server::Server( const UINT16 Port )
 : m_connections()
 , m_pConnectionsMutex( 0 )
