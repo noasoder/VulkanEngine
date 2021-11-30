@@ -6,8 +6,8 @@ CXX_DLL	:= $(CXX) -shared
 
 BIN     := bin
 SRC     := src
-INCLUDE_EXT := -IC:/VulkanSDK/1.2.198.0/Include -Ilib/glfw-3.3.4.bin.WIN64/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
-LIBPATH := -LC:/VulkanSDK/1.2.198.0/Lib -Llib/glfw-3.3.4.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib 
+INCLUDE_EXT := -IC:/VulkanSDK/1.2.198.0/Include -Ilib/glfw-3.3.5.bin.WIN64/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
+LIBPATH := -LC:/VulkanSDK/1.2.198.0/Lib -Llib/glfw-3.3.5.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib 
 
 LIBRARIES   := -l:libglfw3dll.a -lvulkan-1 -l:OpenFBX.a
 DLL  := VulkanEngine.dll

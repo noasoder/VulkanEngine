@@ -155,7 +155,6 @@ void Server::Accept()
 	if (select(0, &readSet, NULL, NULL, &timeout) == 1)
 	{
 		Connection newCon = Connection();
-		newCon.id = m_connections.size();
 		newCon.socket = accept(m_socket, &newCon.address, NULL);
 		if (newCon.socket == INVALID_SOCKET) {
 			printf("accept failed with error: %d\n", WSAGetLastError());

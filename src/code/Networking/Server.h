@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Networking/Networking.h"
+#include "Utility/Types.h"
 #include <thread>
 #include <mutex>
 
