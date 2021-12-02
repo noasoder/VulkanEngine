@@ -57,7 +57,9 @@ void SendAndRecv(const std::string url, const std::string ext, int socket)
 			tok = strtok(NULL, " ,");
 			if (tok)
 				toks.push_back(tok);
-		}	WSAClea
+		}			
+		//for each (char* tok in toks)
+		//{
 		//	printf("%s\n", tok);
 		//}
 

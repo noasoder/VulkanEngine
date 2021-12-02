@@ -57,7 +57,7 @@ bool LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32
     ofbx::IScene* scene = nullptr;
 
     FILE* fp;
-    fopen64((const char*)&fp, path.c_str());
+    fopen_s(&fp, path.c_str(), "rb");
 
     if (!fp) return false;
 
