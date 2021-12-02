@@ -1,7 +1,7 @@
 #include "Camera/CameraControllers/CameraController.h"
 
 #include "Vulkan.h"
-#include "Utility/Types.h"
+#include "Types.h"
 #include "Camera/Camera.h"
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"

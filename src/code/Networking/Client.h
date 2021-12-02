@@ -2,7 +2,7 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "Utility/Types.h"
+#include "Types.h"
 
 #include "Networking/Networking.h"
 #include "GLFW/glfw3.h"

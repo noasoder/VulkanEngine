@@ -2,7 +2,7 @@
 #include "Managers/WindowManager.h"
 
 #include "Engine.h"
-#include "Utility/Types.h"
+#include "Types.h"
 #include <list>
 #include <vector>
 

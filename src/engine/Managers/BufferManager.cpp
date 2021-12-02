@@ -9,7 +9,7 @@
 #include "Managers/CameraManager.h"
 #include "Camera/Camera.h"
 
-#include "Utility/Maths.h"
+#include "Maths.h"
 
 BufferManager::BufferManager()
 {

@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-#include "Utility/Types.h"
+#include "Types.h"
 
 
 Transform::Transform(const Vec3& pos, const glm::quat& rot, const Vec3& scale)

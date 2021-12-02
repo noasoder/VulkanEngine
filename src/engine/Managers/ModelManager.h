@@ -9,7 +9,7 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 
-#include "Utility/Vertex.h"
+#include "Vertex.h"
 
 class Model;
 

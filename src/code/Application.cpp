@@ -17,8 +17,8 @@
 #include <iomanip>
 
 #include "Timestep.h"
-#include "Utility/Maths.h"
-#include "Utility/Types.h"
+#include "Maths.h"
+#include "Types.h"
 #include "Model.h"
 #include "Engine.h"
 

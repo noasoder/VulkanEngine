@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vulkan.h"
-#include "Utility/Types.h"
+#include "Types.h"
 
 class Transform
 {

@@ -3,8 +3,8 @@
 
 #include "Managers/VulkanManager.h"
 #include "Managers/BufferManager.h"
-#include "Utility/FileReader.h"
-#include "Utility/Vertex.h"
+#include "FileReader.h"
+#include "Vertex.h"
 
 GraphicsPipeline::GraphicsPipeline()
 {

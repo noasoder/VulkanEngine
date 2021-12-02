@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -114,18 +114,15 @@
     <ClInclude Include="engine\Material.h" />
     <ClInclude Include="engine\Mesh.h" />
     <ClInclude Include="engine\Model.h" />
-    <ClInclude Include="engine\Timestep.h" />
     <ClInclude Include="engine\Transform.h" />
-    <ClInclude Include="engine\Utility\FileReader.h" />
-    <ClInclude Include="engine\Utility\Maths.h" />
-    <ClInclude Include="engine\Utility\Matrix3.h" />
-    <ClInclude Include="engine\Utility\Matrix4.h" />
-    <ClInclude Include="engine\Utility\Rotor3.h" />
-    <ClInclude Include="engine\Utility\Types.h" />
-    <ClInclude Include="engine\Utility\Vertex.h" />
     <ClInclude Include="engine\Vulkan.h" />
     <ClInclude Include="openfbx\miniz.h" />
     <ClInclude Include="openfbx\ofbx.h" />
+    <ClInclude Include="utility\FileReader.h" />
+    <ClInclude Include="utility\Maths.h" />
+    <ClInclude Include="utility\Timestep.h" />
+    <ClInclude Include="utility\Types.h" />
+    <ClInclude Include="utility\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
@@ -148,15 +145,12 @@
     <ClCompile Include="engine\Material.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
-    <ClCompile Include="engine\Timestep.cpp" />
     <ClCompile Include="engine\Transform.cpp" />
-    <ClCompile Include="engine\Utility\Maths.cpp" />
-    <ClCompile Include="engine\Utility\Matrix3.cpp" />
-    <ClCompile Include="engine\Utility\Matrix4.cpp" />
-    <ClCompile Include="engine\Utility\Types.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openfbx\miniz.cpp" />
     <ClCompile Include="openfbx\ofbx.cpp" />
+    <ClCompile Include="utility\Maths.cpp" />
+    <ClCompile Include="utility\Timestep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\flat.frag" />
