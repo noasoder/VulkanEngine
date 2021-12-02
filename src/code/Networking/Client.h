@@ -11,19 +11,19 @@ class Client
 {
 public:
 
-	Client(UINT16 Port);
+	Client(uint16_t Port);
 	~Client();
 
 	void Update();
 
 	bool m_isConnected = false;
-	SOCKET m_socket;
+	int m_socket;
 private:
 	void ReceiveFromServer();
 	void SendToServer();
-	bool Connect (UINT16 Port);
+	bool Connect (uint16_t Port);
 
-	UINT64 m_playerID;
+	uint64_t m_playerID;
 };
 
 #endif // CLIENT_H

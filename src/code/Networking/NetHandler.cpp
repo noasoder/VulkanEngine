@@ -14,6 +14,7 @@
 
 int StartWinSock()
 {
+	#ifdef WINDOWS
 	WSADATA wsaData;
 
 	int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -21,6 +22,7 @@ int StartWinSock()
 		printf("WSAStartup failed: %d\n", iResult);
 		return 1;
 	}
+	#endif // WINDOWS
 	return 0;
 }
 
@@ -48,8 +50,9 @@ NetHandler::~NetHandler()
 		delete m_pClient;
 	if (m_pServer)
 		delete m_pServer;
-
+	#ifdef WINDOWS
 	WSACleanup();
+	#endif // WINDOWS
 }
 
 

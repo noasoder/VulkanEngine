@@ -1,15 +1,17 @@
-CXX       := g++
+CXX       := g++ -std=c++17
+CXX_DLL	:= g++ -shared -std=c++17
 
-WIN_FLAGS := -std=c++17 -static-libstdc++ -lpthread -lmsvcrt
+WIN_FLAGS := -static-libstdc++ -lpthread -lmsvcrt
 LINUX_FLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi
 
-
-CXX_DLL	:= $(CXX) -shared
 
 BIN     := bin
 SRC     := src
 INCLUDE_EXT := -IC:/VulkanSDK/1.2.198.0/Include -Ilib/glfw-3.3.5.bin.WIN64/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
-LIBPATH := -LC:/VulkanSDK/1.2.198.0/Lib -Llib/glfw-3.3.5.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib 
+LIBPATH := -LC:/VulkanSDK/1.2.198.0/Lib -Llib/glfw-3.3.5.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib
+
+EXT_INCLUDE_LINUX := -I/usr/include/vulkan -I/usr/include/GLFW -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
+LIB_LINUX := -Lbin/ -Lbin/lib
 
 LIBRARIES   := -l:libglfw3dll.a -lvulkan-1
 DLL  := VulkanEngine.dll
@@ -28,13 +30,10 @@ SRCS += $(wildcard $(SEARCHCPP))
 DIRS_DLL = $(SRC)/engine $(SRC)/engine/Camera $(SRC)/engine/Camera/CameraControllers $(SRC)/engine/Managers $(SRC)/engine/Utility
 vpath %.c $(DIRS_DLL)
 vpath %.cpp $(DIRS_DLL)
-vpath %.o $(BIN)/lib
 SEARCHC_DLL = $(addsuffix /*.c ,$(DIRS_DLL))
 SEARCHCPP_DLL = $(addsuffix /*.cpp ,$(DIRS_DLL))
-SEARCHO_DLL = $(addsuffix /*.o ,$(BIN)/lib))
 SRCS_DLL = $(wildcard $(SEARCHC_DLL))
 SRCS_DLL += $(wildcard $(SEARCHCPP_DLL))
-SRCSO_DLL = $(wildcard $(SEARCHO_DLL))
 
 DIRS_UTIL = $(SRC)/utility
 vpath %.cpp $(DIRS_UTIL)
@@ -62,10 +61,10 @@ exe: $(SRC)/main.cpp $(SRCS)
 	$(CXX) $(WIN_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -l:OpenFBX.a -lUtility -lVulkanEngine -lWS2_32
 
 linux_utils: $(SRC_UTIL)
-	$(CXX_DLL) $(LINUX_FLAGS) -g $^ -o bin/Utility.dll $(INCLUDE_EXT) -Isrc/utility $(LIBPATH) $(LIBRARIES) 
+	$(CXX_DLL) $(LINUX_FLAGS) -fPIC -g $^ -o bin/Utility.so $(EXT_INCLUDE_LINUX) -Isrc/utility $(LIB_LINUX)
 
 linux_dll: $(SRCS_DLL)
-	$(CXX_DLL) $(LINUX_FLAGS) -g $^ -o $(OUTDLL) $(INCLUDE_EXT) $(INCLUDE_DLL) $(LIBPATH) $(LIBRARIES) -l:OpenFBX.a -lUtility
+	$(CXX_DLL) $(LINUX_FLAGS) -fPIC -g $^ -o bin/VulkanEngine.so $(EXT_INCLUDE_LINUX) $(INCLUDE_DLL) $(LIB_LINUX) -l:OpenFBX.a -l:Utility.so
 
-linux_exe: $(SRC)/main.cpp $(SRCS)
-	$(CXX) $(LINUX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -l:OpenFBX.a -lUtility -lVulkanEngine -lWS2_32
+linux_exe: $(SRC)/main.cpp $(SRCS) $(SRCS_DLL)
+	$(CXX) $(LINUX_FLAGS) -g $^ -o $(OUTEXE) $(EXT_INCLUDE_LINUX) $(INCLUDE) $(LIB_LINUX) $(INCLUDE_DLL) -l:OpenFBX.a -l:Utility.so

@@ -26,6 +26,8 @@ bld/
 [Ll]og/
 
 lib/VulkanSDK
+bin/*.so
+bin/*.dll
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

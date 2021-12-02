@@ -4,9 +4,11 @@
 
 #include <unordered_map>
 #include <tiny_obj_loader.h>
-#include "ofbx.h"
 #include <string>
 #include <memory>
+#include <cstring>
+
+#include "ofbx.h"
 #include "Model.h"
 
 void LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)
@@ -55,7 +57,7 @@ bool LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32
     ofbx::IScene* scene = nullptr;
 
     FILE* fp;
-    fopen_s(&fp, path.c_str(), "rb");
+    fopen64((const char*)&fp, path.c_str());
 
     if (!fp) return false;
 

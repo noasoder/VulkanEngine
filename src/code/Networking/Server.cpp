@@ -9,12 +9,13 @@
 
 #include "Managers/InputManager.h"
 
-Server::Server( const UINT16 Port )
+Server::Server( const uint16_t Port )
 : m_connections()
 , m_pConnectionsMutex( 0 )
 , m_socket( 0 )
 , m_acceptThreadShouldRun( true )
 {
+	#ifdef WINDOWS
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_INET6;
 	hints.ai_socktype = SOCK_STREAM;
@@ -44,10 +45,12 @@ Server::Server( const UINT16 Port )
 
 	m_acceptThreadShouldRun = true;
 	std::thread(ConnectThread, this).detach();
+#endif // WINDOWS
 }
 
 Server::~Server()
 {
+#ifdef WINDOWS
 	m_acceptThreadShouldRun = false;
 
 	if (m_pConnectionsMutex)
@@ -58,10 +61,12 @@ Server::~Server()
 	m_connections.clear();
 
 	closesocket(m_socket);
+#endif // WINDOWS
 }
 
 void Server::Update( void )
 {
+#ifdef WINDOWS
 	if (InputManager::GetKeyDown(GLFW_KEY_N))
 	{
 		std::map<int, Connection>::iterator conn = m_connections.begin();
@@ -76,10 +81,12 @@ void Server::Update( void )
 	m_pConnectionsMutex->lock();
 	ReceiveFromClients();
 	m_pConnectionsMutex->unlock();
+#endif // WINDOWS
 }
 
 void Server::ReceiveFromClients()
 {
+#ifdef WINDOWS
 	std::vector<int> keysToRemove;
 	std::map<int, Connection>::iterator conn = m_connections.begin();
 	while (conn != m_connections.end())
@@ -130,19 +137,23 @@ void Server::ReceiveFromClients()
 	{
 		m_connections.erase(key);
 	}
+#endif // WINDOWS
 }
 
 void Server::ConnectThread(Server* pThis)
 {
 	while(pThis && pThis->m_acceptThreadShouldRun)
 	{
+		#ifdef WINDOWS
 		pThis->Accept();
 		Sleep(250);
+		#endif // WINDOWS
 	}
 }
 
 void Server::Accept()
 {	
+#ifdef WINDOWS
 	if (!m_socket || !m_pConnectionsMutex)
 		return;
 
@@ -168,4 +179,5 @@ void Server::Accept()
 			m_pConnectionsMutex->unlock();
 		}
 	}
+#endif // WINDOWS
 }

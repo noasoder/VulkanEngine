@@ -22,12 +22,14 @@ public:
 	};
 	struct Connection
 	{
+	#ifdef WINDOWS
 		sockaddr address;
+	#endif // WINDOWS
 		int socket;
 		PlayerInfo playerInfo;
 	};
 
-	Server(const UINT16 Port);
+	Server(const uint16_t Port);
 	~Server();
 
 	void Update();
@@ -45,9 +47,10 @@ private:
 	
 	std::mutex* m_pConnectionsMutex;
 
-
-	SOCKET m_socket;
+	int m_socket;
+#ifdef WINDOWS
 	struct addrinfo* result = 0, hints;
+#endif // WINDOWS
 };
 
 #endif // SERVER_H

@@ -18,10 +18,12 @@ public:
 
 private:
 
-	SOCKET m_socket;
+	int m_socket;
+#ifdef WINDOWS
 	addrinfo* result = 0, hints;
+#endif // WINDOWS
 
 	bool m_connected = false;
 };
 
-#endif
+#endif // WEB_CLIENT_H

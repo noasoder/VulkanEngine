@@ -8,6 +8,7 @@
 #include "Maths.h"
 #include "Camera/Camera.h"
 #include "Engine.h"
+#include <cstring>
 
 Model::Model(std::string path)
 : m_pBufferManager(VulkanManager::GetBufferManager())

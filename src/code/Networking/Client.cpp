@@ -18,8 +18,9 @@ struct	PlayerState
 	Vec3 Rotation = Vec3(0, 0, 0);
 };
 
-void ConnectToServer(Client* pThis, UINT16 Port)
+void ConnectToServer(Client* pThis, uint16_t Port)
 {
+#ifdef WINDOWS
 	addrinfo* result = 0, hints;
 
 	ZeroMemory(&hints, sizeof(hints));
@@ -49,9 +50,10 @@ void ConnectToServer(Client* pThis, UINT16 Port)
 			pThis->m_isConnected = true;
 		}
 	}
+#endif // WINDOWS
 }
 
-Client::Client(UINT16 Port)
+Client::Client(uint16_t Port)
 {
 	m_socket = 0;
 	m_playerID = 0;
@@ -61,11 +63,13 @@ Client::Client(UINT16 Port)
 
 Client::~Client()
 {
+#ifdef WINDOWS
 	if(m_socket)
 		closesocket(m_socket);
+#endif // WINDOWS
 }
 
-bool Client::Connect(UINT16 Port)
+bool Client::Connect(uint16_t Port)
 {
 
 	return false;
@@ -80,6 +84,7 @@ void Client::Update()
 
 void Client::ReceiveFromServer()
 {
+#ifdef WINDOWS
 	if (!m_socket)
 		return;
 
@@ -103,15 +108,18 @@ void Client::ReceiveFromServer()
 			printf("CLIENT: recv: %.*s\n", recvLen, recvBuffer);
 		}
 	}
+#endif // WINDOWS
 }
 
 void Client::SendToServer()
 {
+#ifdef WINDOWS
 	if (InputManager::GetKeyDown(GLFW_KEY_X))
 	{
 		std::string sendText = "Hello";
 		send(m_socket, sendText.c_str(), (int)sendText.size(), 0);
 	}
+#endif // WINDOWS
 }
 
 //FD_SET readfds;

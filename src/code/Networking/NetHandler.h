@@ -23,4 +23,5 @@ private:
 	WebClient* m_pWebClient;
 };
 
+
 #endif // NET_HANDLER_H

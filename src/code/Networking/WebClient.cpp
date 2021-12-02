@@ -11,7 +11,8 @@
 
 #define PRINT_WHOLE_BUFFER false
 
-bool Connect(SOCKET socket, addrinfo* result)
+#ifdef WINDOWS
+bool Connect(int socket, addrinfo* result)
 {
 	if (connect(socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR)
 	{
@@ -25,9 +26,11 @@ bool Connect(SOCKET socket, addrinfo* result)
 
 	return false;
 }
+#endif // WINDOWS
 
-void SendAndRecv(const std::string url, const std::string ext, SOCKET socket)
+void SendAndRecv(const std::string url, const std::string ext, int socket)
 {
+#ifdef WINDOWS
 	const int bufferLen = 2048;
 	char buffer[bufferLen];
 	int length = -1;
@@ -54,10 +57,7 @@ void SendAndRecv(const std::string url, const std::string ext, SOCKET socket)
 			tok = strtok(NULL, " ,");
 			if (tok)
 				toks.push_back(tok);
-		}
-
-		//for each (char* tok in toks)
-		//{
+		}	WSAClea
 		//	printf("%s\n", tok);
 		//}
 
@@ -65,12 +65,13 @@ void SendAndRecv(const std::string url, const std::string ext, SOCKET socket)
 		printf("\n\n	In your %s the date and time is: \n", toks[41]);
 		printf("		%s\n\n", toks[33]);
 	}
+#endif // WINDOWS
 }
 
 WebClient::WebClient(std::string url, std::string ext)
 {
 	m_socket = 0;
-
+#ifdef WINDOWS
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
@@ -98,11 +99,14 @@ WebClient::WebClient(std::string url, std::string ext)
 		if (m_connected)
 			GetHTTP(url, ext);
 	}
+#endif // WINDOWS
 }
 
 WebClient::~WebClient()
 {
+#ifdef WINDOWS
 	closesocket(m_socket);
+#endif // WINDOWS
 }
 
 void WebClient::GetHTTP(const std::string url, const std::string ext)
