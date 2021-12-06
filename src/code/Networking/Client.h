@@ -1,4 +1,3 @@
-
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -21,7 +20,7 @@ public:
 private:
 	void ReceiveFromServer();
 	void SendToServer();
-	bool Connect (uint16_t Port);
+	bool Connect(uint16_t Port);
 
 	uint64_t m_playerID;
 };

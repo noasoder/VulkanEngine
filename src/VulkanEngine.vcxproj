@@ -93,11 +93,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h" />
-    <ClInclude Include="code\Networking\CServer.h" />
     <ClInclude Include="code\Networking\Client.h" />
     <ClInclude Include="code\Networking\NetHandler.h" />
     <ClInclude Include="code\Networking\Networking.h" />
     <ClInclude Include="code\Networking\Server.h" />
+    <ClInclude Include="code\Networking\UDPClient.h" />
+    <ClInclude Include="code\Networking\UDPServer.h" />
+    <ClInclude Include="code\Networking\UDPSocket.h" />
     <ClInclude Include="code\Networking\WebClient.h" />
     <ClInclude Include="engine\Camera\Camera.h" />
     <ClInclude Include="engine\Camera\CameraControllers\CameraController.h" />
@@ -129,6 +131,8 @@
     <ClCompile Include="code\Networking\Client.cpp" />
     <ClCompile Include="code\Networking\NetHandler.cpp" />
     <ClCompile Include="code\Networking\Server.cpp" />
+    <ClCompile Include="code\Networking\UDPClient.cpp" />
+    <ClCompile Include="code\Networking\UDPServer.cpp" />
     <ClCompile Include="code\Networking\WebClient.cpp" />
     <ClCompile Include="engine\Camera\Camera.cpp" />
     <ClCompile Include="engine\Camera\CameraControllers\CameraController.cpp" />

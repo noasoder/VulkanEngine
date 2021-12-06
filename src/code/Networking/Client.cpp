@@ -1,4 +1,3 @@
-
 #include "Networking/Client.h"
 
 #include "Networking/Networking.h"
@@ -11,6 +10,7 @@
 #include <thread>
 
 #include "Managers/InputManager.h"
+#include "Networking/UDPSocket.h"
 
 struct	PlayerState
 {
@@ -64,7 +64,7 @@ Client::Client(uint16_t Port)
 Client::~Client()
 {
 #ifdef WINDOWS
-	if(m_socket)
+	if (m_socket)
 		closesocket(m_socket);
 #endif // WINDOWS
 }

@@ -10,6 +10,8 @@
 #include <thread>
 #include <mutex>
 
+class UDPSocket;
+
 class Server
 {
 public:
@@ -33,7 +35,6 @@ public:
 	~Server();
 
 	void Update();
-
 
 private:
 

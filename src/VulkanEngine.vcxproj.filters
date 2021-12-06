@@ -33,9 +33,6 @@
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="code\Networking\CServer.h">
-      <Filter>code\Networking</Filter>
-    </ClInclude>
     <ClInclude Include="code\Networking\Client.h">
       <Filter>code\Networking</Filter>
     </ClInclude>
@@ -46,6 +43,15 @@
       <Filter>code\Networking</Filter>
     </ClInclude>
     <ClInclude Include="code\Networking\Server.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\UDPClient.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\UDPServer.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\UDPSocket.h">
       <Filter>code\Networking</Filter>
     </ClInclude>
     <ClInclude Include="code\Networking\WebClient.h">
@@ -135,6 +141,12 @@
       <Filter>code\Networking</Filter>
     </ClCompile>
     <ClCompile Include="code\Networking\Server.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\UDPClient.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\UDPServer.cpp">
       <Filter>code\Networking</Filter>
     </ClCompile>
     <ClCompile Include="code\Networking\WebClient.cpp">

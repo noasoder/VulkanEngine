@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "Managers/InputManager.h"
+#include "Networking/UDPSocket.h"
 
 Server::Server( const uint16_t Port )
 : m_connections()

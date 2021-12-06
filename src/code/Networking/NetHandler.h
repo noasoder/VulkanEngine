@@ -6,6 +6,8 @@
 
 class Client;
 class Server;
+class UDPClient;
+class UDPServer;
 class WebClient;
 
 class NetHandler
@@ -20,6 +22,8 @@ public:
 private:
 	Client* m_pClient = nullptr;
 	Server* m_pServer = nullptr;
+	UDPClient* m_pUDPClient = nullptr;
+	UDPServer* m_pUDPServer = nullptr;
 	WebClient* m_pWebClient;
 };
 
