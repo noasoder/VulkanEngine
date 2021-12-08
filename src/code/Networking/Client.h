@@ -1,3 +1,4 @@
+
 #ifndef CLIENT_H
 #define CLIENT_H
 
@@ -5,6 +6,12 @@
 
 #include "Networking/Networking.h"
 #include "GLFW/glfw3.h"
+#include <thread>
+#include <future>
+
+#define SERVER_IP "192.168.56.1"
+
+class UDPSocket;
 
 class Client
 {
@@ -16,13 +23,16 @@ public:
 	void Update();
 
 	bool m_isConnected = false;
-	int m_socket;
-private:
-	void ReceiveFromServer();
-	void SendToServer();
-	bool Connect(uint16_t Port);
+	UDPSocket* m_socket;
+	std::string m_playerName = "UWU";
 
-	uint64_t m_playerID;
+private:
+	void Receive();
+
+	uint16_t m_port;
+
+	std::thread connectThread;
+	std::promise<void> stopThread;
 };
 
 #endif // CLIENT_H

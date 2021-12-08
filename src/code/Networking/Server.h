@@ -6,9 +6,8 @@
 #include <string>
 
 #include "Networking/Networking.h"
+#include "Networking/UDPSocket.h"
 #include "Types.h"
-#include <thread>
-#include <mutex>
 
 class UDPSocket;
 
@@ -19,15 +18,15 @@ public:
 	struct PlayerInfo
 	{
 		std::string name;
-		Vec3 position;
-		Vec3 rotation;
+		Vec3 position = Vec3();
+		Vec3 rotation = Vec3();
 	};
+
 	struct Connection
 	{
 	#ifdef WINDOWS
-		sockaddr address;
+		sockaddr_in address;
 	#endif // WINDOWS
-		int socket;
 		PlayerInfo playerInfo;
 	};
 
@@ -36,22 +35,13 @@ public:
 
 	void Update();
 
+	UDPSocket* m_socket;
 private:
+	void Receive();
+	void Decode(std::string buff, Connection&);
 
-	static void	ConnectThread(Server* pThis);
-	void ReceiveFromClients();
-	void Accept();
+	std::map<std::string, Connection> m_connections;
 
-	std::map<int, Connection> m_connections;
-
-	bool m_acceptThreadShouldRun;
-	
-	std::mutex* m_pConnectionsMutex;
-
-	int m_socket;
-#ifdef WINDOWS
-	struct addrinfo* result = 0, hints;
-#endif // WINDOWS
 };
 
 #endif // SERVER_H

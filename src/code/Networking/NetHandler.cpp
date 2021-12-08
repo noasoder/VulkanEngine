@@ -2,11 +2,9 @@
 #include "Networking/NetHandler.h"
 
 #include "Networking/Networking.h"
-#include "Networking/Client.h"
-#include "Networking/Server.h"
 #include "Networking/WebClient.h"
-#include "Networking/UDPServer.h"
-#include "Networking/UDPClient.h"
+#include "Networking/Server.h"
+#include "Networking/Client.h"
 #include "Managers/InputManager.h"
 
 #include <stdio.h>
@@ -54,11 +52,6 @@ NetHandler::~NetHandler()
 		delete m_pClient;
 	if (m_pServer)
 		delete m_pServer;
-
-	if (m_pUDPClient)
-		delete m_pUDPClient;
-	if (m_pUDPServer)
-		delete m_pUDPServer;
 	#ifdef WINDOWS
 	WSACleanup();
 	#endif // WINDOWS
@@ -67,23 +60,27 @@ NetHandler::~NetHandler()
 
 void NetHandler::Update()
 {
-	if (!m_pUDPServer && InputManager::GetKeyDown(GLFW_KEY_M))
+	if (!m_pServer && InputManager::GetKeyDown(GLFW_KEY_M))
 	{
-		//m_pServer = new Server(PORT);
-		m_pUDPServer = new UDPServer(PORT);
+		m_pServer = new Server(PORT);
 	}
-	if (!m_pUDPClient && InputManager::GetKeyDown(GLFW_KEY_C))
+	if (!m_pClient && InputManager::GetKeyDown(GLFW_KEY_C))
 	{
-		//m_pClient = new Client(PORT);
-		m_pUDPClient = new UDPClient(PORT);
+		m_pClient = new Client(PORT);
+	}
+	if (m_pClient && InputManager::GetKeyDown(GLFW_KEY_V))
+	{
+		delete m_pClient;
+		m_pClient = nullptr;
+	}
+	if (m_pServer && InputManager::GetKeyDown(GLFW_KEY_B))
+	{
+		delete m_pServer;
+		m_pServer = nullptr;
 	}
 
-	if(m_pServer)
+	if (m_pServer)
 		m_pServer->Update();
-	if(m_pClient)
+	if (m_pClient)
 		m_pClient->Update();
-	if (m_pUDPServer)
-		m_pUDPServer->Update();
-	if (m_pUDPClient)
-		m_pUDPClient->Update();
 }

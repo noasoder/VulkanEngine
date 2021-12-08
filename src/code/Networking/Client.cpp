@@ -1,3 +1,4 @@
+
 #include "Networking/Client.h"
 
 #include "Networking/Networking.h"
@@ -8,6 +9,8 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <future>
+#include <chrono>
 
 #include "Managers/InputManager.h"
 #include "Networking/UDPSocket.h"
@@ -18,241 +21,79 @@ struct	PlayerState
 	Vec3 Rotation = Vec3(0, 0, 0);
 };
 
-void ConnectToServer(Client* pThis, uint16_t Port)
+void ConnectToServer(std::future<void> futureObj, Client* pThis, uint16_t Port)
 {
-#ifdef WINDOWS
-	addrinfo* result = 0, hints;
-
-	ZeroMemory(&hints, sizeof(hints));
-	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_protocol = IPPROTO_TCP;
-
-	//sockaddr_in6 serverAddress;
-	char ipString[INET6_ADDRSTRLEN];
-	inet_ntop(AF_INET6, &in6addr_loopback, ipString, INET6_ADDRSTRLEN);
-
-	//char* ipString = "";
-
-	getaddrinfo(ipString, std::to_string(Port).c_str(), &hints, &result);
-
-	pThis->m_socket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
-
-	printf("CLIENT: socket created, ip to remote server: %.*s\n", INET_ADDRSTRLEN, ipString);
-	while (!pThis->m_isConnected)
+	bool conn = false;
+	while (futureObj.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
 	{
-		if (connect(pThis->m_socket, result->ai_addr, (int)result->ai_addrlen) == SOCKET_ERROR) {
-			printf("CLIENT: Looking for server\n");
-			Sleep(500);
-		}
-		else {
-			printf("CLIENT: connected to server\n");
-			pThis->m_isConnected = true;
+		if (conn)
+			break;
+
+		printf("CLIENT: Trying to connect\n");
+
+		std::string data = "ncon" + pThis->m_playerName;
+		pThis->m_socket->SendTo(SERVER_IP, Port, data.c_str(), data.size());
+		
+		Sleep(500);
+
+		const int buffLen = 128;
+		char buffer[buffLen];
+		sockaddr_in add;
+		if (pThis->m_socket->RecvFrom(add, buffer, buffLen))
+		{
+			std::string buff = buffer;
+			if (buff.substr(0, 4) == "acnc")
+			{
+				printf("CLIENT: connected to server\n");
+				conn = true;
+				pThis->m_isConnected = true;
+			}
 		}
 	}
-#endif // WINDOWS
 }
 
 Client::Client(uint16_t Port)
 {
-	m_socket = 0;
-	m_playerID = 0;
+	m_socket = new UDPSocket();
+	m_port = Port;
 
-	std::thread(ConnectToServer, this, Port).detach();
+	connectThread = std::thread(ConnectToServer, std::move(stopThread.get_future()), this, Port);
 }
 
 Client::~Client()
 {
-#ifdef WINDOWS
-	if (m_socket)
-		closesocket(m_socket);
-#endif // WINDOWS
+	stopThread.set_value();
+	//Wait for thread
+	connectThread.join();
+
+	std::string data = "dscn" + m_playerName;
+	m_socket->SendTo(SERVER_IP, m_port, data.c_str(), data.size());
+
+	delete m_socket;
 }
-
-bool Client::Connect(uint16_t Port)
-{
-
-	return false;
-}
-
 
 void Client::Update()
 {
-	ReceiveFromServer();
-	SendToServer();
-}
-
-void Client::ReceiveFromServer()
-{
-#ifdef WINDOWS
-	if (!m_socket)
+	if (!m_isConnected)
 		return;
 
-	FD_SET readSet;
-	FD_ZERO(&readSet);
-	timeval timeout{ 0, 0 };
-
-	//Add socket to the read set
-	FD_SET(m_socket, &readSet);
-
-	if (select((int)m_socket, &readSet, NULL, NULL, &timeout) == 1)
-	{
-		char recvBuffer[64];
-		int recvLen = recv(m_socket, recvBuffer, 64, 0);
-		if (recvLen == 0)
-		{
-			printf("CLIENT: closed recv: %.*s\n", recvLen, recvBuffer);
-		}
-		else
-		{
-			printf("CLIENT: recv: %.*s\n", recvLen, recvBuffer);
-		}
-	}
-#endif // WINDOWS
-}
-
-void Client::SendToServer()
-{
-#ifdef WINDOWS
 	if (InputManager::GetKeyDown(GLFW_KEY_X))
 	{
-		std::string sendText = "Hello";
-		send(m_socket, sendText.c_str(), (int)sendText.size(), 0);
+		std::string data = "hello world";
+		m_socket->SendTo(SERVER_IP, m_port, data.c_str(), data.size());
 	}
-#endif // WINDOWS
+
+	Receive();
 }
 
-//FD_SET readfds;
+void Client::Receive()
+{
+	const int buffLen = 128;
+	char buffer[buffLen];
+	sockaddr_in add;
 
-	//FD_ZERO(&readfds);
-
-	//const timeval timeout{ 0, 0 };
-
-	////Add socket to the read array
-	//FD_SET((SOCKET)m_socket, &readfds);
-
-	//int result = select(0, &readfds, NULL, NULL, &timeout);
-
-	//if (result == -1)
-	//{
-	//	std::cout << "select exited with result[-1]: %d\n" << WSAGetLastError() << std::endl;
-	//}
-	//else if (result == 0)
-	//{
-	//	//std::cout << "select exited with result: " << result << std::endl;
-	//}
-	//else
-	//{
-	//	//std::cout << "result: " << result;
-	//	for (int i = 0; i < result; i++)
-	//	{
-	//		if (FD_ISSET((SOCKET)m_socket, &readfds))
-	//		{
-	//			const int headerLn = 8;
-	//			const int bufferLn = 2048;
-	//			//const int bufferLn = sizeof(SMessageHeader) + sizeof(SPlayerState);
-
-	//			char header[headerLn];
-
-	//			int recvLen = recv(m_socket, header, headerLn, 0);
-	//			
-	//			if (recvLen > 0)
-	//			{
-	//				std::string str = {header[0], header[1], header[2], header[3]};
-	//				//std::cout << str;
-
-	//				memcpy(&recvLen, header + 4, 4);
-	//				//printf(" recvLen: %i", recvLen);
-
-	//				if (str == "ackn")
-	//				{
-	//					char buffer[16];
-	//					recvLen = recv(m_socket, buffer, recvLen, 0);
-
-	//					memcpy(&m_playerID, buffer, recvLen);
-
-	//					printf("My ID[%i]", m_playerID);
-	//					printf("\n");
-	//				}
-	//				else if (str == "eror")
-	//				{
-	//					char buffer[512];
-	//					recvLen = recv(m_socket, buffer, recvLen, 0);
-
-	//					printf("Error: %s", buffer);
-	//					printf("\n");
-	//				}
-	//				else if (str == "plst")
-	//				{
-	//					char buffer[512];
-	//					recvLen = recv(m_socket, buffer, recvLen, 0);
-	//				
-	//					int offset = 0;
-	//					//printf(" off: %i", offset);
-
-	//					PlayerState playerState = PlayerState();
-	//					UINT64 id;
-
-	//					std::memcpy(&id, buffer + offset, sizeof(UINT64));
-	//					offset += sizeof(UINT64);
-
-	//					memcpy(&playerState.Position, buffer + offset, sizeof(Vec3));
-	//					offset += sizeof(Vec3);
-
-	//					memcpy(&playerState.Rotation, buffer + offset, sizeof(Vec3));
-	//					offset += sizeof(Vec3);
-
-	//					memcpy(&playerState.Animation, buffer + offset, sizeof(UINT8));
-	//					offset += sizeof(UINT8);
-
-	//					//CGameStates::GetInstance().GetStateGame()->SetPlayerState(id, playerState);
-	//					//printf("\n");
-	//				}
-	//				else if (str == "disc")
-	//				{
-	//					UINT64 id;
-	//					char buffer[16];
-	//					recvLen = recv(m_socket, buffer, recvLen, 0);
-
-	//					memcpy(&id, buffer, recvLen);
-
-	//					//CGameStates::GetInstance().GetStateGame()->RemovePlayer(id);
-	//					//printf("player[%s] disconnected", buffer);
-	//					printf("player[%i] disconnected", id);
-	//					printf("\n");
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-//void Client::SendPlayerState(const PlayerState& rState)
-//{
-//	const int plSize = sizeof(UINT64) + sizeof(Vec3) * 2 + sizeof(UINT8);
-//	const int headerSize = 8;
-//
-//	char plst[4] = {'p', 'l', 's', 't'};
-//
-//	char buffer[headerSize + plSize];
-//	int offset = 0;
-//
-//	memcpy(&buffer, &plst, sizeof(plst));
-//	offset += sizeof(plst);
-//
-//	memcpy(&buffer[offset], &plSize, sizeof(plSize));
-//	offset += sizeof(plSize);
-//
-//	memcpy(&buffer[offset], &m_playerID, sizeof(UINT64));
-//	offset += sizeof(UINT64);
-//
-//	memcpy(&buffer[offset], &rState.Position, sizeof(Vec3));
-//	offset += sizeof(Vec3);
-//
-//	memcpy(&buffer[offset], &rState.Rotation, sizeof(Vec3));
-//	offset += sizeof(Vec3);
-//
-//	memcpy(&buffer[offset], &rState.Animation, sizeof(UINT8));
-//	offset += sizeof(UINT8);
-//
-//	send(m_socket, buffer, headerSize + plSize, 0);
-//}
+	if (m_socket->RecvFrom(add, buffer, buffLen) > 0)
+	{
+		printf("CLIENT: recv: %s\n", buffer);
+	}
+}
