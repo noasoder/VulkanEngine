@@ -4,6 +4,9 @@
     <Filter Include="code">
       <UniqueIdentifier>{803E957C-6C75-960D-1562-7C100178120F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Networking">
+      <UniqueIdentifier>{97F7754D-0383-E311-0C94-6606789E3F12}</UniqueIdentifier>
+    </Filter>
     <Filter Include="engine">
       <UniqueIdentifier>{FBDB78FB-E77D-A3D1-D038-B725BC792A22}</UniqueIdentifier>
     </Filter>
@@ -16,19 +19,37 @@
     <Filter Include="engine\Managers">
       <UniqueIdentifier>{38481F08-A4D3-8CCC-ADE4-0FC119EFE8CC}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\Utility">
-      <UniqueIdentifier>{3E6592A3-2A33-86A9-13C7-F6CFFF33620E}</UniqueIdentifier>
-    </Filter>
     <Filter Include="openfbx">
       <UniqueIdentifier>{1777E370-8356-620C-8C6E-EDE2F8CCC86D}</UniqueIdentifier>
     </Filter>
     <Filter Include="shaders">
       <UniqueIdentifier>{0F45D591-7B24-542D-843C-DF03F09ABA8E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utility">
+      <UniqueIdentifier>{79DE5C48-E5BD-DBE3-EED5-66BA5A344245}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\Client.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\NetHandler.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\Networking.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\Server.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\UDPSocket.h">
+      <Filter>code\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Networking\WebClient.h">
+      <Filter>code\Networking</Filter>
     </ClInclude>
     <ClInclude Include="engine\Camera\Camera.h">
       <Filter>engine\Camera</Filter>
@@ -75,32 +96,8 @@
     <ClInclude Include="engine\Model.h">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="engine\Timestep.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="engine\Transform.h">
       <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\FileReader.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\Maths.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\Matrix3.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\Matrix4.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\Rotor3.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\Types.h">
-      <Filter>engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Utility\Vertex.h">
-      <Filter>engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="engine\Vulkan.h">
       <Filter>engine</Filter>
@@ -111,10 +108,37 @@
     <ClInclude Include="openfbx\ofbx.h">
       <Filter>openfbx</Filter>
     </ClInclude>
+    <ClInclude Include="utility\FileReader.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\Maths.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\Timestep.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\Types.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\Vertex.h">
+      <Filter>utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\Client.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\NetHandler.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\Server.cpp">
+      <Filter>code\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Networking\WebClient.cpp">
+      <Filter>code\Networking</Filter>
     </ClCompile>
     <ClCompile Include="engine\Camera\Camera.cpp">
       <Filter>engine\Camera</Filter>
@@ -161,23 +185,8 @@
     <ClCompile Include="engine\Model.cpp">
       <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="engine\Timestep.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
     <ClCompile Include="engine\Transform.cpp">
       <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\Utility\Maths.cpp">
-      <Filter>engine\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\Utility\Matrix3.cpp">
-      <Filter>engine\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\Utility\Matrix4.cpp">
-      <Filter>engine\Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\Utility\Types.cpp">
-      <Filter>engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openfbx\miniz.cpp">
@@ -185,6 +194,12 @@
     </ClCompile>
     <ClCompile Include="openfbx\ofbx.cpp">
       <Filter>openfbx</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\Maths.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\Timestep.cpp">
+      <Filter>utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

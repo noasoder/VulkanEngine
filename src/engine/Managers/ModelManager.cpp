@@ -4,9 +4,11 @@
 
 #include <unordered_map>
 #include <tiny_obj_loader.h>
-#include "ofbx.h"
 #include <string>
 #include <memory>
+#include <cstring>
+
+#include "ofbx.h"
 #include "Model.h"
 
 void LoadObj(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)

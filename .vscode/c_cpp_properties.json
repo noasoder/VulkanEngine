@@ -6,9 +6,11 @@
                 "${default}",
                 "${workspaceFolder}/src/code",
                 "${workspaceFolder}/src/engine",
-                "${workspaceFolder}/src/OpenFBX",
+                "${workspaceFolder}/src/utility",
+                "${workspaceFolder}/src/openfbx",
+                "${workspaceFolder}/src/shaders",
                 "${workspaceFolder}/bin",
-                "${workspaceFolder}/lib/glfw-3.3.4.bin.WIN64/include",
+                "${workspaceFolder}/lib/glfw-3.3.5.bin.WIN64/include",
                 "${workspaceFolder}/lib/glm",
                 "${workspaceFolder}/lib/imgui",
                 "${workspaceFolder}/lib/stb",
@@ -25,6 +27,34 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x64"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/src/code",
+                "${workspaceFolder}/src/engine",
+                "${workspaceFolder}/src/utility",
+                "${workspaceFolder}/src/openfbx",
+                "${workspaceFolder}/src/shaders",
+                "${workspaceFolder}/bin",
+                "${workspaceFolder}/lib/VulkanSDK/1.2.198.0/x86_64/include",
+                "${workspaceFolder}/lib/glfw-3.3.5.bin.WIN64/include",
+                "${workspaceFolder}/lib/glm",
+                "${workspaceFolder}/lib/imgui",
+                "${workspaceFolder}/lib/stb",
+                "${workspaceFolder}/lib/tiny_obj_loader"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.20348.0",
+            "compilerPath": "/usr/bin/g++",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4

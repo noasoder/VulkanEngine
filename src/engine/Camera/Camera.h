@@ -2,8 +2,8 @@
 #include "Vulkan.h"
 
 #include "Transform.h"
-#include "Utility/Types.h"
-//#include "Utility/Rotor3.h"
+#include "Types.h"
+//#include "Rotor3.h"
 
 class Camera : public Transform {
 public:
@@ -18,7 +18,7 @@ public:
 
 private:
 
-	float m_fov;
+	int m_fov;
 	float m_aspect;
 	float m_near;
 	float m_far;

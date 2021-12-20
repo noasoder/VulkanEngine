@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Utility/Types.h"
+#include "Types.h"
 
 class CameraController
 {

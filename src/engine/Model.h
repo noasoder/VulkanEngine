@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Transform.h"
-#include "Utility/Vertex.h"
+#include "Vertex.h"
 #include "Material.h"
 
 class BufferManager;

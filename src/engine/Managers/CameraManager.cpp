@@ -1,6 +1,6 @@
 #include "Managers/CameraManager.h"
 
-#include "Utility/Types.h"
+#include "Types.h"
 #include "Camera/Camera.h"
 #include "Camera/CameraControllers/CameraController.h"
 

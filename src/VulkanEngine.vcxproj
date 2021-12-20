@@ -5,8 +5,16 @@
       <Configuration>Debug Win64</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Linux|x64">
+      <Configuration>Debug Linux</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release Win64|x64">
       <Configuration>Release Win64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Linux|x64">
+      <Configuration>Release Linux</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -23,7 +31,19 @@
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Linux|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Linux|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
@@ -35,7 +55,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug Linux|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release Linux|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -46,6 +72,14 @@
     <TargetName>VulkanEngine_Debug</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Linux|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\</OutDir>
+    <IntDir>obj\Linux\Debug\</IntDir>
+    <TargetName>VulkanEngine_Debug</TargetName>
+    <TargetExt>
+    </TargetExt>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\</OutDir>
@@ -53,12 +87,37 @@
     <TargetName>VulkanEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Linux|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\</OutDir>
+    <IntDir>obj\Linux\Release\</IntDir>
+    <TargetName>VulkanEngine</TargetName>
+    <TargetExt>
+    </TargetExt>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\lib\glfw-3.3.4.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.198.0\Lib;..\lib\glfw-3.3.5.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Linux|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>LINUX;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -67,15 +126,35 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.182.0\Lib;..\lib\glfw-3.3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.182.0\Include;..\lib\glfw-3.3.4.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.198.0\Lib;..\lib\glfw-3.3.5.bin.WIN64\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Linux|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>LINUX;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\VulkanSDK\1.2.198.0\Include;..\lib\glfw-3.3.5.bin.WIN64\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -88,11 +167,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>vulkan-1.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\VulkanSDK\1.2.182.0\Lib;..\lib\glfw-3.3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h" />
+    <ClInclude Include="code\Networking\Client.h" />
+    <ClInclude Include="code\Networking\NetHandler.h" />
+    <ClInclude Include="code\Networking\Networking.h" />
+    <ClInclude Include="code\Networking\Server.h" />
+    <ClInclude Include="code\Networking\UDPSocket.h" />
+    <ClInclude Include="code\Networking\WebClient.h" />
     <ClInclude Include="engine\Camera\Camera.h" />
     <ClInclude Include="engine\Camera\CameraControllers\CameraController.h" />
     <ClInclude Include="engine\Engine.h" />
@@ -108,21 +192,22 @@
     <ClInclude Include="engine\Material.h" />
     <ClInclude Include="engine\Mesh.h" />
     <ClInclude Include="engine\Model.h" />
-    <ClInclude Include="engine\Timestep.h" />
     <ClInclude Include="engine\Transform.h" />
-    <ClInclude Include="engine\Utility\FileReader.h" />
-    <ClInclude Include="engine\Utility\Maths.h" />
-    <ClInclude Include="engine\Utility\Matrix3.h" />
-    <ClInclude Include="engine\Utility\Matrix4.h" />
-    <ClInclude Include="engine\Utility\Rotor3.h" />
-    <ClInclude Include="engine\Utility\Types.h" />
-    <ClInclude Include="engine\Utility\Vertex.h" />
     <ClInclude Include="engine\Vulkan.h" />
     <ClInclude Include="openfbx\miniz.h" />
     <ClInclude Include="openfbx\ofbx.h" />
+    <ClInclude Include="utility\FileReader.h" />
+    <ClInclude Include="utility\Maths.h" />
+    <ClInclude Include="utility\Timestep.h" />
+    <ClInclude Include="utility\Types.h" />
+    <ClInclude Include="utility\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
+    <ClCompile Include="code\Networking\Client.cpp" />
+    <ClCompile Include="code\Networking\NetHandler.cpp" />
+    <ClCompile Include="code\Networking\Server.cpp" />
+    <ClCompile Include="code\Networking\WebClient.cpp" />
     <ClCompile Include="engine\Camera\Camera.cpp" />
     <ClCompile Include="engine\Camera\CameraControllers\CameraController.cpp" />
     <ClCompile Include="engine\Engine.cpp" />
@@ -138,15 +223,12 @@
     <ClCompile Include="engine\Material.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
-    <ClCompile Include="engine\Timestep.cpp" />
     <ClCompile Include="engine\Transform.cpp" />
-    <ClCompile Include="engine\Utility\Maths.cpp" />
-    <ClCompile Include="engine\Utility\Matrix3.cpp" />
-    <ClCompile Include="engine\Utility\Matrix4.cpp" />
-    <ClCompile Include="engine\Utility\Types.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openfbx\miniz.cpp" />
     <ClCompile Include="openfbx\ofbx.cpp" />
+    <ClCompile Include="utility\Maths.cpp" />
+    <ClCompile Include="utility\Timestep.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\flat.frag" />

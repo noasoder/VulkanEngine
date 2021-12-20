@@ -2,7 +2,7 @@
 #define CAMERA_MANAGER_H
 
 #include <vector>
-#include "Utility/Types.h"
+#include "Types.h"
 
 class Camera;
 class CameraController;
