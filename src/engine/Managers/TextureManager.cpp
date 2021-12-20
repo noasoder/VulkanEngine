@@ -29,10 +29,18 @@ void TextureManager::CreateDepthResources()
 
     VkFormat depthFormat = FindDepthFormat();
 
-    CreateImage(swapChainExtent->width, swapChainExtent->height, depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_depthImage, m_depthImageMemory);
+    CreateImage(swapChainExtent->width, swapChainExtent->height, *VulkanManager::GetMSAASamples(), depthFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_depthImage, m_depthImageMemory);
     m_depthImageView = VulkanManager::CreateImageView(m_depthImage, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT);
 
     TransitionImageLayout(m_depthImage, depthFormat, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+}
+
+void TextureManager::CreateColorResources() {
+    VkFormat colorFormat = *VulkanManager::GetSwapChainImageFormat();
+    VkExtent2D* extent = VulkanManager::GetSwapChainExtent();
+
+    CreateImage(extent->width, extent->height, *VulkanManager::GetMSAASamples(), colorFormat, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT | VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, colorImage, colorImageMemory);
+    colorImageView = VulkanManager::CreateImageView(colorImage, colorFormat, VK_IMAGE_ASPECT_COLOR_BIT);
 }
 
 VkFormat TextureManager::FindDepthFormat() {
@@ -88,7 +96,7 @@ void TextureManager::CreateTextureImage()
 
     stbi_image_free(pixels);
 
-    CreateImage(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, 
+    CreateImage(texWidth, texHeight, VK_SAMPLE_COUNT_1_BIT, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL,
                 VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, 
                 m_textureImage, m_textureImageMemory);
 
@@ -107,7 +115,7 @@ void TextureManager::CreateTextureImageView()
     m_textureImageView = VulkanManager::CreateImageView(m_textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_ASPECT_COLOR_BIT);
 }
 
-void TextureManager::CreateImage(   uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, 
+void TextureManager::CreateImage(   uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFormat format, VkImageTiling tiling,
                                     VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory)
 {
     VkDevice* pDevice = VulkanManager::GetDevice();
@@ -125,7 +133,7 @@ void TextureManager::CreateImage(   uint32_t width, uint32_t height, VkFormat fo
     imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
     imageInfo.usage = usage;
     imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-    imageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
+    imageInfo.samples = samples;
     imageInfo.flags = 0;
 
     if (vkCreateImage(*pDevice, &imageInfo, nullptr, &image) != VK_SUCCESS) {

@@ -85,7 +85,6 @@ namespace VulkanManager
     VkSurfaceKHR m_surface;
 
     VkSwapchainKHR m_swapChain;
-    VkFormat m_swapChainImageFormat;
     std::vector<VkImageView> m_swapChainImageViews;
 
 
@@ -110,6 +109,8 @@ namespace VulkanManager
 
     std::vector<VkImage> m_swapChainImages;
     std::vector<VkImage> GetSwapChainImages() { return m_swapChainImages; }
+    VkFormat m_swapChainImageFormat;
+    VkFormat* GetSwapChainImageFormat() { return &m_swapChainImageFormat; };
     VkExtent2D m_swapChainExtent;
     VkExtent2D* GetSwapChainExtent() { return &m_swapChainExtent; }
     std::vector<VkCommandBuffer> m_commandBuffers;
@@ -128,6 +129,9 @@ namespace VulkanManager
 
     VkQueue m_graphicsQueue;
     VkQueue m_presentQueue;
+
+    VkSampleCountFlagBits m_msaaSamples = VK_SAMPLE_COUNT_1_BIT;
+    VkSampleCountFlagBits* GetMSAASamples() { return &m_msaaSamples; };
 
     void Init()
     {
@@ -151,6 +155,7 @@ namespace VulkanManager
         MaterialManager::CreateNewMaterial(matCreateDesc);
 
         CreateCommandPool();
+        m_pTextureManager->CreateColorResources();
         m_pTextureManager->CreateDepthResources();
         CreateFramebuffers();
         m_pTextureManager->CreateTextureImage();
@@ -343,9 +348,19 @@ namespace VulkanManager
     }
 
     void CreateRenderPass() {
+        VkAttachmentDescription colorAttachment{};
+        colorAttachment.format = m_swapChainImageFormat;
+        colorAttachment.samples = *GetMSAASamples();
+        colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+        colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        colorAttachment.finalLayout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
         VkAttachmentDescription depthAttachment{};
         depthAttachment.format = m_pTextureManager->FindDepthFormat();
-        depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
+        depthAttachment.samples = *GetMSAASamples();
         depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
         depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
         depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -353,29 +368,34 @@ namespace VulkanManager
         depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
-        VkAttachmentReference depthAttachmentRef{};
-        depthAttachmentRef.attachment = 1;
-        depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-
-        VkAttachmentDescription colorAttachment{};
-        colorAttachment.format = m_swapChainImageFormat;
-        colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-        colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-        colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        colorAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-        colorAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-        colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        colorAttachment.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+        VkAttachmentDescription colorAttachmentResolve{};
+        colorAttachmentResolve.format = m_swapChainImageFormat;
+        colorAttachmentResolve.samples = VK_SAMPLE_COUNT_1_BIT;
+        colorAttachmentResolve.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        colorAttachmentResolve.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        colorAttachmentResolve.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+        colorAttachmentResolve.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+        colorAttachmentResolve.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        colorAttachmentResolve.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 
         VkAttachmentReference colorAttachmentRef{};
         colorAttachmentRef.attachment = 0;
         colorAttachmentRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+
+        VkAttachmentReference depthAttachmentRef{};
+        depthAttachmentRef.attachment = 1;
+        depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+
+        VkAttachmentReference colorAttachmentResolveRef{};
+        colorAttachmentResolveRef.attachment = 2;
+        colorAttachmentResolveRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
         VkSubpassDescription subpass{};
         subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
         subpass.colorAttachmentCount = 1;
         subpass.pColorAttachments = &colorAttachmentRef;
         subpass.pDepthStencilAttachment = &depthAttachmentRef;
+        subpass.pResolveAttachments = &colorAttachmentResolveRef;
 
         VkSubpassDependency dependency{};
         dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
@@ -385,7 +405,7 @@ namespace VulkanManager
         dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
         dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
 
-        std::array<VkAttachmentDescription, 2> attachments = { colorAttachment, depthAttachment };
+        std::array<VkAttachmentDescription, 3> attachments = { colorAttachment, depthAttachment, colorAttachmentResolve };
         VkRenderPassCreateInfo renderPassInfo{};
         renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
         renderPassInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
@@ -404,9 +424,10 @@ namespace VulkanManager
         m_swapChainFramebuffers.resize(m_swapChainImageViews.size());
         for (size_t i = 0; i < m_swapChainImageViews.size(); i++)
         {
-            std::array<VkImageView, 2> attachments = {
-                m_swapChainImageViews[i],
-                m_pTextureManager->m_depthImageView
+            std::array<VkImageView, 3> attachments = {
+                m_pTextureManager->colorImageView
+                ,m_pTextureManager->m_depthImageView
+                ,m_swapChainImageViews[i]
             };
 
             VkFramebufferCreateInfo framebufferInfo{};
@@ -637,7 +658,9 @@ namespace VulkanManager
         else {
             throw std::runtime_error("failed to find a suitable GPU!");
         }
+        m_msaaSamples = GetMaxUsableSampleCount();
     }
+
     bool IsDeviceSuitable(VkPhysicalDevice device) {
         QueueFamilyIndices indices = FindQueueFamilies(device);
 
@@ -871,6 +894,10 @@ namespace VulkanManager
         vkDestroyImage(m_device, m_pTextureManager->m_depthImage, nullptr);
         vkFreeMemory(m_device, m_pTextureManager->m_depthImageMemory, nullptr);
 
+        vkDestroyImageView(m_device, m_pTextureManager->colorImageView, nullptr);
+        vkDestroyImage(m_device, m_pTextureManager->colorImage, nullptr);
+        vkFreeMemory(m_device, m_pTextureManager->colorImageMemory, nullptr);
+
         for (auto framebuffer : m_swapChainFramebuffers) {
             vkDestroyFramebuffer(m_device, framebuffer, nullptr);
         }
@@ -906,6 +933,7 @@ namespace VulkanManager
         CreateImageViews();
         CreateRenderPass();
         MaterialManager::RecreatePipelines();
+        m_pTextureManager->CreateColorResources();
         m_pTextureManager->CreateDepthResources();
         CreateFramebuffers();
         ModelManager::Recreate();
@@ -972,6 +1000,21 @@ namespace VulkanManager
         if (glfwCreateWindowSurface(m_instance, m_pWindow, nullptr, &m_surface) != VK_SUCCESS) {
             throw std::runtime_error("failed to create window surface");
         }
+    }
+
+    VkSampleCountFlagBits GetMaxUsableSampleCount() {
+        VkPhysicalDeviceProperties physicalDeviceProperties;
+        vkGetPhysicalDeviceProperties(*GetPhysicalDevice(), &physicalDeviceProperties);
+
+        VkSampleCountFlags counts = physicalDeviceProperties.limits.framebufferColorSampleCounts & physicalDeviceProperties.limits.framebufferDepthSampleCounts;
+        if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
+        if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
+        if (counts & VK_SAMPLE_COUNT_16_BIT) { return VK_SAMPLE_COUNT_16_BIT; }
+        if (counts & VK_SAMPLE_COUNT_8_BIT) { return VK_SAMPLE_COUNT_8_BIT; }
+        if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
+        if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
+
+        return VK_SAMPLE_COUNT_1_BIT;
     }
 }
 
