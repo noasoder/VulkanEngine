@@ -33,6 +33,9 @@
     <ClInclude Include="code\Application.h">
       <Filter>code</Filter>
     </ClInclude>
+    <ClInclude Include="code\ComputeShader.h">
+      <Filter>code</Filter>
+    </ClInclude>
     <ClInclude Include="code\Networking\Client.h">
       <Filter>code\Networking</Filter>
     </ClInclude>
@@ -128,6 +131,9 @@
     <ClCompile Include="code\Application.cpp">
       <Filter>code</Filter>
     </ClCompile>
+    <ClCompile Include="code\ComputeShader.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
     <ClCompile Include="code\Networking\Client.cpp">
       <Filter>code\Networking</Filter>
     </ClCompile>
@@ -203,6 +209,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\boid.comp">
+      <Filter>shaders</Filter>
+    </None>
     <None Include="shaders\flat.frag">
       <Filter>shaders</Filter>
     </None>

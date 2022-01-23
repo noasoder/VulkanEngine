@@ -48,6 +48,7 @@ project "VulkanEngine"
         , "../src/**.c"
         , "../src/**.vert"
         , "../src/**.frag" 
+        , "../src/**.comp" 
     }
 
     filter { "configurations:Debug" }

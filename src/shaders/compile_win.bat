@@ -11,6 +11,10 @@
     C:/VulkanSDK/1.2.182.0/Bin/glslc.exe %%i -o %%~ni_frag.spv
 	@echo compiled %%i
 )
+@FOR %%i IN ( *.comp ) DO (
+    C:/VulkanSDK/1.2.182.0/Bin/glslc.exe %%i -o %%~ni_comp.spv
+	@echo compiled %%i
+)
 @set dir=../../bin/Assets/Shaders
 
 @FOR %%i IN ( *.spv ) DO (

@@ -93,6 +93,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="code\Application.h" />
+    <ClInclude Include="code\ComputeShader.h" />
     <ClInclude Include="code\Networking\Client.h" />
     <ClInclude Include="code\Networking\NetHandler.h" />
     <ClInclude Include="code\Networking\Networking.h" />
@@ -126,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
+    <ClCompile Include="code\ComputeShader.cpp" />
     <ClCompile Include="code\Networking\Client.cpp" />
     <ClCompile Include="code\Networking\NetHandler.cpp" />
     <ClCompile Include="code\Networking\Server.cpp" />
@@ -153,6 +155,7 @@
     <ClCompile Include="utility\Timestep.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\boid.comp" />
     <None Include="shaders\flat.frag" />
     <None Include="shaders\flat.vert" />
     <None Include="shaders\shader.frag" />
