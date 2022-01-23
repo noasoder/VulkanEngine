@@ -1,7 +1,7 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include "Vulkan.h"
+#include "Core.h"
 
 class Engine;
 

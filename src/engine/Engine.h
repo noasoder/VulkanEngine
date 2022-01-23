@@ -1,7 +1,7 @@
-#include "Vulkan.h"
+#include "Core.h"
 
-#define ENGINE_NAME "VulkanEngine"
-#define PROJECT_NAME "VulkanEngine"
+#define ENGINE_NAME "Snowflake"
+#define PROJECT_NAME "Snowflake"
 
 class Engine
 {

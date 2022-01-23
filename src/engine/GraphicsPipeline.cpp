@@ -16,6 +16,9 @@ GraphicsPipeline::~GraphicsPipeline()
 
 }
 
+#ifdef VULKAN
+
+
 void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc) 
 {
     VkExtent2D* pExtent = VulkanManager::GetSwapChainExtent();
@@ -197,3 +200,4 @@ VkShaderModule GraphicsPipeline::CreateShaderModule(const std::vector<char>& cod
     }
     return shaderModule;
 }
+#endif // VULKAN

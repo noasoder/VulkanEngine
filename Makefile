@@ -1,21 +1,21 @@
-CXX       := g++ -std=c++17
+CXX     := g++ -std=c++17
 CXX_DLL	:= g++ -shared -std=c++17
 
 WIN_FLAGS := -static-libstdc++ -lpthread -lmsvcrt
-LINUX_FLAGS = -lglfw -lvulkan -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi
+LINUX_FLAGS = -lglfw -ldl -lpthread -lX11 -lXxf86vm -lXrandr -lXi
 
 
 BIN     := bin
 SRC     := src
-INCLUDE_EXT := -IC:/VulkanSDK/1.2.198.0/Include -Ilib/glfw-3.3.5.bin.WIN64/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
-LIBPATH := -LC:/VulkanSDK/1.2.198.0/Lib -Llib/glfw-3.3.5.bin.WIN64/lib-mingw-w64 -Lbin/ -Lbin/lib
+INCLUDE_EXT := -Ilib/glfw/include -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
+LIBPATH := -Llib/glfw/build/src -Lbin/ -Lbin/lib
 
-EXT_INCLUDE_LINUX := -I/usr/include/vulkan -I/usr/include/GLFW -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
+EXT_INCLUDE_LINUX := -I/usr/include/GLFW -Ilib/glm -Ilib/imgui -Ilib/stb -Ilib/tiny_obj_loader
 LIB_LINUX := -Lbin/ -Lbin/lib
 
-LIBRARIES   := -l:libglfw3dll.a -lvulkan-1
-DLL  := VulkanEngine.dll
-EXECUTABLE  := VulkanEngine
+LIBRARIES   := -l:libglfw3dll.a -lopengl32
+DLL  := Engine.dll
+EXECUTABLE  := Snowflake
 OUTEXE := $(BIN)/$(EXECUTABLE)
 OUTDLL := $(BIN)/$(DLL)
 
@@ -58,13 +58,13 @@ dll: $(SRCS_DLL)
 	$(CXX_DLL) $(WIN_FLAGS) -g $^ -o $(OUTDLL) $(INCLUDE_EXT) $(INCLUDE_DLL) $(LIBPATH) $(LIBRARIES) -l:OpenFBX.a -lUtility
 
 exe: $(SRC)/main.cpp $(SRCS)
-	$(CXX) $(WIN_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -l:OpenFBX.a -lUtility -lVulkanEngine -lWS2_32
+	$(CXX) $(WIN_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE) $(LIBPATH) $(INCLUDE_DLL) $(LIBRARIES) -l:OpenFBX.a -lUtility -lEngine -lWS2_32
 
 linux_utils: $(SRC_UTIL)
 	$(CXX_DLL) $(LINUX_FLAGS) -fPIC -g $^ -o bin/Utility.so $(EXT_INCLUDE_LINUX) -Isrc/utility $(LIB_LINUX)
 
 linux_dll: $(SRCS_DLL)
-	$(CXX_DLL) $(LINUX_FLAGS) -fPIC -g $^ -o bin/VulkanEngine.so $(EXT_INCLUDE_LINUX) $(INCLUDE_DLL) $(LIB_LINUX) -l:OpenFBX.a -l:Utility.so
+	$(CXX_DLL) $(LINUX_FLAGS) -fPIC -g $^ -o bin/Engine.so $(EXT_INCLUDE_LINUX) $(INCLUDE_DLL) $(LIB_LINUX) -l:OpenFBX.a -l:Utility.so
 
 linux_exe: $(SRC)/main.cpp $(SRCS) $(SRCS_DLL)
 	$(CXX) $(LINUX_FLAGS) -g $^ -o $(OUTEXE) $(EXT_INCLUDE_LINUX) $(INCLUDE) $(LIB_LINUX) $(INCLUDE_DLL) -l:OpenFBX.a -l:Utility.so

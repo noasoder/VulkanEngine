@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Vulkan.h"
+#include "Core.h"
+
+#ifdef VULKAN
 
 #include <vector>
 
@@ -50,3 +52,5 @@ private:
 	VkImage m_textureImage;
 	VkDeviceMemory m_textureImageMemory;
 };
+
+#endif // VULKAN

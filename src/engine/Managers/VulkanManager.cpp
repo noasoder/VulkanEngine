@@ -1,5 +1,7 @@
 #include "Managers/VulkanManager.h"
 
+#ifdef VULKAN
+
 #include "Managers/BufferManager.h"
 #include "Managers/TextureManager.h"
 #include "Managers/ModelManager.h"
@@ -1018,3 +1020,4 @@ namespace VulkanManager
     }
 }
 
+#endif // VULKAN

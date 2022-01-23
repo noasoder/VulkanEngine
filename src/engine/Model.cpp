@@ -11,26 +11,31 @@
 #include <cstring>
 
 Model::Model(std::string path)
-: m_pBufferManager(VulkanManager::GetBufferManager())
 {
     ModelManager::LoadModel(path, vertices, indices);
 
+#ifdef VULKAN
+    m_pBufferManager = VulkanManager::GetBufferManager();
 
     CreateVertexBuffer();
     CreateIndexBuffer();
     CreateUniformBuffers();
     CreateDescriptorPool();
     CreateDescriptorSets();
+#endif
 }
 
 Model::~Model()
 {
+#ifdef VULKAN
+
     VkDevice* pDevice = VulkanManager::GetDevice();
 
     vkDestroyBuffer(*pDevice, m_indexBuffer, nullptr);
     vkFreeMemory(*pDevice, m_indexBufferMemory, nullptr);
     vkDestroyBuffer(*pDevice, m_vertexBuffer, nullptr);
     vkFreeMemory(*pDevice, m_vertexBufferMemory, nullptr);
+#endif // VULKAN
 }
 
 void Model::Render()
@@ -40,8 +45,13 @@ void Model::Render()
 
 void Model::Update(float DeltaTime, int imageIndex)
 {
+#ifdef VULKAN
     UpdateUniformBuffer(imageIndex, DeltaTime);
+#endif
 }
+
+#ifdef VULKAN
+
 
 void Model::CreateVertexBuffer()
 {
@@ -208,3 +218,4 @@ void Model::CreateDescriptorSets()
         vkUpdateDescriptorSets(*pDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
     }
 }
+#endif // VULKAN

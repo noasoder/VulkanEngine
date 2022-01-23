@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core.h"
+
 #include <vector>
 #include <string>
 
@@ -18,6 +20,7 @@ public:
 	void Render();
 	void Update(float DeltaTime, int imageIndex);
 
+#ifdef VULKAN
 	void CreateVertexBuffer();
 	void CreateIndexBuffer();
 
@@ -27,8 +30,6 @@ public:
 
 	void CreateDescriptorPool();
 	void CreateDescriptorSets();
-
-	//Material& GetMaterial() { return m_material; };
 
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
@@ -42,11 +43,12 @@ public:
 	VkDescriptorPool m_descriptorPool;
 	std::vector<VkDescriptorSet> m_descriptorSets;
 
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-
 	VkCommandPool m_commandPool;
 	std::vector<VkCommandBuffer> m_commandBuffers;
+#endif // VULKAN
+
+	std::vector<Vertex> vertices;
+	std::vector<uint32_t> indices;
 private:
 
 	BufferManager* m_pBufferManager;

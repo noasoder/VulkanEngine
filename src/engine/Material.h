@@ -1,5 +1,5 @@
 #pragma once 
-#include "Vulkan.h"
+#include "Core.h"
 #include "Managers/VulkanManager.h"
 #include "GraphicsPipeline.h"
 #include <vector>
@@ -22,7 +22,7 @@ public:
 	void AddModel(Model* model) 
 	{ 
 		m_pModels.push_back(model); 
-		VulkanManager::UpdateCommandBuffers();
+		//VulkanManager::UpdateCommandBuffers();
 	};
 
 	std::vector<Model*> m_pModels;

@@ -21,7 +21,9 @@ void Material::CreatePipeline(MaterialCreateDesc& createDesc)
 	pipelineCreateDesc.vertexShaderPath = createDesc.shaderName + "_vert.spv";
 	pipelineCreateDesc.fragmentShaderPath = createDesc.shaderName + "_frag.spv";
 
+#ifdef VULKAN
 	CreateGraphicsPipeline(pipelineCreateDesc);
+#endif
 }
 
 void Material::RecreatePipeline()

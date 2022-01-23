@@ -1,7 +1,9 @@
 #ifndef VULKAN_MANAGER_H
 #define VULKAN_MANAGER_H
 
-#include "Vulkan.h"
+#include "Core.h"
+
+#ifdef VULKAN
 
 #include <iostream>
 #include <stdexcept>
@@ -104,5 +106,6 @@ namespace VulkanManager
     void SetFrameBufferResized(bool state);
 
 }
+#endif // VULKAN
 
 #endif // !VULKAN_MANAGER_H

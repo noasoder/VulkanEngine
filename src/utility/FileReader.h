@@ -19,10 +19,9 @@ namespace File
         size_t fileSize = (size_t)file.tellg();
         std::vector<char> buffer(fileSize);
 
-        if (ENABLE_VALIDATION_LAYERS) {
-            //std::cout << "Size of file [" << filename << "]: " << fileSize << "" << std::endl;
-            printf("Size of file [%s]: %i\n", filename.c_str(), (int)fileSize);
-        }
+#ifdef ENABLE_VALIDATION_LAYERS
+        printf("Size of file [%s]: %i\n", filename.c_str(), (int)fileSize);
+#endif // ENABLE_VALIDATION_LAYERS
 
         file.seekg(0);
         file.read(buffer.data(), fileSize);

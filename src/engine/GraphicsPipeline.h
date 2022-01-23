@@ -1,5 +1,5 @@
 #pragma once
-#include "Vulkan.h"
+#include "Core.h"
 #include <vector>
 #include <stdexcept>
 #include <string>
@@ -15,6 +15,7 @@ public:
 
 	GraphicsPipeline();
 	~GraphicsPipeline();
+#ifdef VULKAN
 
 	void CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc);
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
@@ -23,4 +24,5 @@ public:
 	
 private:
 	VkPipeline m_graphicsPipeline;
+#endif // VULKAN
 };

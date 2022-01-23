@@ -1,6 +1,8 @@
 
 #include "Managers/BufferManager.h"
 
+#ifdef VULKAN
+
 #include <stdexcept>
 
 #include "Managers/VulkanManager.h"
@@ -10,6 +12,7 @@
 #include "Camera/Camera.h"
 
 #include "Maths.h"
+
 
 BufferManager::BufferManager()
 {
@@ -95,3 +98,5 @@ void BufferManager::CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceS
 
     VulkanManager::EndSingleTimeCommands(commandBuffer);
 }
+
+#endif // VULKAN

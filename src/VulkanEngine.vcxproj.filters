@@ -57,6 +57,9 @@
     <ClInclude Include="engine\Camera\CameraControllers\CameraController.h">
       <Filter>engine\Camera\CameraControllers</Filter>
     </ClInclude>
+    <ClInclude Include="engine\Core.h">
+      <Filter>engine</Filter>
+    </ClInclude>
     <ClInclude Include="engine\Engine.h">
       <Filter>engine</Filter>
     </ClInclude>
@@ -67,6 +70,9 @@
       <Filter>engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="engine\Managers\CameraManager.h">
+      <Filter>engine\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\Managers\GLManager.h">
       <Filter>engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="engine\Managers\InputManager.h">
@@ -97,9 +103,6 @@
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="engine\Transform.h">
-      <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Vulkan.h">
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="openfbx\miniz.h">
@@ -156,6 +159,9 @@
       <Filter>engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="engine\Managers\CameraManager.cpp">
+      <Filter>engine\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Managers\GLManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="engine\Managers\InputManager.cpp">
