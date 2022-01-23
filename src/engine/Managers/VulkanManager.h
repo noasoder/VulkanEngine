@@ -75,6 +75,7 @@ namespace VulkanManager
 
 
     void PickPhysicalDevice();
+    VkSampleCountFlagBits GetMaxUsableSampleCount();
     bool IsDeviceSuitable(VkPhysicalDevice device);
     bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
     int RateDeviceSuitability(VkPhysicalDevice device);
@@ -91,12 +92,14 @@ namespace VulkanManager
     VkDevice* GetDevice();
     VkExtent2D* GetSwapChainExtent();
     std::vector<VkImage> GetSwapChainImages();
+    VkFormat* GetSwapChainImageFormat();
     VkCommandPool* GetCommandPool();
     BufferManager* GetBufferManager();
     TextureManager* GetTextureManager();
     VkPipelineLayout* GetPipelineLayout();
     VkPhysicalDevice* GetPhysicalDevice();
     VkRenderPass* GetRenderPass();
+    VkSampleCountFlagBits* GetMSAASamples();
     //Set
     void SetFrameBufferResized(bool state);
 

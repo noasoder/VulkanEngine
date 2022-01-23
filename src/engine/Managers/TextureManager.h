@@ -15,6 +15,7 @@ public :
 	~TextureManager();
 
 	void CreateDepthResources();
+	void CreateColorResources();
 	VkFormat FindDepthFormat();
 	VkFormat FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 	bool HasStencilComponent(VkFormat format) {
@@ -24,7 +25,7 @@ public :
 	void CreateTextureImage();
 	void CreateTextureImageView();
 	void CreateTextureSampler();
-	void CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling,
+	void CreateImage(uint32_t width, uint32_t height, VkSampleCountFlagBits samples, VkFormat format, VkImageTiling tiling,
 					VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
 	
 	void TransitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
@@ -37,6 +38,9 @@ public :
 	VkImageView m_textureImageView;
 	VkImageView m_depthImageView;
 
+	VkImage colorImage;
+	VkDeviceMemory colorImageMemory;
+	VkImageView colorImageView;
 
 	VkSampler m_textureSampler;
 
