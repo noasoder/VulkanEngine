@@ -5,7 +5,10 @@
 //#define VULKAN
 //#define DIRECTX
 
-#include <Windows.h>
+#define WINDOWS
+// #define LINUX
+
+// #include <Windows.h>
 #include <GLFW/glfw3.h>
 
 //#define GLFW_EXPOSE_NATIVE_WIN32

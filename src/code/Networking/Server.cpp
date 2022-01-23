@@ -10,6 +10,7 @@
 
 Server::Server( const uint16_t Port )
 {
+#ifdef WINDOWS
 	m_socket = new UDPSocket();
 	m_socket->Bind(Port);
 
@@ -21,17 +22,21 @@ Server::Server( const uint16_t Port )
 		memcpy(&addr, phe->h_addr_list[i], sizeof(struct in_addr));
 		std::cout << "Address " << i << ": " << inet_ntoa(addr) << std::endl;
 	}
+#endif
 }
 
 Server::~Server()
 {
+#ifdef WINDOWS
 	m_connections.clear();
 
 	delete m_socket;
+#endif
 }
 
 void Server::Update( void )
 {
+#ifdef WINDOWS
 	if (InputManager::GetKeyDown(GLFW_KEY_N))
 	{
 		std::map<std::string, Connection>::iterator conn = m_connections.begin();
@@ -44,10 +49,12 @@ void Server::Update( void )
 	}
 
 	Receive();
+#endif
 }
 
 void Server::Receive()
 {
+#ifdef WINDOWS
 	std::vector<int> keysToRemove;
 
 	char buffer[128];
@@ -64,10 +71,12 @@ void Server::Receive()
 	{
 		m_connections.erase(inet_ntoa(add.sin_addr));
 	}
+#endif
 }
 
 void Server::Decode(std::string buff, Connection& con)
 {
+#ifdef WINDOWS
 	if (buff.length() < 4)
 		return;
 
@@ -99,4 +108,5 @@ void Server::Decode(std::string buff, Connection& con)
 	{
 		printf("SERVER: recv: %s\n", buff.c_str());
 	}
+#endif
 }
