@@ -82,7 +82,7 @@ void Application::Run()
             Model* model = ModelManager::CreateModel(MODEL_CUBE_OBJ_PATH);
             //Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
-            model->TranslateWorld(move);
+            model->SetWorldPosition(move);
 
             MaterialManager::GetMaterials()[0]->AddModel(model);
         }
@@ -91,7 +91,7 @@ void Application::Run()
         {
             Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
             Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
-            model->TranslateWorld(move);
+            model->SetWorldPosition(move);
 
             MaterialManager::GetMaterials()[1]->AddModel(model);
         }

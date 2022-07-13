@@ -15,8 +15,8 @@ public:
 
 	void RotateLocal(const double& xx, const double& yy, const double& zz, const double& a);
 	void RotateWorld(const double& xx, const double& yy, const double& zz, const double& a);
-	void TranslateWorld(Vec3 move);
-	void TranslateLocal(Vec3 move);
+	void SetWorldPosition(Vec3 move);
+	void SetLocalPosition(Vec3 move);
 
 	// glm::quat RotateTowards(glm::quat q2, float maxAngle);
 

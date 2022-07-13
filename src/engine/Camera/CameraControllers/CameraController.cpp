@@ -58,5 +58,5 @@ void CameraController::Update(float DeltaTime)
 
     Camera* currCamera = CameraManager::GetCurrentCamera();
     currCamera->RotateCam(rot, moveLength);
-    currCamera->TranslateLocal(movePos);
+    currCamera->SetLocalPosition(movePos);
 }

@@ -49,12 +49,12 @@ void Transform::RotateWorld(const double& xx, const double& yy, const double& zz
     }
 }
 
-void Transform::TranslateWorld(Vec3 move)
+void Transform::SetWorldPosition(Vec3 move)
 {
     m_pos += move;
 }
 
-void Transform::TranslateLocal(Vec3 move)
+void Transform::SetLocalPosition(Vec3 move)
 {
     glm::mat4 mat = glm::translate(GetMatrix(), move);
     m_pos = mat[3];
