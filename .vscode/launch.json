@@ -5,7 +5,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/bin/VulkanEngine",
+            "program": "${workspaceFolder}/bin/Application",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/bin",

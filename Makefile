@@ -10,7 +10,7 @@ BIN     := bin
 SRC     := src
 
 DLL_NAME  := Engine
-EXECUTABLE  := Snowflake
+EXECUTABLE  := Application
 OUTEXE := $(BIN)/$(EXECUTABLE)
 OUTDLL := $(BIN)/$(DLL_NAME).dll
 
