@@ -5,7 +5,6 @@
 
 #include "Managers/VulkanManager.h"
 #include "Managers/BufferManager.h"
-
 #include <stb_image.h>
 
 TextureManager::TextureManager(BufferManager* pBufferManager)

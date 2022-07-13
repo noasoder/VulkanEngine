@@ -20,7 +20,7 @@
 class BufferManager;
 class TextureManager;
 class Engine;
-class GraphicsPipeline;
+class Shader;
 
 const std::string MODEL_ROOM_PATH = "../bin/Assets/Models/viking_room.obj";
 //const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";

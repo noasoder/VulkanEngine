@@ -7,7 +7,9 @@
 #include "Managers/ModelManager.h"
 #include "Managers/WindowManager.h"
 #include "Managers/MaterialManager.h"
-#include "GraphicsPipeline.h"
+#include "Managers/CameraManager.h"
+#include "Camera/Camera.h"
+#include "Shader.h"
 #include "Model.h"
 #include "Engine.h"
 #include "Material.h"
@@ -152,8 +154,7 @@ namespace VulkanManager
         CreateRenderPass();
         m_pBufferManager->CreateDescriptorSetLayout();
 
-        MaterialCreateDesc matCreateDesc{};
-        matCreateDesc.shaderName = "../bin/Assets/Shaders/shader";
+        MaterialCreateDesc matCreateDesc{ "../bin/Assets/Shaders/shader" };
         MaterialManager::CreateNewMaterial(matCreateDesc);
 
         CreateCommandPool();
@@ -218,7 +219,8 @@ namespace VulkanManager
         }
         m_imagesInFlight[imageIndex] = m_inFlightFences[m_currentFrame];
 
-        //m_pBufferManager->UpdateUniformBuffer(imageIndex, DeltaTime);
+        VkExtent2D* swapChainExtent = VulkanManager::GetSwapChainExtent();
+        CameraManager::GetCurrentCamera()->UpdateAspect(swapChainExtent->width / (float)swapChainExtent->height);
         ModelManager::Update(DeltaTime, imageIndex);
 
         VkSubmitInfo submitInfo{};

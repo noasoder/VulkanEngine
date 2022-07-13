@@ -3,7 +3,14 @@
 
 #include "Networking/NetHandler.h"
 
+#ifdef OPENGL
+#include "Managers/GLManager.h"
+#endif // OPENGL
+
+#ifdef VULKAN
 #include "Managers/VulkanManager.h"
+#endif // VULKAN
+
 #include "Managers/InputManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/ModelManager.h"
@@ -31,18 +38,17 @@ Application::Application()
     //Start the core engine
     m_pEngine = new Engine();
 
-    //VkExtent2D* swapChainExtent = VulkanManager::GetSwapChainExtent();
-    //CameraManager::CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, swapChainExtent->width / (float)swapChainExtent->height, 0.1f, 500.0f);
+    CameraManager::CreateCamera(Vec3(0, -5, 2), Vec3(0, 1, 0), 45, WIDTH / (float)HEIGHT, 0.1f, 500.0f);
 
-    //CameraController* con = CameraManager::CreateCameraController();
-    //CameraManager::SetCurrentCameraController(con);
+    CameraController* con = CameraManager::CreateCameraController();
+    CameraManager::SetCurrentCameraController(con);
 
-    //MaterialCreateDesc createDesc{ "../bin/Assets/Shaders/flat" };
-    //MaterialManager::CreateNewMaterial(createDesc);
+    MaterialCreateDesc createDesc{ "../bin/Assets/Shaders/flat" };
+    MaterialManager::CreateNewMaterial(createDesc);
 
     //Time::UpdateTimestep();
 
-    //m_pNetHandler = new NetHandler();
+    m_pNetHandler = new NetHandler();
 }
 
 Application::~Application()
@@ -69,28 +75,30 @@ void Application::Run()
 
         Time::UpdateTimestep();
 
-        //CameraManager::Update(Time::GetDeltaTime());
-        //m_pNetHandler->Update();
+        CameraManager::Update(Time::GetDeltaTime());
+        //auto pos = CameraManager::GetCurrentCamera()->m_pos;
+        //printf("x[%f], y[%f], z[%f] \n", pos.x, pos.y, pos.z);
+        m_pNetHandler->Update();
 
 
-        //if (InputManager::GetKeyDown(GLFW_KEY_1) || InputManager::GetKey(GLFW_KEY_2))
-        //{
-        //    //Model* model = ModelManager::CreateModel(MODEL_CUBE_OBJ_PATH);
-        //    Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
-        //    Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
-        //    model->TranslateWorld(move);
+        if (InputManager::GetKeyDown(GLFW_KEY_1) || InputManager::GetKey(GLFW_KEY_2))
+        {
+            Model* model = ModelManager::CreateModel(MODEL_CUBE_OBJ_PATH);
+            //Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
+            Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
+            model->TranslateWorld(move);
 
-        //    MaterialManager::GetMaterials()[0]->AddModel(model);
-        //}
+            MaterialManager::GetMaterials()[0]->AddModel(model);
+        }
 
-        //if (InputManager::GetKeyDown(GLFW_KEY_4))
-        //{
-        //    Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
-        //    Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
-        //    model->TranslateWorld(move);
+        if (InputManager::GetKeyDown(GLFW_KEY_4))
+        {
+            Model* model = ModelManager::CreateModel(MODEL_ICOSPHERE_FBX_PATH);
+            Vec3 move = Vec3(Random(-5.0f, 5.0f), Random(-5.0f, 5.0f), Random(-5.0f, 5.0f));
+            model->TranslateWorld(move);
 
-        //    MaterialManager::GetMaterials()[1]->AddModel(model);
-        //}
+            MaterialManager::GetMaterials()[1]->AddModel(model);
+        }
 
         if (writeCooldown > 0.0f)
         {
@@ -103,20 +111,19 @@ void Application::Run()
         }
         InputManager::Update();
 
-        glClear(GL_COLOR_BUFFER_BIT);
+#ifdef OPENGL
+        GLManager::DrawFrame();
+#endif // OPENGL
 
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f( 0.0f,  0.0f);
-        glVertex2f( 0.5f, -0.5f);
-        glEnd();
+#ifdef VULKAN
+        VulkanManager::DrawFrame(Time::GetDeltaTime());
+#endif // VULKAN
 
-        glfwSwapBuffers(WindowManager::GetWindow());
         glfwPollEvents();
-
-        //VulkanManager::DrawFrame(Time::GetDeltaTime());
     }
 
-    //vkDeviceWaitIdle(*VulkanManager::GetDevice());
+#ifdef VULKAN
+    vkDeviceWaitIdle(*VulkanManager::GetDevice());
+#endif // VULKAN
 }
 

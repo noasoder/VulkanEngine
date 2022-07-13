@@ -6,8 +6,6 @@
 
 #include <vector>
 
-#define STB_IMAGE_IMPLEMENTATION
-
 class BufferManager;
 
 class TextureManager

@@ -21,13 +21,13 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;engine;code;utility;stb;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -66,8 +66,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\lib\glfw\buildvs\src\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;vulkan-1.lib;opengl32.lib;WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib\glfw\buildvs\src\Release;..\lib\glew\lib;..\lib\opengl;..\lib\vulkan\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glm;..\lib\stb;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;engine;code;openfbx;utility;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;engine;code;utility;stb;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -87,8 +87,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\lib\glfw\buildvs\src\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;glew32s.lib;vulkan-1.lib;opengl32.lib;WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib\glfw\buildvs\src\Release;..\lib\glew\lib;..\lib\opengl;..\lib\vulkan\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -103,7 +103,6 @@
     <ClInclude Include="engine\Camera\CameraControllers\CameraController.h" />
     <ClInclude Include="engine\Core.h" />
     <ClInclude Include="engine\Engine.h" />
-    <ClInclude Include="engine\GraphicsPipeline.h" />
     <ClInclude Include="engine\Managers\BufferManager.h" />
     <ClInclude Include="engine\Managers\CameraManager.h" />
     <ClInclude Include="engine\Managers\GLManager.h" />
@@ -116,9 +115,12 @@
     <ClInclude Include="engine\Material.h" />
     <ClInclude Include="engine\Mesh.h" />
     <ClInclude Include="engine\Model.h" />
+    <ClInclude Include="engine\Shader.h" />
+    <ClInclude Include="engine\ShaderOpenGL.h" />
     <ClInclude Include="engine\Transform.h" />
     <ClInclude Include="openfbx\miniz.h" />
     <ClInclude Include="openfbx\ofbx.h" />
+    <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="utility\FileReader.h" />
     <ClInclude Include="utility\Maths.h" />
     <ClInclude Include="utility\Timestep.h" />
@@ -134,7 +136,6 @@
     <ClCompile Include="engine\Camera\Camera.cpp" />
     <ClCompile Include="engine\Camera\CameraControllers\CameraController.cpp" />
     <ClCompile Include="engine\Engine.cpp" />
-    <ClCompile Include="engine\GraphicsPipeline.cpp" />
     <ClCompile Include="engine\Managers\BufferManager.cpp" />
     <ClCompile Include="engine\Managers\CameraManager.cpp" />
     <ClCompile Include="engine\Managers\GLManager.cpp" />
@@ -147,10 +148,13 @@
     <ClCompile Include="engine\Material.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
+    <ClCompile Include="engine\Shader.cpp" />
+    <ClCompile Include="engine\ShaderOpenGL.cpp" />
     <ClCompile Include="engine\Transform.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="openfbx\miniz.cpp" />
     <ClCompile Include="openfbx\ofbx.cpp" />
+    <ClCompile Include="utility\FileReader.cpp" />
     <ClCompile Include="utility\Maths.cpp" />
     <ClCompile Include="utility\Timestep.cpp" />
   </ItemGroup>

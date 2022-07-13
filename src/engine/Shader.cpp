@@ -1,31 +1,31 @@
 
-#include "GraphicsPipeline.h"
+#include "Shader.h"
 
 #include "Managers/VulkanManager.h"
 #include "Managers/BufferManager.h"
 #include "FileReader.h"
 #include "Vertex.h"
 
-GraphicsPipeline::GraphicsPipeline()
+Shader::Shader()
 {
 
 }
 
-GraphicsPipeline::~GraphicsPipeline()
+Shader::~Shader()
 {
 
 }
 
+
+
+void Shader::CreateShader(ShaderCreateDesc& ShaderCreateDesc) 
+{
 #ifdef VULKAN
-
-
-void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreateDesc) 
-{
     VkExtent2D* pExtent = VulkanManager::GetSwapChainExtent();
     VkDevice* pDevice = VulkanManager::GetDevice();
 
-    auto vertShaderCode = File::ReadFile(pipelineCreateDesc.vertexShaderPath);
-    auto fragShaderCode = File::ReadFile(pipelineCreateDesc.fragmentShaderPath);
+    auto vertShaderCode = File::ReadFile(ShaderCreateDesc.vertexShaderPath);
+    auto fragShaderCode = File::ReadFile(ShaderCreateDesc.fragmentShaderPath);
 
     VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);
@@ -177,15 +177,17 @@ void GraphicsPipeline::CreateGraphicsPipeline(PipelineCreateDesc& pipelineCreate
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
     pipelineInfo.basePipelineIndex = -1;
 
-    if (vkCreateGraphicsPipelines(*pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_graphicsPipeline) != VK_SUCCESS) {
+    if (vkCreateGraphicsPipelines(*pDevice, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_Shader) != VK_SUCCESS) {
         throw std::runtime_error("failed to create graphics pipeline");
     }
 
     vkDestroyShaderModule(*pDevice, vertShaderModule, nullptr);
     vkDestroyShaderModule(*pDevice, fragShaderModule, nullptr);
+#endif // VULKAN
 }
 
-VkShaderModule GraphicsPipeline::CreateShaderModule(const std::vector<char>& code) 
+#ifdef VULKAN
+VkShaderModule Shader::CreateShaderModule(const std::vector<char>& code) 
 {
     VkDevice* pDevice = VulkanManager::GetDevice();
 

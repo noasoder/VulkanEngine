@@ -20,7 +20,6 @@ public:
 	void Render();
 	void Update(float DeltaTime, int imageIndex);
 
-#ifdef VULKAN
 	void CreateVertexBuffer();
 	void CreateIndexBuffer();
 
@@ -31,6 +30,7 @@ public:
 	void CreateDescriptorPool();
 	void CreateDescriptorSets();
 
+#ifdef VULKAN
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
 	VkBuffer m_indexBuffer;
@@ -46,6 +46,10 @@ public:
 	VkCommandPool m_commandPool;
 	std::vector<VkCommandBuffer> m_commandBuffers;
 #endif // VULKAN
+#ifdef OPENGL
+	unsigned int vertexBufferID;
+	unsigned int indexBufferID;
+#endif // OPENGL
 
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;

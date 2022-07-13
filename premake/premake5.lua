@@ -14,26 +14,33 @@ workspace "VulkanEngine"
 
     includedirs { 
         "../lib/glfw/include"
+        , "../lib/glew/include"
         , "../lib/glm"
-        , "../lib/stb"
         , "../lib/tiny_obj_loader"
         , "../lib/OpenFBX"
         , "../lib/imgui"
+        , "../lib/vulkan/Include"
 
         , "../src/engine"
         , "../src/code"
-        , "../src/openfbx"
         , "../src/utility" 
+
+        , "../src/stb"
+        , "../src/openfbx"
     }
 
     libdirs { 
         "../lib/glfw/buildvs/src/Release" 
-        , "../lib/opengl/"
+        , "../lib/glew/lib"
+        , "../lib/opengl"
+        , "../lib/vulkan/Lib"
     }
 
     links { 
         "glfw3.lib"
-        , "opengl32.lib"
+        , "glew32s.lib"
+        , "vulkan-1.lib"
+        , "opengl32"
         , "WS2_32" 
     } 
 

@@ -6,6 +6,7 @@
 #include "Managers/CameraManager.h"
 #include "Managers/TextureManager.h"
 #include "Maths.h"
+#include "Types.h"
 #include "Camera/Camera.h"
 #include "Engine.h"
 #include <cstring>
@@ -16,13 +17,13 @@ Model::Model(std::string path)
 
 #ifdef VULKAN
     m_pBufferManager = VulkanManager::GetBufferManager();
+#endif // VULKAN
 
     CreateVertexBuffer();
     CreateIndexBuffer();
     CreateUniformBuffers();
     CreateDescriptorPool();
     CreateDescriptorSets();
-#endif
 }
 
 Model::~Model()
@@ -45,16 +46,29 @@ void Model::Render()
 
 void Model::Update(float DeltaTime, int imageIndex)
 {
-#ifdef VULKAN
     UpdateUniformBuffer(imageIndex, DeltaTime);
-#endif
 }
 
-#ifdef VULKAN
 
 
 void Model::CreateVertexBuffer()
 {
+
+#ifdef OPENGL
+    glGenBuffers(1, &vertexBufferID);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferID);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)sizeof(Vec3));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)sizeof(Vec3));
+
+#endif // OPENGL
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
@@ -73,10 +87,17 @@ void Model::CreateVertexBuffer()
 
     vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
     vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
+#endif // VULKAN
 }
 
 void Model::CreateIndexBuffer()
 {
+#ifdef OPENGL
+    glGenBuffers(1, &indexBufferID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferID);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+#endif
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
 
     VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
@@ -95,10 +116,12 @@ void Model::CreateIndexBuffer()
 
     vkDestroyBuffer(*pDevice, stagingBuffer, nullptr);
     vkFreeMemory(*pDevice, stagingBufferMemory, nullptr);
+#endif // VULKAN
 }
 
 void Model::CreateUniformBuffers()
 {
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
     size_t swapChainImagesSize = VulkanManager::GetSwapChainImages().size();
 
@@ -110,15 +133,14 @@ void Model::CreateUniformBuffers()
     for (size_t i = 0; i < swapChainImagesSize; i++) {
         m_pBufferManager->CreateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, m_uniformBuffers[i], m_uniformBuffersMemory[i]);
     }
+#endif // VULKAN
 }
 
 void Model::UpdateUniformBuffer(uint32_t currentImage, float DeltaTime)
 {
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
-    VkExtent2D* swapChainExtent = VulkanManager::GetSwapChainExtent();
     Camera* pCamera = CameraManager::GetCurrentCamera();
-
-    pCamera->UpdateAspect(swapChainExtent->width / (float)swapChainExtent->height);
 
     UniformBufferObject ubo{};
     ubo.model = GetMatrix();
@@ -127,15 +149,16 @@ void Model::UpdateUniformBuffer(uint32_t currentImage, float DeltaTime)
     ubo.proj = pCamera->GetProj();
     ubo.proj[1][1] *= -1;
 
-
     void* data;
     vkMapMemory(*pDevice, m_uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);
     memcpy(data, &ubo, sizeof(ubo));
     vkUnmapMemory(*pDevice, m_uniformBuffersMemory[currentImage]);
+#endif // VULKAN
 }
 
 void Model::CleanupUniformBuffers(size_t swapChainImagesSize)
 {
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
 
     for (size_t i = 0; i < swapChainImagesSize; i++) {
@@ -144,10 +167,12 @@ void Model::CleanupUniformBuffers(size_t swapChainImagesSize)
     }
 
     vkDestroyDescriptorPool(*pDevice, m_descriptorPool, nullptr);
+#endif // VULKAN
 }
 
 void Model::CreateDescriptorPool() 
 {
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
     size_t swapChainImagesSize = VulkanManager::GetSwapChainImages().size();
 
@@ -166,10 +191,12 @@ void Model::CreateDescriptorPool()
     if (vkCreateDescriptorPool(*pDevice, &poolInfo, nullptr, &m_descriptorPool) != VK_SUCCESS) {
         throw std::runtime_error("failed to create descriptor pool!");
     }
+#endif // VULKAN
 }
 
 void Model::CreateDescriptorSets()
 {
+#ifdef VULKAN
     VkDevice* pDevice = VulkanManager::GetDevice();
     TextureManager* pTextureManager = VulkanManager::GetTextureManager();
     size_t swapChainImagesSize = VulkanManager::GetSwapChainImages().size();
@@ -217,5 +244,5 @@ void Model::CreateDescriptorSets()
 
         vkUpdateDescriptorSets(*pDevice, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
     }
-}
 #endif // VULKAN
+}

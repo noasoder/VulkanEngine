@@ -1,6 +1,6 @@
 
 #include "Material.h"
-#include "GraphicsPipeline.h"
+#include "Shader.h"
 #include "Managers/MaterialManager.h"
 
 Material::Material(MaterialCreateDesc& createDesc)
@@ -16,13 +16,13 @@ Material::~Material()
 
 void Material::CreatePipeline(MaterialCreateDesc& createDesc)
 {
-	GraphicsPipeline::PipelineCreateDesc pipelineCreateDesc{};
+	ShaderCreateDesc ShaderCreateDesc{};
 
-	pipelineCreateDesc.vertexShaderPath = createDesc.shaderName + "_vert.spv";
-	pipelineCreateDesc.fragmentShaderPath = createDesc.shaderName + "_frag.spv";
+	ShaderCreateDesc.vertexShaderPath = createDesc.shaderName + "_vert.spv";
+	ShaderCreateDesc.fragmentShaderPath = createDesc.shaderName + "_frag.spv";
 
 #ifdef VULKAN
-	CreateGraphicsPipeline(pipelineCreateDesc);
+	CreateShader(ShaderCreateDesc);
 #endif
 }
 

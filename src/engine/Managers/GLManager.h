@@ -7,7 +7,7 @@ namespace GLManager
 {
     void Init();
     void Destroy();
-
+    void DrawFrame();
 }
 
 #endif // !GL_Manager

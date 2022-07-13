@@ -1,14 +1,21 @@
 #ifndef ENGINE_CORE
 #define ENGINE_CORE
 
-#define OPENGL
-//#define VULKAN
-//#define DIRECTX
+//#define OPENGL
+#define VULKAN
 
 #define WINDOWS
 // #define LINUX
 
-// #include <Windows.h>
+#ifdef OPENGL
+#define GLEW_STATIC
+#include <GL/glew.h>
+#endif // OPENGL
+
+#ifdef VULKAN
+#define GLFW_INCLUDE_VULKAN
+#endif // VULKAN
+
 #include <GLFW/glfw3.h>
 
 //#define GLFW_EXPOSE_NATIVE_WIN32
@@ -20,5 +27,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+
+#define STB_IMAGE_IMPLEMENTATION
+#define ENABLE_VALIDATION_LAYERS true
 
 #endif // !ENGINE_CORE

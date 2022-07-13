@@ -25,6 +25,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{0F45D591-7B24-542D-843C-DF03F09ABA8E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="stb">
+      <UniqueIdentifier>{6EAB880B-DAB4-887C-6330-9F7CCF38947C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="utility">
       <UniqueIdentifier>{79DE5C48-E5BD-DBE3-EED5-66BA5A344245}</UniqueIdentifier>
     </Filter>
@@ -63,9 +66,6 @@
     <ClInclude Include="engine\Engine.h">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="engine\GraphicsPipeline.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="engine\Managers\BufferManager.h">
       <Filter>engine\Managers</Filter>
     </ClInclude>
@@ -102,6 +102,12 @@
     <ClInclude Include="engine\Model.h">
       <Filter>engine</Filter>
     </ClInclude>
+    <ClInclude Include="engine\Shader.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\ShaderOpenGL.h">
+      <Filter>engine</Filter>
+    </ClInclude>
     <ClInclude Include="engine\Transform.h">
       <Filter>engine</Filter>
     </ClInclude>
@@ -110,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="openfbx\ofbx.h">
       <Filter>openfbx</Filter>
+    </ClInclude>
+    <ClInclude Include="stb\stb_image.h">
+      <Filter>stb</Filter>
     </ClInclude>
     <ClInclude Include="utility\FileReader.h">
       <Filter>utility</Filter>
@@ -152,9 +161,6 @@
     <ClCompile Include="engine\Engine.cpp">
       <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="engine\GraphicsPipeline.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
     <ClCompile Include="engine\Managers\BufferManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
@@ -191,6 +197,12 @@
     <ClCompile Include="engine\Model.cpp">
       <Filter>engine</Filter>
     </ClCompile>
+    <ClCompile Include="engine\Shader.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\ShaderOpenGL.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
     <ClCompile Include="engine\Transform.cpp">
       <Filter>engine</Filter>
     </ClCompile>
@@ -200,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="openfbx\ofbx.cpp">
       <Filter>openfbx</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\FileReader.cpp">
+      <Filter>utility</Filter>
     </ClCompile>
     <ClCompile Include="utility\Maths.cpp">
       <Filter>utility</Filter>
