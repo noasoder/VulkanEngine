@@ -51,7 +51,7 @@ void Transform::RotateWorld(const double& xx, const double& yy, const double& zz
 
 void Transform::SetWorldPosition(Vec3 move)
 {
-    m_pos += move;
+    m_pos = move;
 }
 
 void Transform::SetLocalPosition(Vec3 move)
