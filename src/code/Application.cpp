@@ -46,8 +46,6 @@ Application::Application()
     MaterialCreateDesc createDesc{ "../bin/Assets/Shaders/flat" };
     MaterialManager::CreateNewMaterial(createDesc);
 
-    //Time::UpdateTimestep();
-
     m_pNetHandler = new NetHandler();
 }
 
@@ -76,8 +74,6 @@ void Application::Run()
         Time::UpdateTimestep();
 
         CameraManager::Update(Time::GetDeltaTime());
-        //auto pos = CameraManager::GetCurrentCamera()->m_pos;
-        //printf("x[%f], y[%f], z[%f] \n", pos.x, pos.y, pos.z);
         m_pNetHandler->Update();
 
 
