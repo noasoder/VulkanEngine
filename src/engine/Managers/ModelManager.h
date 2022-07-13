@@ -1,7 +1,7 @@
 #ifndef MODEL_MANAGER_H
 #define MODEL_MANAGER_H
 
-#include "Vulkan.h"
+#include "Core.h"
 
 #include <string>
 #include <vector>

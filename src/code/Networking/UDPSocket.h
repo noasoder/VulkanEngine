@@ -7,6 +7,7 @@
 class UDPSocket
 {
 public:
+#ifdef WINDOWS
     UDPSocket()
     {
         sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -82,5 +83,6 @@ public:
 
 private:
     SOCKET sock;
+#endif
 };
 

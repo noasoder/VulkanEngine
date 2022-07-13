@@ -1,7 +1,9 @@
 #ifndef VULKAN_MANAGER_H
 #define VULKAN_MANAGER_H
 
-#include "Vulkan.h"
+#include "Core.h"
+
+#ifdef VULKAN
 
 #include <iostream>
 #include <stdexcept>
@@ -18,7 +20,7 @@
 class BufferManager;
 class TextureManager;
 class Engine;
-class GraphicsPipeline;
+class Shader;
 
 const std::string MODEL_ROOM_PATH = "../bin/Assets/Models/viking_room.obj";
 //const std::string TEXTURE_PATH = "../bin/Assets/Textures/viking_room.png";
@@ -104,5 +106,6 @@ namespace VulkanManager
     void SetFrameBufferResized(bool state);
 
 }
+#endif // VULKAN
 
 #endif // !VULKAN_MANAGER_H

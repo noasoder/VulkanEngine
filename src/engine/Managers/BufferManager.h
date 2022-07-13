@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Vulkan.h"
+#include "Core.h"
+
+#ifdef VULKAN
 
 #include <vector>
 
@@ -20,3 +22,4 @@ public:
 private:
 
 };
+#endif // VULKAN

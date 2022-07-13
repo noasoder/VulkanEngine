@@ -10,12 +10,11 @@
                 "${workspaceFolder}/src/openfbx",
                 "${workspaceFolder}/src/shaders",
                 "${workspaceFolder}/bin",
-                "${workspaceFolder}/lib/glfw-3.3.5.bin.WIN64/include",
+                "${workspaceFolder}/lib/glew",
+                "${workspaceFolder}/lib/glfw",
                 "${workspaceFolder}/lib/glm",
                 "${workspaceFolder}/lib/imgui",
-                "${workspaceFolder}/lib/stb",
-                "${workspaceFolder}/lib/tiny_obj_loader",
-                "C:/VulkanSDK/1.2.182.0/Include"
+                "${workspaceFolder}/lib/tiny_obj_loader"
             ],
             "defines": [
                 "_DEBUG",
@@ -38,11 +37,11 @@
                 "${workspaceFolder}/src/openfbx",
                 "${workspaceFolder}/src/shaders",
                 "${workspaceFolder}/bin",
-                "${workspaceFolder}/lib/VulkanSDK/1.2.198.0/x86_64/include",
-                "${workspaceFolder}/lib/glfw-3.3.5.bin.WIN64/include",
+                "${workspaceFolder}/lib/glew",
+                "${workspaceFolder}/lib/glfw",
                 "${workspaceFolder}/lib/glm",
                 "${workspaceFolder}/lib/imgui",
-                "${workspaceFolder}/lib/stb",
+                "${workspaceFolder}/lib/opengl",
                 "${workspaceFolder}/lib/tiny_obj_loader"
             ],
             "defines": [
@@ -54,7 +53,8 @@
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4

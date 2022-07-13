@@ -23,6 +23,7 @@ struct	PlayerState
 
 void ConnectToServer(std::future<void> futureObj, Client* pThis, uint16_t Port)
 {
+#ifdef WINDOWS
 	bool conn = false;
 	while (futureObj.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
 	{
@@ -50,18 +51,22 @@ void ConnectToServer(std::future<void> futureObj, Client* pThis, uint16_t Port)
 			}
 		}
 	}
+#endif
 }
 
 Client::Client(uint16_t Port)
 {
+#ifdef WINDOWS
 	m_socket = new UDPSocket();
 	m_port = Port;
 
 	connectThread = std::thread(ConnectToServer, std::move(stopThread.get_future()), this, Port);
+#endif
 }
 
 Client::~Client()
 {
+#ifdef WINDOWS
 	stopThread.set_value();
 	//Wait for thread
 	connectThread.join();
@@ -70,10 +75,12 @@ Client::~Client()
 	m_socket->SendTo(SERVER_IP, m_port, data.c_str(), data.size());
 
 	delete m_socket;
+#endif
 }
 
 void Client::Update()
 {
+#ifdef WINDOWS
 	if (!m_isConnected)
 		return;
 
@@ -84,10 +91,12 @@ void Client::Update()
 	}
 
 	Receive();
+#endif
 }
 
 void Client::Receive()
 {
+#ifdef WINDOWS
 	const int buffLen = 128;
 	char buffer[buffLen];
 	sockaddr_in add;
@@ -96,4 +105,5 @@ void Client::Receive()
 	{
 		printf("CLIENT: recv: %s\n", buffer);
 	}
+#endif
 }

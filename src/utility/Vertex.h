@@ -9,6 +9,7 @@ struct Vertex {
     Vec3 color;
     Vec2 texCoord;
 
+#ifdef VULKAN
     static VkVertexInputBindingDescription getBindingDescription() {
         VkVertexInputBindingDescription bindingDescription{};
         bindingDescription.binding = 0;
@@ -38,6 +39,7 @@ struct Vertex {
 
         return attributeDescriptions;
     }
+#endif // VULKAN
 
     bool operator==(const Vertex& other) const {
         return pos == other.pos && color == other.color && texCoord == other.texCoord;

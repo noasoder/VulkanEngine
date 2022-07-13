@@ -1,9 +1,10 @@
 
 #include "Managers/TextureManager.h"
 
+#ifdef VULKAN
+
 #include "Managers/VulkanManager.h"
 #include "Managers/BufferManager.h"
-
 #include <stb_image.h>
 
 TextureManager::TextureManager(BufferManager* pBufferManager)
@@ -269,3 +270,5 @@ void TextureManager::CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t 
 
     VulkanManager::EndSingleTimeCommands(commandBuffer);
 }
+
+#endif // VULKAN

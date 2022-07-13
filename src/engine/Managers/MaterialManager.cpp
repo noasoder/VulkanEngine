@@ -36,7 +36,7 @@ namespace MaterialManager
 	{
 		for (Material* mat : m_pMaterials)
 		{
-			vkDestroyPipeline(*VulkanManager::GetDevice(), mat->GetPipeline(), nullptr);
+			//vkDestroyPipeline(*VulkanManager::GetDevice(), mat->GetPipeline(), nullptr);
 		}
 	}
 	

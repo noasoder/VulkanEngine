@@ -7,6 +7,7 @@
 #include <string>
 #include <memory>
 #include <cstring>
+#include <iostream>
 
 #include "ofbx.h"
 #include "Model.h"
@@ -57,7 +58,12 @@ bool LoadFbx(std::string path, std::vector<Vertex>& vertices, std::vector<uint32
     ofbx::IScene* scene = nullptr;
 
     FILE* fp;
+#ifdef WINDOWS
     fopen_s(&fp, path.c_str(), "rb");
+#endif
+#ifdef LINUX
+    fp = fopen64(path.c_str(), "rb");
+#endif
 
     if (!fp) return false;
 
@@ -148,7 +154,7 @@ namespace ModelManager
     {
         Model* newModel = new Model(path);
         m_pModels.push_back(newModel);
-        VulkanManager::UpdateCommandBuffers();
+        //VulkanManager::UpdateCommandBuffers();
     
         printf("total models: %zi\n", m_pModels.size());
     
@@ -157,20 +163,24 @@ namespace ModelManager
     
     void Recreate()
     {
+#ifdef VULKAN
         for (Model* model : m_pModels)
         {
             model->CreateUniformBuffers();
             model->CreateDescriptorPool();
             model->CreateDescriptorSets();
         }
+#endif
     }
     
     void CleanupUniformBuffers(size_t swapChainImagesSize)
     {
+#ifdef VULKAN
         for (Model* model : m_pModels)
         {
             model->CleanupUniformBuffers(swapChainImagesSize);
         }
+#endif
     }
     
     void LoadModel(std::string path, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices)

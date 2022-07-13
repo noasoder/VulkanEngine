@@ -342,3 +342,5 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+lib/glfw
+lib/vulkan
