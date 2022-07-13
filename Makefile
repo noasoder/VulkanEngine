@@ -14,11 +14,10 @@ EXECUTABLE  := Snowflake
 OUTEXE := $(BIN)/$(EXECUTABLE)
 OUTDLL := $(BIN)/$(DLL_NAME).dll
 
+INCLUDE_EXT := -Ilib/vulkan/include -Ilib/glfw/include -Ilib/glew/include -Ilib/glm -Ilib/imgui -Ilib/tiny_obj_loader
+LIBPATHS := -Llib/vulkan/Lib -Llib/glfw/build/src -Llib/glew/lib -Llib/opengl -Lbin/ -Lbin/lib
 
-INCLUDE_EXT := -Ilib/glfw/include -Ilib/glew/include -Ilib/glm -Ilib/imgui -Ilib/tiny_obj_loader
-LIBPATHS := -Llib/glfw/build/src -Llib/glew/lib -Llib/opengl -Lbin/ -Lbin/lib
-
-BASE_LIB   := -l:libglew32.dll.a -l:libglfw3dll.a -lopengl32
+BASE_LIB   := -l:libglew32.dll.a -l:libglfw3dll.a -lvulkan-1 -lopengl32
 DLL_LIB := $(BASE_LIB) -l:OpenFBX.a -lUtility
 EXE_LIB := $(DLL_LIB) -l$(DLL_NAME) -lWS2_32
 
