@@ -15,6 +15,8 @@ OUTEXE := $(BIN)/$(EXECUTABLE)
 OUTDLL := $(BIN)/$(DLL_NAME).dll
 
 INCLUDE_EXT := -Ilib/vulkan/include -Ilib/glfw/include -Ilib/glew/include -Ilib/glm -Ilib/imgui -Ilib/tiny_obj_loader
+INCLUDE_EDITOR := -Ilib/glfw/include -Ilib/glew/include -Ilib/imgui -Ieditor
+
 LIBPATHS := -Llib/vulkan/Lib -Llib/glfw/build/src -Llib/glew/lib -Llib/opengl -Lbin/ -Lbin/lib
 
 BASE_LIB   := -l:libglew32.dll.a -l:libglfw3dll.a -lvulkan-1 -lopengl32
@@ -71,3 +73,6 @@ linux_dll: $(SRCS_DLL)
 
 linux_exe: $(SRC)/main.cpp $(SRCS) $(SRCS_DLL)
 	$(CXX_EXE) $(LINUX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE_EXE) $(LIBPATHS) -l:OpenFBX.a -l:Utility.so
+
+custom_editor: 
+	$(CXX_EXE) $(WIN_FLAGS) -g editor/Editor.cpp -o bin/ShaderEditor $(INCLUDE_EDITOR) $(LIBPATHS) -l:libglew32.dll.a -l:libglfw3dll.a -lopengl32

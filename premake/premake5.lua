@@ -65,3 +65,14 @@ project "VulkanEngine"
     filter { "configurations:Release" }
         defines { "NDEBUG" }
         optimize "On"
+
+project "Editor"
+    location "../editor"
+    kind "ConsoleApp"
+    configurations { "Editor" }
+    language "C++"
+    files { 
+        "../editor/**.h"
+        , "../editor/**.cpp"
+        , "../editor/**.c"
+    }
