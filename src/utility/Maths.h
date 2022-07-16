@@ -15,6 +15,6 @@
 float Dot(Vec3 rVec1, Vec3 rVec2);
 
 //returns random number between min and max (inclusive)
-float	Random(float min = 0.f, float max = 1.f);
+float Random(float min = 0.f, float max = 1.f);
 //returns random number between min and max (inclusive)
-int		Random(int min = 0, int max = 1);
+int Random(int min = 0, int max = 1);

@@ -8,4 +8,5 @@
 namespace File
 {
     const std::vector<char> ReadFile(const std::string& filename);
+    const std::string AssetPath(std::string);
 }

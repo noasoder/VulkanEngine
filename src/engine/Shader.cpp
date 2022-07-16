@@ -5,6 +5,9 @@
 #include "Managers/BufferManager.h"
 #include "FileReader.h"
 #include "Vertex.h"
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 Shader::Shader()
 {
@@ -16,16 +19,39 @@ Shader::~Shader()
 
 }
 
+ShaderData::ShaderData() 
+{
+    auto read = File::ReadFile(File::AssetPath("ShaderData/DefaultShader.json"));
+    auto j = json::parse(read);
+    auto result = j.value("Name", "No value found!");
+    
+    printf("start\n");
+    std::cout << std::setw(4) << result << std::endl;
+    printf("stop\n");
+}
 
 
-void Shader::CreateShader(ShaderCreateDesc& ShaderCreateDesc) 
+void Shader::CreateShader(std::string shaderDataName) 
 {
 #ifdef VULKAN
     VkExtent2D* pExtent = VulkanManager::GetSwapChainExtent();
     VkDevice* pDevice = VulkanManager::GetDevice();
 
-    auto vertShaderCode = File::ReadFile(ShaderCreateDesc.vertexShaderPath);
-    auto fragShaderCode = File::ReadFile(ShaderCreateDesc.fragmentShaderPath);
+    auto shadersFolder = File::AssetPath("Shaders/");
+
+    auto shaderDataPath = "ShaderData/" + shaderDataName + ".json";
+    auto read = File::ReadFile(File::AssetPath(shaderDataPath));
+    auto j = json::parse(read);
+    auto shaderName = j.value("Name", "shader");
+
+
+    ShaderCreateDesc shaderCreateDesc{};
+    shaderCreateDesc.vertexShaderPath = shadersFolder + shaderName + "_vert.spv";
+    shaderCreateDesc.fragmentShaderPath = shadersFolder + shaderName + "_frag.spv";
+
+
+    auto vertShaderCode = File::ReadFile(shaderCreateDesc.vertexShaderPath);
+    auto fragShaderCode = File::ReadFile(shaderCreateDesc.fragmentShaderPath);
 
     VkShaderModule vertShaderModule = CreateShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = CreateShaderModule(fragShaderCode);
@@ -86,10 +112,10 @@ void Shader::CreateShader(ShaderCreateDesc& ShaderCreateDesc)
     rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterizer.depthClampEnable = VK_FALSE;
     rasterizer.rasterizerDiscardEnable = VK_FALSE;
-    rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
-    rasterizer.lineWidth = 1.0f;
-    rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
-    rasterizer.frontFace = VK_FRONT_FACE_COUNTER_CLOCKWISE;
+    rasterizer.polygonMode = (VkPolygonMode)std::clamp(j.value("PolygonMode", 0), 0, 2);
+    rasterizer.lineWidth = (float)j.value("LineWidth", 1.0f);
+    rasterizer.cullMode = (VkCullModeFlagBits)std::clamp(j.value("CullMode", 2), 0, 3);
+    rasterizer.frontFace = (VkFrontFace)std::clamp(j.value("FrontFace", 0), 0, 1);
     rasterizer.depthBiasEnable = VK_FALSE;
     rasterizer.depthBiasConstantFactor = 0.0f;
     rasterizer.depthBiasClamp = 0.0f;

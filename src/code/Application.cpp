@@ -43,7 +43,7 @@ Application::Application()
     CameraController* con = CameraManager::CreateCameraController();
     CameraManager::SetCurrentCameraController(con);
 
-    MaterialCreateDesc createDesc{ "../bin/Assets/Shaders/flat" };
+    MaterialCreateDesc createDesc{ "FlatShader" };
     MaterialManager::CreateNewMaterial(createDesc);
 
     m_pNetHandler = new NetHandler();
@@ -76,6 +76,11 @@ void Application::Run()
         CameraManager::Update(Time::GetDeltaTime());
         m_pNetHandler->Update();
 
+        if (InputManager::GetKeyDown(GLFW_KEY_B))
+        {
+            auto shaderData = new ShaderData();
+            delete shaderData;
+        }
 
         if (InputManager::GetKeyDown(GLFW_KEY_1) || InputManager::GetKey(GLFW_KEY_2))
         {

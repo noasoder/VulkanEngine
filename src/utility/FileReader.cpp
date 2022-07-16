@@ -2,6 +2,8 @@
 
 namespace File
 {
+    std::string assetPath = "";
+
     const std::vector<char> ReadFile(const std::string& filename) 
     {
         std::ifstream file(filename, std::ios::ate | std::ios::binary);
@@ -23,5 +25,21 @@ namespace File
         file.read(buffer.data(), fileSize);
         file.close();
         return buffer;
+    }
+
+    /// <summary>
+    /// Add the location of the asset folder to a path
+    /// </summary>
+    /// <param name="path"> that is a child of the "Assets" folder</param>
+    /// <returns>the input with the path to the "Assets" folder prepended</returns>
+    const std::string AssetPath(std::string path)
+    {
+        if (!assetPath.empty())
+        {
+            return assetPath + path;
+        }
+
+        assetPath = "../bin/Assets/";
+        return assetPath + path;
     }
 }

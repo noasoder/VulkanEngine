@@ -1,0 +1,7 @@
+{
+    "Name":  "shader",
+    "PolygonMode": 0,
+    "LineWidth" : 1.0,
+    "CullMode" : 2,
+    "FrontFace" : 0
+}

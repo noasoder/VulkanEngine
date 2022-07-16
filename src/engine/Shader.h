@@ -11,6 +11,11 @@ struct ShaderCreateDesc
 	std::string fragmentShaderPath;
 };
 
+struct ShaderData
+{
+	ShaderData();
+};
+
 class Shader
 {
 public:
@@ -18,10 +23,10 @@ public:
 	Shader();
 	~Shader();
 
-	void CreateShader(ShaderCreateDesc& ShaderCreateDesc);
+	void CreateShader(std::string shaderDataName);
 
 #ifdef VULKAN
-	VkShaderModule CreateShaderModule(const std::vector<char>& code);
+	static VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
 	VkPipeline GetPipeline() { return m_Shader; };
 	

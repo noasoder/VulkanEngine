@@ -1,11 +1,21 @@
 #ifndef ENGINE_CORE
 #define ENGINE_CORE
 
+#ifndef OPENGL
 //#define OPENGL
+#endif // OPENGL
+#ifndef VULKAN
 #define VULKAN
+#endif // VULKAN
 
+#ifndef WINDOWS
 #define WINDOWS
+#endif // !WINDOWS
+
+#ifndef LINUX
 // #define LINUX
+#endif // !LINUX
+
 
 #ifdef OPENGL
 #define GLEW_STATIC

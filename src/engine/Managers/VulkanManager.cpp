@@ -154,7 +154,7 @@ namespace VulkanManager
         CreateRenderPass();
         m_pBufferManager->CreateDescriptorSetLayout();
 
-        MaterialCreateDesc matCreateDesc{ "../bin/Assets/Shaders/shader" };
+        MaterialCreateDesc matCreateDesc{ "DefaultShader" };
         MaterialManager::CreateNewMaterial(matCreateDesc);
 
         CreateCommandPool();

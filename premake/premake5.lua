@@ -26,6 +26,7 @@ workspace "VulkanEngine"
         , "../src/utility" 
 
         , "../src/stb"
+        , "../src/json"
         , "../src/openfbx"
     }
 
