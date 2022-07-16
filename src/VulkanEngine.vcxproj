@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;engine;code;utility;stb;json;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;engine;code;utility;stb;json;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;engine;code;utility;stb;json;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;engine;code;utility;stb;json;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -106,12 +106,10 @@
     <ClInclude Include="engine\Managers\BufferManager.h" />
     <ClInclude Include="engine\Managers\CameraManager.h" />
     <ClInclude Include="engine\Managers\GLManager.h" />
-    <ClInclude Include="engine\Managers\InputManager.h" />
     <ClInclude Include="engine\Managers\MaterialManager.h" />
     <ClInclude Include="engine\Managers\ModelManager.h" />
     <ClInclude Include="engine\Managers\TextureManager.h" />
     <ClInclude Include="engine\Managers\VulkanManager.h" />
-    <ClInclude Include="engine\Managers\WindowManager.h" />
     <ClInclude Include="engine\Material.h" />
     <ClInclude Include="engine\Mesh.h" />
     <ClInclude Include="engine\Model.h" />
@@ -122,10 +120,12 @@
     <ClInclude Include="openfbx\ofbx.h" />
     <ClInclude Include="stb\stb_image.h" />
     <ClInclude Include="utility\FileReader.h" />
+    <ClInclude Include="utility\InputManager.h" />
     <ClInclude Include="utility\Maths.h" />
     <ClInclude Include="utility\Timestep.h" />
     <ClInclude Include="utility\Types.h" />
     <ClInclude Include="utility\Vertex.h" />
+    <ClInclude Include="utility\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Application.cpp" />
@@ -139,12 +139,10 @@
     <ClCompile Include="engine\Managers\BufferManager.cpp" />
     <ClCompile Include="engine\Managers\CameraManager.cpp" />
     <ClCompile Include="engine\Managers\GLManager.cpp" />
-    <ClCompile Include="engine\Managers\InputManager.cpp" />
     <ClCompile Include="engine\Managers\MaterialManager.cpp" />
     <ClCompile Include="engine\Managers\ModelManager.cpp" />
     <ClCompile Include="engine\Managers\TextureManager.cpp" />
     <ClCompile Include="engine\Managers\VulkanManager.cpp" />
-    <ClCompile Include="engine\Managers\WindowManager.cpp" />
     <ClCompile Include="engine\Material.cpp" />
     <ClCompile Include="engine\Mesh.cpp" />
     <ClCompile Include="engine\Model.cpp" />
@@ -155,8 +153,10 @@
     <ClCompile Include="openfbx\miniz.cpp" />
     <ClCompile Include="openfbx\ofbx.cpp" />
     <ClCompile Include="utility\FileReader.cpp" />
+    <ClCompile Include="utility\InputManager.cpp" />
     <ClCompile Include="utility\Maths.cpp" />
     <ClCompile Include="utility\Timestep.cpp" />
+    <ClCompile Include="utility\WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\flat.frag" />

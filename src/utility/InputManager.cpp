@@ -1,20 +1,21 @@
-#include "Managers/InputManager.h"
-#include "Managers/WindowManager.h"
+#include "InputManager.h"
 
-#include "Engine.h"
-#include "Types.h"
+#include "WindowManager.h"
 #include <list>
 #include <vector>
 
 std::vector<int> m_startedPressingKey;
 std::vector<int> m_stoppedPressingKey;
 
-void InputManager::Init()
+void InputManager::Init(bool hideCursor)
 {
     if (glfwRawMouseMotionSupported())
         glfwSetInputMode(WindowManager::GetWindow(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
-    glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    if (hideCursor)
+    {
+        glfwSetInputMode(WindowManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
 
     glfwSetKeyCallback(WindowManager::GetWindow(), KeyCallback);
 }
@@ -64,12 +65,12 @@ const char* InputManager::GetKeyName(int key, int scancode)
     return glfwGetKeyName(key, scancode);
 }
 
-glm::vec2 InputManager::GetMousePosition()
+Vec2 InputManager::GetMousePosition()
 {
     double xpos, ypos;
     glfwGetCursorPos(WindowManager::GetWindow(), &xpos, &ypos);
 
-    return glm::vec2(xpos, ypos);
+    return Vec2(xpos, ypos);
 }
 
 void InputManager::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)

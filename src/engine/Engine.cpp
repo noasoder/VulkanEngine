@@ -10,14 +10,14 @@
 #include "Managers/VulkanManager.h"
 #endif // VULKAN
 
-#include "Managers/InputManager.h"
+#include "InputManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/ModelManager.h"
-#include "Managers/WindowManager.h"
+#include "WindowManager.h"
 
 Engine::Engine()
 {
-    WindowManager::Init();
+    WindowManager::Init(PROJECT_NAME, WIDTH, HEIGHT);
     InputManager::Init();
     
 #ifdef OPENGL
@@ -25,6 +25,8 @@ Engine::Engine()
 #endif // OPENGL
 
 #ifdef VULKAN
+    glfwSetFramebufferSizeCallback(WindowManager::GetWindow(), [](GLFWwindow* window, int width, int height) { VulkanManager::SetFrameBufferResized(true); });
+
     VulkanManager::Init();
 #endif // VULKAN
 

@@ -19,6 +19,7 @@ workspace "VulkanEngine"
         , "../lib/tiny_obj_loader"
         , "../lib/OpenFBX"
         , "../lib/imgui"
+        , "../lib/imgui/backends"
         , "../lib/vulkan/Include"
 
         , "../src/engine"

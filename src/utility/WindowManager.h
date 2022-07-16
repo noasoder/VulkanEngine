@@ -1,14 +1,12 @@
 #ifndef WINDOW_MANAGER_H
 #define WINDOW_MANAGER_H
 
-#include "Core.h"
-
-#define WIDTH 1280
-#define HEIGHT 720
+#include <GLFW/glfw3.h>
+#include <string>
 
 namespace WindowManager
 {
-    void Init();
+    void Init(std::string windowName, int width, int height, bool useVulkan = true);
     void Destroy();
 
     static void FramebufferResizeCallback(GLFWwindow* window, int width, int height);

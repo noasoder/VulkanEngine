@@ -3,7 +3,7 @@
 #include "Core.h"
 #include "Types.h"
 #include "Camera/Camera.h"
-#include "Managers/InputManager.h"
+#include "InputManager.h"
 #include "Managers/CameraManager.h"
 
 CameraController::CameraController()

@@ -1,13 +1,13 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
 
-#include "Core.h"
-
+#include <GLFW/glfw3.h>
+#include "Types.h"
 class Engine;
 
 namespace InputManager
 {
-	void Init();
+	void Init(bool hideCursor = true);
 	void Destroy();
 
 	void Update();
@@ -19,7 +19,7 @@ namespace InputManager
 
 	void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-	glm::vec2 GetMousePosition();
+	Vec2 GetMousePosition();
 };
 
 #endif // !INPUT_MANAGER_H

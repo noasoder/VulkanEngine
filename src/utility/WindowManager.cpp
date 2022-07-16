@@ -1,15 +1,10 @@
 
-#include "Managers/WindowManager.h"
-
-#ifdef VULKAN
-#include "Managers/VulkanManager.h"
-#endif // VULKAN
+#include "WindowManager.h"
 
 #ifdef OPENGL
 #include <stb_image.h>
 #endif // OPENGL
 
-#include "Engine.h"
 #include <string>
 
 GLFWwindow* m_pWindow;
@@ -25,7 +20,7 @@ void SetWindowIcon()
     #endif // OPENGL
 }
 
-void InitWindow()
+void InitWindow(std::string windowName, int width, int height, bool useVulkan)
 {
     if (!glfwInit())
     {
@@ -33,39 +28,31 @@ void InitWindow()
         return;
     }
 
-#ifdef VULKAN
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-#endif // VULKAN
+    if (useVulkan)
+    {
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    }
 
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-    m_pWindow = glfwCreateWindow(WIDTH, HEIGHT, PROJECT_NAME, nullptr, nullptr);
+    m_pWindow = glfwCreateWindow(width, height, windowName.c_str(), nullptr, nullptr);
 
     glfwMakeContextCurrent(m_pWindow);
 
     SetWindowIcon();
-
-    glfwSetFramebufferSizeCallback(m_pWindow, WindowManager::FramebufferResizeCallback);
 }
 
 namespace WindowManager
 {
-    void Init()
+    void Init(std::string windowName, int width, int height, bool useVulkan)
     {
-        InitWindow();
+        InitWindow(windowName, width, height, useVulkan);
     }
 
     void Destroy()
     {
         glfwDestroyWindow(m_pWindow);
         glfwTerminate();
-    }
-
-    void FramebufferResizeCallback(GLFWwindow* window, int width, int height)
-    {
-#ifdef VULKAN
-        VulkanManager::SetFrameBufferResized(true);
-#endif // VULKAN
     }
 
     GLFWwindow* GetWindow()

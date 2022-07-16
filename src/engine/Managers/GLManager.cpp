@@ -3,11 +3,12 @@
 
 #ifdef OPENGL
 
-#include "Managers/WindowManager.h"
+#include "WindowManager.h"
 #include "Managers/ModelManager.h"
 #include "Managers/MaterialManager.h"
 #include "Material.h"
 #include "Model.h"
+#include "Timestep.h"
 
 #include <cstdio>
 #include <iostream>
@@ -40,7 +41,7 @@ namespace GLManager
 		//glVertex2f(0.0f, 0.0f);
 		//glVertex2f(0.5f, -0.5f);
 		//glEnd();
-		ModelManager::Update(DeltaTime, imageIndex);
+		ModelManager::Update(Time::GetDeltaTime(), 0);
 
 		std::vector<Material*> materials = MaterialManager::GetMaterials();
 		for (Material* mat : materials)

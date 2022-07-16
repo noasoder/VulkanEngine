@@ -8,7 +8,6 @@
 #include "Maths.h"
 #include "Types.h"
 #include "Camera/Camera.h"
-#include "Engine.h"
 #include <cstring>
 
 Model::Model(std::string path)

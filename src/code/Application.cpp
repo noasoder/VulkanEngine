@@ -1,6 +1,7 @@
 
 #include "Application.h"
 
+#include "Engine.h"
 #include "Networking/NetHandler.h"
 
 #ifdef OPENGL
@@ -11,10 +12,10 @@
 #include "Managers/VulkanManager.h"
 #endif // VULKAN
 
-#include "Managers/InputManager.h"
+#include "InputManager.h"
+#include "WindowManager.h"
 #include "Managers/CameraManager.h"
 #include "Managers/ModelManager.h"
-#include "Managers/WindowManager.h"
 #include "Managers/MaterialManager.h"
 #include "Camera/CameraControllers/CameraController.h"
 #include "Camera/Camera.h"
@@ -27,7 +28,6 @@
 #include "Maths.h"
 #include "Types.h"
 #include "Model.h"
-#include "Engine.h"
 
 //#include <imgui.h>
 //#include <backends/imgui_impl_sdl.h>

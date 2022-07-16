@@ -12,7 +12,7 @@
 #include <future>
 #include <chrono>
 
-#include "Managers/InputManager.h"
+#include "InputManager.h"
 #include "Networking/UDPSocket.h"
 
 struct	PlayerState

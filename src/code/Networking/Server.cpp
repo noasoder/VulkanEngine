@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "Managers/InputManager.h"
+#include "InputManager.h"
 #include "Networking/UDPSocket.h"
 
 Server::Server( const uint16_t Port )

@@ -78,7 +78,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;..\src\engine;..\src\code;..\src\utility;..\src\stb;..\src\json;..\src\openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;..\src\engine;..\src\code;..\src\utility;..\src\stb;..\src\json;..\src\openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -93,7 +93,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;..\src\engine;..\src\code;..\src\utility;..\src\stb;..\src\json;..\src\openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;..\src\engine;..\src\code;..\src\utility;..\src\stb;..\src\json;..\src\openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -108,7 +108,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\vulkan\Include;..\src\engine;..\src\code;..\src\utility;..\src\stb;..\src\json;..\src\openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;..\src\engine;..\src\code;..\src\utility;..\src\stb;..\src\json;..\src\openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>

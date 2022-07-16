@@ -75,9 +75,6 @@
     <ClInclude Include="engine\Managers\GLManager.h">
       <Filter>engine\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="engine\Managers\InputManager.h">
-      <Filter>engine\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="engine\Managers\MaterialManager.h">
       <Filter>engine\Managers</Filter>
     </ClInclude>
@@ -88,9 +85,6 @@
       <Filter>engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="engine\Managers\VulkanManager.h">
-      <Filter>engine\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\Managers\WindowManager.h">
       <Filter>engine\Managers</Filter>
     </ClInclude>
     <ClInclude Include="engine\Material.h">
@@ -123,6 +117,9 @@
     <ClInclude Include="utility\FileReader.h">
       <Filter>utility</Filter>
     </ClInclude>
+    <ClInclude Include="utility\InputManager.h">
+      <Filter>utility</Filter>
+    </ClInclude>
     <ClInclude Include="utility\Maths.h">
       <Filter>utility</Filter>
     </ClInclude>
@@ -133,6 +130,9 @@
       <Filter>utility</Filter>
     </ClInclude>
     <ClInclude Include="utility\Vertex.h">
+      <Filter>utility</Filter>
+    </ClInclude>
+    <ClInclude Include="utility\WindowManager.h">
       <Filter>utility</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,9 +170,6 @@
     <ClCompile Include="engine\Managers\GLManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="engine\Managers\InputManager.cpp">
-      <Filter>engine\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="engine\Managers\MaterialManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
       <Filter>engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="engine\Managers\VulkanManager.cpp">
-      <Filter>engine\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\Managers\WindowManager.cpp">
       <Filter>engine\Managers</Filter>
     </ClCompile>
     <ClCompile Include="engine\Material.cpp">
@@ -216,10 +210,16 @@
     <ClCompile Include="utility\FileReader.cpp">
       <Filter>utility</Filter>
     </ClCompile>
+    <ClCompile Include="utility\InputManager.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
     <ClCompile Include="utility\Maths.cpp">
       <Filter>utility</Filter>
     </ClCompile>
     <ClCompile Include="utility\Timestep.cpp">
+      <Filter>utility</Filter>
+    </ClCompile>
+    <ClCompile Include="utility\WindowManager.cpp">
       <Filter>utility</Filter>
     </ClCompile>
   </ItemGroup>

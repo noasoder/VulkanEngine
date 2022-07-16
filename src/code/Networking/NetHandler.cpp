@@ -5,7 +5,7 @@
 #include "Networking/WebClient.h"
 #include "Networking/Server.h"
 #include "Networking/Client.h"
-#include "Managers/InputManager.h"
+#include "InputManager.h"
 
 #include <stdio.h>
 
