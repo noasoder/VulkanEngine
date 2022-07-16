@@ -44,10 +44,13 @@ SRCS_DLL += $(wildcard $(SEARCHHPP_DLL))
 
 DIRS_UTIL = $(SRC)/utility
 vpath %.cpp $(DIRS_UTIL)
+vpath %.hpp $(DIRS_UTIL)
 SCPP_UTIL = $(addsuffix /*.cpp ,$(DIRS_UTIL))
+SHPP_UTIL = $(addsuffix /*.hpp ,$(DIRS_UTIL))
 SRC_UTIL = $(wildcard $(SCPP_UTIL))
+SRC_UTIL += $(wildcard $(SHPP_UTIL))
 
-INCLUDE_DLL = -Isrc/engine -Isrc/engine/Camera -Isrc/engine/Camera/CameraControllers -Isrc/engine/Managers -Isrc/utility -Isrc/openfbx -Isrc/json -Isrc/stb
+INCLUDE_DLL = -Isrc/engine -Isrc/engine/Camera -Isrc/engine/Camera/CameraControllers -Isrc/engine/Managers -Isrc/utility -Isrc/openfbx -Isrc/stb
 INCLUDE_EXE =  $(INCLUDE_DLL) -Isrc/code -Isrc/code/Networking
 
 all: dll exe

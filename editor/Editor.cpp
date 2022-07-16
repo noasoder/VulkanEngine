@@ -6,17 +6,37 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include <string>
+#include <iostream>
+#include <filesystem>
 
 #include "WindowManager.h"
 #include "InputManager.h"
 
-#include <iostream>
+#include "json.hpp"
+#include "FileReader.h"
+
+using json = nlohmann::json;
+
+void FindAllShaders()
+{
+    std::string path = File::AssetPath("ShaderData");
+    for (const auto& entry : std::filesystem::directory_iterator(path))
+    {
+        std::cout << entry.path().filename().string() << std::endl;
+
+        auto shaderDataPath = "ShaderData/" + entry.path().filename().string();
+        auto read = File::ReadFile(File::AssetPath(shaderDataPath));
+        auto j = json::parse(read);
+        auto shaderName = j.value("Name", "shader");
+        std::cout << "shaderName: " << shaderName << std::endl << std::endl;
+    }
+}
 
 int main(void)
 {
     WindowManager::Init("ShaderEditor", 1920, 1080, false);
     InputManager::Init(false);
-
 
     if (glewInit() != GLEW_OK)
         std::cout << "GLEW Failed!" << std::endl;
@@ -39,6 +59,8 @@ int main(void)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    FindAllShaders();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(WindowManager::GetWindow()))

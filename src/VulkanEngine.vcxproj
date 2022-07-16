@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;engine;code;utility;stb;json;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;engine;code;utility;stb;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;engine;code;utility;stb;json;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\glfw\include;..\lib\glew\include;..\lib\glm;..\lib\tiny_obj_loader;..\lib\OpenFBX;..\lib\imgui;..\lib\imgui\backends;..\lib\vulkan\Include;engine;code;utility;stb;openfbx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
