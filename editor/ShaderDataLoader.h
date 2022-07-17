@@ -1,6 +1,7 @@
 #pragma once
 
 #include "json.hpp"
+#include "imgui.h"
 
 class ShaderDataLoader
 {
@@ -11,7 +12,7 @@ public:
 	void Update();
 
 private:
-	std::map<std::string, nlohmann::json*>* FindAllShaders();
-	std::map<std::string, nlohmann::json*>* data = nullptr;
+	std::map<std::string, nlohmann::json>* FindAllShaders();
+	std::map<std::string, nlohmann::json>* data = nullptr;
 };
 

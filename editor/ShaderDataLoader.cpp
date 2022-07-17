@@ -18,26 +18,36 @@ ShaderDataLoader::~ShaderDataLoader()
 
 void ShaderDataLoader::Update()
 {
+    ImGui::Begin("Shaders", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
     for (auto pair = data->begin(); pair != data->end(); ++pair)
     {
         auto json = pair->second;
-        ImGui::Begin(pair->first.c_str());
+        auto name = pair->first.c_str();
+
         
-        ImGui::End();
+        if (ImGui::TreeNodeEx(name))
+        {
+            ImGui::Indent();
+            auto shaderName = json.value("Name", "shader");
+            ImGui::Text("Name: %s", shaderName.c_str());
+            ImGui::Unindent();
+            ImGui::TreePop();
+        }
     }
+    ImGui::End();
 }
 
-std::map<std::string, json*>* ShaderDataLoader::FindAllShaders()
+std::map<std::string, json>* ShaderDataLoader::FindAllShaders()
 {
     auto path = File::AssetPath("ShaderData");
-    auto shaders = new std::map<std::string, json*>();
+    auto shaders = new std::map<std::string, json>();
     for (const auto& entry : std::filesystem::directory_iterator(path))
     {
         auto name = entry.path().filename().string();
         auto shaderDataPath = "ShaderData/" + entry.path().filename().string();
         auto read = File::ReadFile(File::AssetPath(shaderDataPath));
         auto j = json::parse(read);
-        shaders->insert(std::pair(name, &j));
+        shaders->insert(std::pair(name, j));
     }
     return shaders;
 }
