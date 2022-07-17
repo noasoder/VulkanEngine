@@ -3,35 +3,19 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
-#include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <string>
 #include <iostream>
 #include <filesystem>
 
+#include "Core.h"
+#include "FileReader.h"
 #include "WindowManager.h"
 #include "InputManager.h"
 
-#include "json.hpp"
-#include "FileReader.h"
-
-using json = nlohmann::json;
-
-void FindAllShaders()
-{
-    std::string path = File::AssetPath("ShaderData");
-    for (const auto& entry : std::filesystem::directory_iterator(path))
-    {
-        std::cout << entry.path().filename().string() << std::endl;
-
-        auto shaderDataPath = "ShaderData/" + entry.path().filename().string();
-        auto read = File::ReadFile(File::AssetPath(shaderDataPath));
-        auto j = json::parse(read);
-        auto shaderName = j.value("Name", "shader");
-        std::cout << "shaderName: " << shaderName << std::endl << std::endl;
-    }
-}
+#include "ShaderDataLoader.h"
+#include "Launcher.h"
 
 int main(void)
 {
@@ -56,11 +40,12 @@ int main(void)
     ImGui_ImplGlfw_InitForOpenGL(WindowManager::GetWindow(), true);
     ImGui_ImplOpenGL3_Init("#version 130");
 
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    FindAllShaders();
+    auto shaderDataLoader = new ShaderDataLoader();
+    auto launcher = new Launcher();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(WindowManager::GetWindow()))
@@ -80,11 +65,15 @@ int main(void)
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
+        shaderDataLoader->Update();
+
         {
             static float f = 0.0f;
             static int counter = 0;
 
             ImGui::Begin("Shader Editor");
+
+            launcher->Update();
 
             ImGui::Text("This is some useful text.");
             ImGui::Checkbox("Demo Window", &show_demo_window);
@@ -98,7 +87,13 @@ int main(void)
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
 
+            if (ImGui::Button("Exit"))
+            {
+                break;
+            }
+
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
             ImGui::End();
         }
 

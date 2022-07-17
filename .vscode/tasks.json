@@ -3,10 +3,20 @@
 		{
 			"label": "build",
 			"type": "shell",
-			"command": "make",
+			"command": "make exe",
 			"group": {
 				"kind": "build",
 				"isDefault": true
+			},
+			"problemMatcher": "$gcc"
+		},
+		{
+			"label": "build editor",
+			"type": "shell",
+			"command": "make shader_editor",
+			"group": {
+				"kind": "build",
+				"isDefault": false
 			},
 			"problemMatcher": "$gcc"
 		}

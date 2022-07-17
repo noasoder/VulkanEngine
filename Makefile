@@ -79,8 +79,13 @@ linux_dll: $(SRCS_DLL)
 linux_exe: $(SRC)/main.cpp $(SRCS) $(SRCS_DLL)
 	$(CXX_EXE) $(LINUX_FLAGS) -g $^ -o $(OUTEXE) $(INCLUDE_EXT) $(INCLUDE_EXE) $(LIBPATHS) -l:OpenFBX.a -l:Utility.so
 
+DIRS_EDITOR = editor
+vpath %.cpp $(DIRS_EDITOR)
+SCPP_EDITOR = $(addsuffix /*.cpp ,$(DIRS_EDITOR))
+SRC_EDITOR = $(wildcard $(SCPP_EDITOR))
+
 shader_editor: 
-	$(CXX_EXE) $(WIN_FLAGS) -g editor/Editor.cpp -o bin/ShaderEditor $(INCLUDE_EXT) -Isrc/utility $(LIBPATHS) -l:libglew32.dll.a -l:libglfw3dll.a -lopengl32 -lUtility -lImGui
+	$(CXX_EXE) $(WIN_FLAGS) -g $(SRC_EDITOR) -o bin/ShaderEditor $(INCLUDE_EXT) -Isrc/utility $(LIBPATHS) -l:libglew32.dll.a -l:libglfw3dll.a -lopengl32 -lUtility -lImGui
 
 DIRS_IMGUI = lib/imgui
 vpath %.cpp $(DIRS_IMGUI)

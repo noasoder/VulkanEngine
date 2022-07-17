@@ -119,7 +119,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Core.h" />
+    <ClInclude Include="Launcher.h" />
+    <ClInclude Include="ShaderDataLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="Launcher.cpp" />
+    <ClCompile Include="ShaderDataLoader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

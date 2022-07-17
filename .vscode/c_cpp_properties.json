@@ -10,10 +10,12 @@
                 "${workspaceFolder}/src/openfbx",
                 "${workspaceFolder}/src/shaders",
                 "${workspaceFolder}/bin",
-                "${workspaceFolder}/lib/glew",
-                "${workspaceFolder}/lib/glfw",
+                "${workspaceFolder}/lib/vulkan/include",
+                "${workspaceFolder}/lib/glew/include",
+                "${workspaceFolder}/lib/glfw/include",
                 "${workspaceFolder}/lib/glm",
                 "${workspaceFolder}/lib/imgui",
+                "${workspaceFolder}/lib/imgui/backends",
                 "${workspaceFolder}/lib/tiny_obj_loader"
             ],
             "defines": [
@@ -37,11 +39,12 @@
                 "${workspaceFolder}/src/openfbx",
                 "${workspaceFolder}/src/shaders",
                 "${workspaceFolder}/bin",
-                "${workspaceFolder}/lib/glew",
-                "${workspaceFolder}/lib/glfw",
+                "${workspaceFolder}/lib/vulkan/include",
+                "${workspaceFolder}/lib/glew/include",
+                "${workspaceFolder}/lib/glfw/include",
                 "${workspaceFolder}/lib/glm",
                 "${workspaceFolder}/lib/imgui",
-                "${workspaceFolder}/lib/opengl",
+                "${workspaceFolder}/lib/imgui/backends",
                 "${workspaceFolder}/lib/tiny_obj_loader"
             ],
             "defines": [
