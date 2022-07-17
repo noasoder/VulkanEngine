@@ -125,5 +125,12 @@ int main(void)
         glfwSwapBuffers(WindowManager::GetWindow());
     }
 
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    InputManager::Destroy();
+    WindowManager::Destroy();
+
     return 0;
 }
