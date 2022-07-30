@@ -119,6 +119,7 @@
     <ClInclude Include="openfbx\miniz.h" />
     <ClInclude Include="openfbx\ofbx.h" />
     <ClInclude Include="stb\stb_image.h" />
+    <ClInclude Include="utility\EnumNames.h" />
     <ClInclude Include="utility\FileReader.h" />
     <ClInclude Include="utility\InputManager.h" />
     <ClInclude Include="utility\Maths.h" />

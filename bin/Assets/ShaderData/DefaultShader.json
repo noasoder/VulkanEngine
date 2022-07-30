@@ -1,7 +1,7 @@
 {
-    "Name":  "shader",
-    "PolygonMode": 0,
-    "LineWidth" : 1.0,
-    "CullMode" : 2,
-    "FrontFace" : 0
+	"Name": "shader",
+	"VkCullModeFlagBits": 2,
+	"VkPolygonMode": 0,
+	"VkFrontFace": 0,
+	"LineWidth": 1.0
 }

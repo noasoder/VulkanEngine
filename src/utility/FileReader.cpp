@@ -27,6 +27,21 @@ namespace File
         return buffer;
     }
 
+    const bool WriteFile(const std::string& filename, std::string text, bool clearFile)
+    {
+        std::ofstream file(filename, clearFile ? std::ios::trunc : std::ios::app | std::ios::out | std::ios::binary);
+
+        if (!file.is_open())
+        {
+            printf("File[%s] could not be opened :(", filename.c_str());
+            return false;
+        }
+
+        file << text.c_str();
+        file.close();
+        return true;
+    }
+
     /// <summary>
     /// Add the location of the asset folder to a path
     /// </summary>

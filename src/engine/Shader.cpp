@@ -112,10 +112,10 @@ void Shader::CreateShader(std::string shaderDataName)
     rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterizer.depthClampEnable = VK_FALSE;
     rasterizer.rasterizerDiscardEnable = VK_FALSE;
-    rasterizer.polygonMode = (VkPolygonMode)std::clamp(j.value("PolygonMode", 0), 0, 2);
-    rasterizer.lineWidth = (float)j.value("LineWidth", 1.0f);
-    rasterizer.cullMode = (VkCullModeFlagBits)std::clamp(j.value("CullMode", 2), 0, 3);
-    rasterizer.frontFace = (VkFrontFace)std::clamp(j.value("FrontFace", 0), 0, 1);
+    rasterizer.polygonMode = j.value("VkPolygonMode", VkPolygonMode::VK_POLYGON_MODE_FILL);
+    rasterizer.lineWidth = j.value("LineWidth", 1.0f);
+    rasterizer.cullMode = j.value("VkCullModeFlagBits", VkCullModeFlagBits::VK_CULL_MODE_BACK_BIT);
+    rasterizer.frontFace = (VkFrontFace)std::clamp(j.value("VkFrontFace", 0), 0, 1);
     rasterizer.depthBiasEnable = VK_FALSE;
     rasterizer.depthBiasConstantFactor = 0.0f;
     rasterizer.depthBiasClamp = 0.0f;

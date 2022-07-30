@@ -114,6 +114,9 @@
     <ClInclude Include="stb\stb_image.h">
       <Filter>stb</Filter>
     </ClInclude>
+    <ClInclude Include="utility\EnumNames.h">
+      <Filter>utility</Filter>
+    </ClInclude>
     <ClInclude Include="utility\FileReader.h">
       <Filter>utility</Filter>
     </ClInclude>

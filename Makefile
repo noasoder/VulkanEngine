@@ -85,7 +85,7 @@ SCPP_EDITOR = $(addsuffix /*.cpp ,$(DIRS_EDITOR))
 SRC_EDITOR = $(wildcard $(SCPP_EDITOR))
 
 shader_editor: 
-	$(CXX_EXE) $(WIN_FLAGS) -g $(SRC_EDITOR) -o bin/ShaderEditor $(INCLUDE_EXT) -Isrc/utility $(LIBPATHS) -l:libglew32.dll.a -l:libglfw3dll.a -lopengl32 -lUtility -lImGui
+	$(CXX_EXE) $(WIN_FLAGS) -g $(SRC_EDITOR) -o bin/ShaderEditor $(INCLUDE_EXT) -Isrc/utility $(LIBPATHS) $(BASE_LIB) -lUtility -lImGui
 
 DIRS_IMGUI = lib/imgui
 vpath %.cpp $(DIRS_IMGUI)

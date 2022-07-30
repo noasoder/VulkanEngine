@@ -30,11 +30,8 @@ int main(void)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     ImGui::StyleColorsDark();
-    //ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(WindowManager::GetWindow(), true);
